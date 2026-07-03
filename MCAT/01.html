@@ -53,7 +53,7 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
-            padding: 1rem;
+            padding: 2rem 1rem;
         }
 
         /* App Container */
@@ -62,7 +62,7 @@
             max-width: 480px;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         /* Header / Dashboard Metrics */
@@ -87,7 +87,7 @@
             gap: 0.5rem;
         }
 
-        /* Small left-side themed navigation CTA */
+        /* Small left-side themed navigation CTA (place link in `href` later) */
         .nav-cta {
             display: inline-flex;
             align-items: center;
@@ -113,9 +113,10 @@
             box-shadow: 0 8px 26px rgba(0,0,0,0.5), 0 0 18px rgba(212,175,55,0.12);
         }
 
+
         .metrics {
             display: flex;
-            gap: 0.75rem;
+            gap: 1rem;
             font-size: 0.9rem;
             font-weight: 600;
         }
@@ -136,7 +137,7 @@
             filter: drop-shadow(0 0 4px var(--accent));
         }
 
-        /* Session Status Bar */
+        /* Global Smart Session Status Bar (Duolingo Style Progression) */
         .session-progress-container {
             width: 100%;
             display: flex;
@@ -162,7 +163,7 @@
             box-shadow: 0 0 12px var(--accent-glow);
         }
 
-        /* Dashboard View */
+        /* Lexeme / Vocabulary Dashboard Grid */
         .dashboard-view {
             display: flex;
             flex-direction: column;
@@ -181,7 +182,7 @@
         .smart-cta {
             background: linear-gradient(135deg, var(--bg-card) 0%, rgba(20,20,22,1) 100%);
             border: 1px solid var(--border);
-            padding: 1.5rem;
+            padding: 1.75rem;
             border-radius: 24px;
             text-align: center;
             position: relative;
@@ -199,9 +200,14 @@
             pointer-events: none;
         }
 
+        .smart-cta:hover {
+            transform: translateY(-2px);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
         .smart-cta h3 {
             font-family: var(--font-serif);
-            font-size: 1.35rem;
+            font-size: 1.4rem;
             margin-bottom: 0.5rem;
         }
 
@@ -228,6 +234,12 @@
             transition: var(--transition);
         }
 
+        .btn-premium:hover {
+            background: #fff;
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(255,255,255,0.15);
+        }
+
         /* Lexeme Registry List */
         .lexeme-list {
             display: flex;
@@ -238,12 +250,11 @@
         .lexeme-row {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            padding: 1rem;
+            padding: 1rem 1.25rem;
             border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 1rem;
             transition: var(--transition);
         }
 
@@ -251,25 +262,17 @@
             display: flex;
             flex-direction: column;
             gap: 0.25rem;
-            flex: 1;
-            min-width: 0;
         }
 
         .lexeme-word {
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 1.05rem;
             letter-spacing: -0.01em;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .lexeme-translation {
             font-size: 0.85rem;
             color: var(--text-secondary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .lexeme-status {
@@ -277,8 +280,7 @@
             flex-direction: column;
             align-items: flex-end;
             gap: 0.4rem;
-            width: 90px;
-            flex-shrink: 0;
+            width: 100px;
         }
 
         .half-life-text {
@@ -301,17 +303,17 @@
             transition: width 0.5s ease;
         }
 
-        /* Stage View Layout */
+        /* Core Flashcard Interface (Stage View) */
         .stage-view {
-            display: none; 
+            display: none; /* Managed by JS switching */
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
             perspective: 1000px;
         }
 
         .card-perspective {
             width: 100%;
-            height: 360px;
+            height: 340px;
             cursor: pointer;
             position: relative;
         }
@@ -322,7 +324,7 @@
             position: absolute;
             transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-radius: 28px;
+            border-radius: 32px;
         }
 
         .flashcard.flipped {
@@ -334,14 +336,13 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 28px;
+            border-radius: 32px;
             border: 1px solid var(--border);
-            padding: 1.75rem;
+            padding: 2.5rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            overflow: hidden;
         }
 
         .card-front {
@@ -367,28 +368,24 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.5rem;
             justify-content: center;
             flex: 1;
-            min-height: 0;
-            overflow-y: auto;
-            padding: 0.5rem 0;
         }
 
         .prompt-word {
             font-family: var(--font-serif);
-            font-size: 1.85rem;
+            font-size: 2.5rem;
             font-weight: 500;
-            letter-spacing: -0.01em;
-            line-height: 1.2;
+            letter-spacing: -0.02em;
         }
 
         .prompt-context {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-secondary);
             font-style: italic;
             line-height: 1.4;
-            max-width: 95%;
+            max-width: 80%;
             margin: 0 auto;
         }
 
@@ -401,29 +398,29 @@
             align-items: center;
             justify-content: center;
             gap: 0.25rem;
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
-        /* Interaction Panels */
+        /* Input Controls Room (Duolingo Evaluative Engine) */
         .interaction-panel {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 1rem;
         }
 
         .eval-buttons {
-            display: none; 
+            display: none; /* Visible only when card flipped */
             grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
+            gap: 1rem;
             width: 100%;
         }
 
         .btn-action {
-            padding: 1rem 0.75rem;
+            padding: 1.1rem;
             border-radius: 16px;
             font-family: var(--font-sans);
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -435,15 +432,19 @@
             color: var(--text-primary);
         }
 
-        .btn-action[data-status="wrong"]:hover,
-        .btn-action[data-status="wrong"]:active {
+        .btn-action[data-status="wrong"] {
+            border-color: rgba(239, 68, 110, 0.2);
+        }
+        .btn-action[data-status="wrong"]:hover {
             background: rgba(239, 68, 68, 0.1);
             border-color: var(--error);
             color: var(--error);
         }
 
-        .btn-action[data-status="correct"]:hover,
-        .btn-action[data-status="correct"]:active {
+        .btn-action[data-status="correct"] {
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+        .btn-action[data-status="correct"]:hover {
             background: rgba(16, 185, 129, 0.1);
             border-color: var(--success);
             color: var(--success);
@@ -467,9 +468,11 @@
             flex-shrink: 0;
         }
 
+        /* Utilities */
         .hidden { display: none !important; }
         .flex { display: flex !important; }
 
+        /* Smooth subtle keyframe entries */
         @keyframes subtleScale {
             from { transform: scale(0.98); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -482,11 +485,12 @@
 <body>
 
     <div class="app-container">
+        <!-- Persistent Premium Status Bar -->
         <header>
-            <a id="left-nav-cta" class="nav-cta" href="../index.html">
+                        <a id="left-nav-cta" class="nav-cta" href="../index.html">
                 <i data-lucide="chevrons-left"></i>
             </a>
-            <div class="brand">
+<div class="brand">
                 <span>AURA</span>
             </div>
             <div class="metrics">
@@ -501,8 +505,9 @@
             </div>
         </header>
 
+        <!-- Contextual Duolingo HLR Progress Module -->
         <div class="session-progress-container" id="session-progress-wrapper">
-            <button class="btn-action" id="exit-session-btn" style="padding: 0; border-radius: 50%; width: 36px; height: 36px; flex-shrink: 0;" title="Exit Session">
+            <button class="btn-action" id="exit-session-btn" style="padding: 0.4rem; border-radius: 50%; width: 32px; height: 32px;" title="Exit Session">
                 <i data-lucide="x" style="width: 16px; height: 16px;"></i>
             </button>
             <div class="progress-bar-track">
@@ -510,7 +515,7 @@
             </div>
         </div>
 
-        <!-- VIEW 1: USER DASHBOARD -->
+        <!-- VIEW 1: PREMIUM USER DASHBOARD -->
         <div id="dashboard-view" class="dashboard-view animate-fade-in">
             <div class="smart-cta" id="start-srs-session">
                 <h3>Personalized Practice</h3>
@@ -522,11 +527,13 @@
 
             <div>
                 <h4 class="section-title">Lexeme Registry (SRS Status)</h4>
-                <div class="lexeme-list" id="lexeme-container"></div>
+                <div class="lexeme-list" id="lexeme-container">
+                    <!-- Dynamic Rows Rendered by JS Engine -->
+                </div>
             </div>
         </div>
 
-        <!-- VIEW 2: COGNITIVE STAGE -->
+        <!-- VIEW 2: SRS COGNITIVE STAGE (FLASHCARD CORE) -->
         <div id="stage-view" class="stage-view">
             <div class="card-perspective" id="card-trigger">
                 <div class="flashcard" id="interactive-card">
@@ -558,28 +565,31 @@
                             <span class="prompt-word" id="word-back" style="color: var(--accent)">--</span>
                             <p class="prompt-context" id="context-back">--</p>
                         </div>
-                        <div style="height: 14px;"></div>
+                        <div style="height: 14px;"></div> <!-- Spacer matching front layout structure -->
                     </div>
 
                 </div>
             </div>
 
+            <!-- Interaction Mechanics Footer -->
             <div class="interaction-panel">
                 <div class="hint-disclosure" id="hint-panel">
                     <i data-lucide="help-circle"></i>
                     <span id="hint-text"></span>
                 </div>
                 
+                <!-- Prompt Toggle Mode Box -->
                 <button class="btn-action" id="request-hint-btn" style="font-size: 0.85rem; color: var(--text-secondary);">
                     <i data-lucide="eye" style="width:16px;"></i> Reveal Passive Hint
                 </button>
 
+                <!-- Spaced Repetition Algorithmic Evaluations Hooks -->
                 <div class="eval-buttons" id="eval-actions-wrapper">
                     <button class="btn-action" data-status="wrong" id="btn-eval-wrong">
-                        <i data-lucide="x-circle"></i> Forgot
+                        <i data-lucide="x-circle"></i> Forgot / Miscalculated
                     </button>
                     <button class="btn-action" data-status="correct" id="btn-eval-correct">
-                        <i data-lucide="check-circle"></i> Retained
+                        <i data-lucide="check-circle"></i> Retained Cleanly
                     </button>
                 </div>
             </div>
@@ -589,112 +599,644 @@
 
     <!-- App Engine -->
     <script>
+      /**
+         * =========================================================================
+         *  AURA KNOWLEDGE REGISTRY — HARDCODE NEW FLASHCARDS HERE
+         * =========================================================================
+         * To append new concepts to your matrix, drop a clean comma-separated object
+         * into this array using the exact property keys shown below.
+         *
+         * No manual IDs, half-lives, or timestamps are needed—the engine will 
+         * dynamically provision tracking metrics automatically upon initialization.
+         */
         const HARDCODED_DECK = [
-            { word: 'Amino Acid α-Carbon', translation: 'The central carbon bonded to the amino group, carboxyl group, hydrogen, and R-group.', context: 'All amino acids except glycine have a chiral α-carbon.', hint: 'Central carbon.' },
-            { word: 'Hydrophobic Effect', translation: 'The tendency of nonpolar molecules to cluster together in water.', context: 'Major driving force behind protein folding.', hint: 'Nonpolar hides from water.' },
-            { word: 'Michaelis Constant (Km)', translation: 'The substrate concentration at which reaction velocity is half of Vmax.', context: 'Lower Km indicates higher enzyme affinity.', hint: 'Half Vmax.' },
-            { word: 'Fundamental Attribution Error', translation: 'Attributing others’ behavior to personality instead of circumstances.', context: 'Classic Psych/Soc bias tested on the MCAT.', hint: 'Ignore the situation.' },
-            { word: 'Competitive Inhibition', translation: 'An inhibitor competes with substrate for the enzyme active site.', context: 'Increases Km but does not change Vmax.', hint: 'Competes for binding.' },
-            { word: 'Noncompetitive Inhibition', translation: 'An inhibitor binds away from the active site regardless of substrate binding.', context: 'Decreases Vmax while Km remains unchanged.', hint: 'Changes enzyme efficiency.' },
-            { word: 'Uncompetitive Inhibition', translation: 'An inhibitor binds only to the enzyme-substrate complex.', context: 'Both Km and Vmax decrease.', hint: 'Only after substrate binds.' },
-            { word: 'Allosteric Regulation', translation: 'Control of enzyme activity through binding at a site other than the active site.', context: 'Can activate or inhibit enzyme function.', hint: 'Remote control site.' },
-            { word: 'Coenzyme', translation: 'An organic molecule required for enzyme activity.', context: 'Many are derived from vitamins.', hint: 'Organic helper.' },
-            { word: 'Cofactor', translation: 'A non-protein helper required for enzyme function.', context: 'Often a metal ion like Zn²⁺ or Mg²⁺.', hint: 'Enzyme assistant.' },
-            { word: 'Denaturation', translation: 'Loss of a protein’s three-dimensional structure.', context: 'Usually results in loss of function.', hint: 'Protein unfolds.' },
-            { word: 'Primary Structure', translation: 'The amino acid sequence of a protein.', context: 'Held together by peptide bonds.', hint: 'Sequence only.' },
-            { word: 'Secondary Structure', translation: 'Local protein folding into α-helices and β-sheets.', context: 'Stabilized by hydrogen bonds.', hint: 'Helices and sheets.' },
-            { word: 'Tertiary Structure', translation: 'Overall three-dimensional shape of one polypeptide.', context: 'Determined by side-chain interactions.', hint: 'Complete fold.' },
-            { word: 'Quaternary Structure', translation: 'Association of multiple polypeptide chains.', context: 'Example: hemoglobin.', hint: 'Multiple subunits.' },
-            { word: 'Peptide Bond', translation: 'A covalent bond joining amino acids.', context: 'Forms during dehydration synthesis.', hint: 'Protein linkage.' },
-            { word: 'Isoelectric Point (pI)', translation: 'The pH at which a molecule has no net charge.', context: 'Proteins are least soluble at their pI.', hint: 'Neutral charge.' },
-            { word: 'Buffer', translation: 'A solution that resists changes in pH.', context: 'Contains a weak acid/base pair.', hint: 'Stabilizes pH.' },
-            { word: 'Henderson-Hasselbalch Equation', translation: 'Equation relating pH, pKa, and acid/base concentrations.', context: 'Used to calculate buffer pH.', hint: 'pH calculator.' },
-            { word: 'pKa', translation: 'The pH at which half of a weak acid is dissociated.', context: 'Lower pKa means stronger acid.', hint: 'Half dissociated.' },
-            { word: 'Oxidation', translation: 'Loss of electrons.', context: 'Often accompanied by gain of oxygen.', hint: 'Lose electrons.' },
-            { word: 'Reduction', translation: 'Gain of electrons.', context: 'Often accompanied by gain of hydrogen.', hint: 'Gain electrons.' },
-            { word: 'Oxidizing Agent', translation: 'A substance that causes oxidation by accepting electrons.', context: 'Is reduced itself.', hint: 'Electron acceptor.' },
-            { word: 'Reducing Agent', translation: 'A substance that donates electrons.', context: 'Is oxidized itself.', hint: 'Electron donor.' },
-            { word: 'Glycolysis', translation: 'Metabolic pathway converting glucose into pyruvate.', context: 'Occurs in the cytosol.', hint: 'Break glucose.' },
-            { word: 'Citric Acid Cycle', translation: 'Series of reactions producing NADH and FADH₂.', context: 'Occurs in the mitochondrial matrix.', hint: 'Krebs cycle.' },
-            { word: 'Oxidative Phosphorylation', translation: 'ATP production using the electron transport chain.', context: 'Occurs on the inner mitochondrial membrane.', hint: 'Most ATP.' },
-            { word: 'ATP', translation: 'The primary energy currency of the cell.', context: 'Hydrolysis releases usable energy.', hint: 'Energy molecule.' },
-            { word: 'NADH', translation: 'A reduced electron carrier.', context: 'Delivers electrons to the ETC.', hint: 'Electron shuttle.' },
-            { word: 'FADH₂', translation: 'Another reduced electron carrier.', context: 'Produces slightly less ATP than NADH.', hint: 'Second shuttle.' },
-            { word: 'DNA Replication', translation: 'The process of copying DNA before cell division.', context: 'Semiconservative replication.', hint: 'Duplicate DNA.' },
-            { word: 'Transcription', translation: 'Synthesis of RNA from DNA.', context: 'Occurs in the nucleus of eukaryotes.', hint: 'DNA → RNA.' },
-            { word: 'Translation', translation: 'Protein synthesis from mRNA.', context: 'Occurs at ribosomes.', hint: 'RNA → Protein.' },
-            { word: 'Promoter', translation: 'DNA sequence where RNA polymerase binds.', context: 'Marks the start of transcription.', hint: 'Starting line.' },
-            { word: 'Operon', translation: 'A cluster of genes controlled by one promoter.', context: 'Common in prokaryotes.', hint: 'Gene group.' },
-            { word: 'Lac Operon', translation: 'An inducible operon controlling lactose metabolism.', context: 'Activated when lactose is present.', hint: 'Lactose genes.' },
-            { word: 'Trp Operon', translation: 'A repressible operon controlling tryptophan synthesis.', context: 'Turns off when tryptophan is abundant.', hint: 'Tryptophan genes.' },
-            { word: 'Mitosis', translation: 'Cell division producing two identical daughter cells.', context: 'Occurs in somatic cells.', hint: 'Growth division.' },
-            { word: 'Meiosis', translation: 'Cell division producing four genetically unique gametes.', context: 'Includes crossing over.', hint: 'Gamete formation.' },
-            { word: 'Crossing Over', translation: 'Exchange of DNA between homologous chromosomes.', context: 'Occurs during Prophase I.', hint: 'Genetic exchange.' },
-            { word: 'Independent Assortment', translation: 'Random distribution of chromosome pairs.', context: 'Increases genetic variation.', hint: 'Random chromosomes.' },
-            { word: 'Diffusion', translation: 'Movement from high to low concentration.', context: 'Requires no energy.', hint: 'Passive movement.' },
-            { word: 'Osmosis', translation: 'Diffusion of water across a semipermeable membrane.', context: 'Water moves toward higher solute concentration.', hint: 'Water diffusion.' },
-            { word: 'Facilitated Diffusion', translation: 'Passive transport using membrane proteins.', context: 'Moves substances down concentration gradients.', hint: 'Protein-assisted.' },
-            { word: 'Active Transport', translation: 'Movement against a concentration gradient using energy.', context: 'Requires ATP.', hint: 'Energy required.' },
-            { word: 'Hypertonic', translation: 'Higher solute concentration than another solution.', context: 'Causes cells to lose water.', hint: 'Water leaves.' },
-            { word: 'Hypotonic', translation: 'Lower solute concentration than another solution.', context: 'Causes cells to gain water.', hint: 'Water enters.' },
-            { word: 'Isotonic', translation: 'Equal solute concentration.', context: 'No net water movement.', hint: 'Balanced.' },
-            { word: 'Action Potential', translation: 'Rapid electrical signal traveling along a neuron.', context: 'Generated by sodium and potassium channels.', hint: 'Neural impulse.' },
-            { word: 'Depolarization', translation: 'Membrane potential becomes less negative.', context: 'Na⁺ enters the cell.', hint: 'Sodium enters.' },
-            { word: 'Repolarization', translation: 'Return toward resting membrane potential.', context: 'K⁺ exits the cell.', hint: 'Potassium exits.' },
-            { word: 'Myelin', translation: 'Insulating sheath around axons.', context: 'Speeds nerve impulse conduction.', hint: 'Electrical insulation.' },
-            { word: 'Saltatory Conduction', translation: 'Action potentials jump between nodes of Ranvier.', context: 'Occurs in myelinated neurons.', hint: 'Jumping signal.' },
-            { word: 'Sympathetic Nervous System', translation: 'Division responsible for fight-or-flight responses.', context: 'Increases heart rate.', hint: 'Fight or flight.' },
-            { word: 'Parasympathetic Nervous System', translation: 'Division responsible for rest-and-digest functions.', context: 'Slows heart rate.', hint: 'Rest and digest.' },
-            { word: 'Homeostasis', translation: 'Maintenance of a stable internal environment.', context: 'Often regulated by negative feedback.', hint: 'Internal balance.' },
-            { word: 'Negative Feedback', translation: 'Response that reverses a change.', context: 'Maintains homeostasis.', hint: 'Counteracts change.' },
-            { word: 'Positive Feedback', translation: 'Response that amplifies a change.', context: 'Occurs during childbirth.', hint: 'Amplifies change.' },
-            { word: 'Antibody', translation: 'Protein that specifically binds an antigen.', context: 'Produced by plasma cells.', hint: 'Targets invaders.' },
-            { word: 'Antigen', translation: 'A molecule recognized by the immune system.', context: 'Triggers antibody production.', hint: 'Immune target.' },
-            { word: 'B Cell', translation: 'Lymphocyte responsible for antibody production.', context: 'Part of adaptive immunity.', hint: 'Makes antibodies.' },
-            { word: 'T Cell', translation: 'Lymphocyte involved in cell-mediated immunity.', context: 'Includes helper and cytotoxic T cells.', hint: 'Cell-mediated defense.' },
-            { word: 'Innate Immunity', translation: 'Rapid, nonspecific immune defense.', context: 'First line of protection.', hint: 'Immediate defense.' },
-            { word: 'Adaptive Immunity', translation: 'Specific immune response with memory.', context: 'Develops after exposure.', hint: 'Learned defense.' },
-            { word: 'Classical Conditioning', translation: 'Learning by associating two stimuli.', context: 'Pavlov’s dogs.', hint: 'Stimulus association.' },
-            { word: 'Operant Conditioning', translation: 'Learning through rewards and punishments.', context: 'Skinner’s experiments.', hint: 'Consequences matter.' },
-            { word: 'Positive Reinforcement', translation: 'Adding a desirable stimulus to increase behavior.', context: 'Reward after studying.', hint: 'Add reward.' },
-            { word: 'Negative Reinforcement', translation: 'Removing an unpleasant stimulus to increase behavior.', context: 'Stopping an alarm after buckling a seatbelt.', hint: 'Remove annoyance.' },
-            { word: 'Positive Punishment', translation: 'Adding an unpleasant stimulus to decrease behavior.', context: 'Extra chores after breaking rules.', hint: 'Add consequence.' },
-            { word: 'Negative Punishment', translation: 'Removing a desirable stimulus to decrease behavior.', context: 'Taking away phone privileges.', hint: 'Take away reward.' },
-            { word: 'Self-Concept', translation: 'An individual’s perception of themselves.', context: 'Influences behavior and identity.', hint: 'Who am I?' },
-            { word: 'Self-Efficacy', translation: 'Belief in one’s ability to succeed.', context: 'Important in motivation.', hint: 'I can do it.' },
-            { word: 'Cognitive Dissonance', translation: 'Psychological discomfort from conflicting beliefs or behaviors.', context: 'Often leads to attitude change.', hint: 'Mental conflict.' },
-            { word: 'Confirmation Bias', translation: 'Seeking information that supports existing beliefs.', context: 'Ignores contradictory evidence.', hint: 'Favor existing beliefs.' },
-            { word: 'Availability Heuristic', translation: 'Judging likelihood based on ease of recall.', context: 'Recent events seem more common.', hint: 'Easy to remember.' },
-            { word: 'Representative Heuristic', translation: 'Judging probability based on similarity to a prototype.', context: 'Can ignore base rates.', hint: 'Looks like it.' },
-            { word: 'Social Facilitation', translation: 'Improved performance on simple tasks in the presence of others.', context: 'Audience enhances well-learned behaviors.', hint: 'Crowd boosts.' },
-            { word: 'Social Loafing', translation: 'Reduced effort when working in groups.', context: 'Individual responsibility decreases.', hint: 'Hide in the group.' },
-            { word: 'Groupthink', translation: 'Poor decision-making due to desire for group harmony.', context: 'Suppresses dissenting opinions.', hint: 'Harmony over accuracy.' },
-            { word: 'Deindividuation', translation: 'Loss of self-awareness in groups.', context: 'Can increase impulsive behavior.', hint: 'Anonymous behavior.' },
-            { word: 'Role Strain', translation: 'Stress from conflicting demands within one social role.', context: 'Multiple expectations from one position.', hint: 'One role, many demands.' },
-            { word: 'Role Conflict', translation: 'Conflict between different social roles.', context: 'Student versus employee responsibilities.', hint: 'Two roles collide.' },
-            { word: 'Socialization', translation: 'The process of learning societal norms and values.', context: 'Begins during childhood.', hint: 'Learning society.' },
-            { word: 'Culture', translation: 'Shared beliefs, values, and behaviors of a group.', context: 'Shapes social interactions.', hint: 'Shared way of life.' },
-            { word: 'Norm', translation: 'An expected standard of behavior.', context: 'Can be formal or informal.', hint: 'Social rule.' },
-            { word: 'Value', translation: 'A culturally defined standard of what is desirable.', context: 'Guides attitudes and behavior.', hint: 'What matters.' },
-            { word: 'Demographic Transition', translation: 'Shift from high birth/death rates to low birth/death rates.', context: 'Occurs with economic development.', hint: 'Population stages.' },
-            { word: 'Incidence', translation: 'Number of new disease cases during a time period.', context: 'Measures risk.', hint: 'New cases.' },
-            { word: 'Prevalence', translation: 'Total number of disease cases in a population.', context: 'Measures disease burden.', hint: 'All cases.' },
-            { word: 'Sensitivity', translation: 'Ability of a test to identify true positives.', context: 'High sensitivity reduces false negatives.', hint: 'Detect disease.' },
-            { word: 'Specificity', translation: 'Ability of a test to identify true negatives.', context: 'High specificity reduces false positives.', hint: 'Rule out disease.' },
-            { word: 'Independent Variable', translation: 'Variable manipulated by the researcher.', context: 'Presumed cause.', hint: 'Manipulated factor.' },
-            { word: 'Dependent Variable', translation: 'Variable measured during an experiment.', context: 'Observed outcome.', hint: 'Measured result.' },
-            { word: 'Control Group', translation: 'Group not receiving the experimental treatment.', context: 'Provides baseline comparison.', hint: 'Baseline group.' },
-            { word: 'Double-Blind Study', translation: 'Neither participants nor researchers know treatment assignments.', context: 'Reduces bias.', hint: 'Nobody knows.' },
-            { word: 'Placebo Effect', translation: 'Improvement caused by expectation rather than treatment.', context: 'Controlled using placebos.', hint: 'Expectation matters.' },
-            { word: 'Randomization', translation: 'Assigning participants to groups by chance.', context: 'Reduces selection bias.', hint: 'Random assignment.' },
-            { word: 'Reliability', translation: 'Consistency of a measurement.', context: 'Produces repeatable results.', hint: 'Consistency.' },
-            { word: 'Validity', translation: 'Accuracy of a measurement.', context: 'Measures what it claims to measure.', hint: 'Correctness.' },
-            { word: 'Pearson Correlation', translation: 'Measures strength and direction of a linear relationship.', context: 'Ranges from −1 to +1.', hint: 'Linear relationship.' },
-            { word: 'Standard Deviation', translation: 'A measure of variability around the mean.', context: 'Higher values indicate greater spread.', hint: 'Data spread.' },
-            { word: 'p-Value', translation: 'Probability of observing results if the null hypothesis is true.', context: 'Typically significant if below 0.05.', hint: 'Statistical significance.' },
-            { word: 'Null Hypothesis', translation: 'Assumes no difference or relationship exists.', context: 'Tested during hypothesis testing.', hint: 'No effect.' }
+  {
+    word: 'Amino Acid α-Carbon',
+    translation: 'The central carbon bonded to the amino group, carboxyl group, hydrogen, and R-group.',
+    context: 'All amino acids except glycine have a chiral α-carbon.',
+    hint: 'Central carbon.'
+  },
+  {
+    word: 'Hydrophobic Effect',
+    translation: 'The tendency of nonpolar molecules to cluster together in water.',
+    context: 'Major driving force behind protein folding.',
+    hint: 'Nonpolar hides from water.'
+  },
+  {
+    word: 'Michaelis Constant (Km)',
+    translation: 'The substrate concentration at which reaction velocity is half of Vmax.',
+    context: 'Lower Km indicates higher enzyme affinity.',
+    hint: 'Half Vmax.'
+  },
+  {
+    word: 'Fundamental Attribution Error',
+    translation: 'Attributing others’ behavior to personality instead of circumstances.',
+    context: 'Classic Psych/Soc bias tested on the MCAT.',
+    hint: 'Ignore the situation.'
+  },
+  {
+    word: 'Competitive Inhibition',
+    translation: 'An inhibitor competes with substrate for the enzyme active site.',
+    context: 'Increases Km but does not change Vmax.',
+    hint: 'Competes for binding.'
+  },
+  {
+    word: 'Noncompetitive Inhibition',
+    translation: 'An inhibitor binds away from the active site regardless of substrate binding.',
+    context: 'Decreases Vmax while Km remains unchanged.',
+    hint: 'Changes enzyme efficiency.'
+  },
+  {
+    word: 'Uncompetitive Inhibition',
+    translation: 'An inhibitor binds only to the enzyme-substrate complex.',
+    context: 'Both Km and Vmax decrease.',
+    hint: 'Only after substrate binds.'
+  },
+  {
+    word: 'Allosteric Regulation',
+    translation: 'Control of enzyme activity through binding at a site other than the active site.',
+    context: 'Can activate or inhibit enzyme function.',
+    hint: 'Remote control site.'
+  },
+  {
+    word: 'Coenzyme',
+    translation: 'An organic molecule required for enzyme activity.',
+    context: 'Many are derived from vitamins.',
+    hint: 'Organic helper.'
+  },
+  {
+    word: 'Cofactor',
+    translation: 'A non-protein helper required for enzyme function.',
+    context: 'Often a metal ion like Zn²⁺ or Mg²⁺.',
+    hint: 'Enzyme assistant.'
+  },
+  {
+    word: 'Denaturation',
+    translation: 'Loss of a protein’s three-dimensional structure.',
+    context: 'Usually results in loss of function.',
+    hint: 'Protein unfolds.'
+  },
+  {
+    word: 'Primary Structure',
+    translation: 'The amino acid sequence of a protein.',
+    context: 'Held together by peptide bonds.',
+    hint: 'Sequence only.'
+  },
+  {
+    word: 'Secondary Structure',
+    translation: 'Local protein folding into α-helices and β-sheets.',
+    context: 'Stabilized by hydrogen bonds.',
+    hint: 'Helices and sheets.'
+  },
+  {
+    word: 'Tertiary Structure',
+    translation: 'Overall three-dimensional shape of one polypeptide.',
+    context: 'Determined by side-chain interactions.',
+    hint: 'Complete fold.'
+  },
+  {
+    word: 'Quaternary Structure',
+    translation: 'Association of multiple polypeptide chains.',
+    context: 'Example: hemoglobin.',
+    hint: 'Multiple subunits.'
+  },
+  {
+    word: 'Peptide Bond',
+    translation: 'A covalent bond joining amino acids.',
+    context: 'Forms during dehydration synthesis.',
+    hint: 'Protein linkage.'
+  },
+  {
+    word: 'Isoelectric Point (pI)',
+    translation: 'The pH at which a molecule has no net charge.',
+    context: 'Proteins are least soluble at their pI.',
+    hint: 'Neutral charge.'
+  },
+  {
+    word: 'Buffer',
+    translation: 'A solution that resists changes in pH.',
+    context: 'Contains a weak acid/base pair.',
+    hint: 'Stabilizes pH.'
+  },
+  {
+    word: 'Henderson-Hasselbalch Equation',
+    translation: 'Equation relating pH, pKa, and acid/base concentrations.',
+    context: 'Used to calculate buffer pH.',
+    hint: 'pH calculator.'
+  },
+  {
+    word: 'pKa',
+    translation: 'The pH at which half of a weak acid is dissociated.',
+    context: 'Lower pKa means stronger acid.',
+    hint: 'Half dissociated.'
+  },
+  {
+    word: 'Oxidation',
+    translation: 'Loss of electrons.',
+    context: 'Often accompanied by gain of oxygen.',
+    hint: 'Lose electrons.'
+  },
+  {
+    word: 'Reduction',
+    translation: 'Gain of electrons.',
+    context: 'Often accompanied by gain of hydrogen.',
+    hint: 'Gain electrons.'
+  },
+  {
+    word: 'Oxidizing Agent',
+    translation: 'A substance that causes oxidation by accepting electrons.',
+    context: 'Is reduced itself.',
+    hint: 'Electron acceptor.'
+  },
+  {
+    word: 'Reducing Agent',
+    translation: 'A substance that donates electrons.',
+    context: 'Is oxidized itself.',
+    hint: 'Electron donor.'
+  },
+  {
+    word: 'Glycolysis',
+    translation: 'Metabolic pathway converting glucose into pyruvate.',
+    context: 'Occurs in the cytosol.',
+    hint: 'Break glucose.'
+  },
+  {
+    word: 'Citric Acid Cycle',
+    translation: 'Series of reactions producing NADH and FADH₂.',
+    context: 'Occurs in the mitochondrial matrix.',
+    hint: 'Krebs cycle.'
+  },
+  {
+    word: 'Oxidative Phosphorylation',
+    translation: 'ATP production using the electron transport chain.',
+    context: 'Occurs on the inner mitochondrial membrane.',
+    hint: 'Most ATP.'
+  },
+  {
+    word: 'ATP',
+    translation: 'The primary energy currency of the cell.',
+    context: 'Hydrolysis releases usable energy.',
+    hint: 'Energy molecule.'
+  },
+  {
+    word: 'NADH',
+    translation: 'A reduced electron carrier.',
+    context: 'Delivers electrons to the ETC.',
+    hint: 'Electron shuttle.'
+  },
+  {
+    word: 'FADH₂',
+    translation: 'Another reduced electron carrier.',
+    context: 'Produces slightly less ATP than NADH.',
+    hint: 'Second shuttle.'
+  },
+  {
+    word: 'DNA Replication',
+    translation: 'The process of copying DNA before cell division.',
+    context: 'Semiconservative replication.',
+    hint: 'Duplicate DNA.'
+  },
+  {
+    word: 'Transcription',
+    translation: 'Synthesis of RNA from DNA.',
+    context: 'Occurs in the nucleus of eukaryotes.',
+    hint: 'DNA → RNA.'
+  },
+  {
+    word: 'Translation',
+    translation: 'Protein synthesis from mRNA.',
+    context: 'Occurs at ribosomes.',
+    hint: 'RNA → Protein.'
+  },
+  {
+    word: 'Promoter',
+    translation: 'DNA sequence where RNA polymerase binds.',
+    context: 'Marks the start of transcription.',
+    hint: 'Starting line.'
+  },
+  {
+    word: 'Operon',
+    translation: 'A cluster of genes controlled by one promoter.',
+    context: 'Common in prokaryotes.',
+    hint: 'Gene group.'
+  },
+  {
+    word: 'Lac Operon',
+    translation: 'An inducible operon controlling lactose metabolism.',
+    context: 'Activated when lactose is present.',
+    hint: 'Lactose genes.'
+  },
+  {
+    word: 'Trp Operon',
+    translation: 'A repressible operon controlling tryptophan synthesis.',
+    context: 'Turns off when tryptophan is abundant.',
+    hint: 'Tryptophan genes.'
+  },
+  {
+    word: 'Mitosis',
+    translation: 'Cell division producing two identical daughter cells.',
+    context: 'Occurs in somatic cells.',
+    hint: 'Growth division.'
+  },
+  {
+    word: 'Meiosis',
+    translation: 'Cell division producing four genetically unique gametes.',
+    context: 'Includes crossing over.',
+    hint: 'Gamete formation.'
+  },
+  {
+    word: 'Crossing Over',
+    translation: 'Exchange of DNA between homologous chromosomes.',
+    context: 'Occurs during Prophase I.',
+    hint: 'Genetic exchange.'
+  },
+  {
+    word: 'Independent Assortment',
+    translation: 'Random distribution of chromosome pairs.',
+    context: 'Increases genetic variation.',
+    hint: 'Random chromosomes.'
+  },
+  {
+    word: 'Diffusion',
+    translation: 'Movement from high to low concentration.',
+    context: 'Requires no energy.',
+    hint: 'Passive movement.'
+  },
+  {
+    word: 'Osmosis',
+    translation: 'Diffusion of water across a semipermeable membrane.',
+    context: 'Water moves toward higher solute concentration.',
+    hint: 'Water diffusion.'
+  },
+  {
+    word: 'Facilitated Diffusion',
+    translation: 'Passive transport using membrane proteins.',
+    context: 'Moves substances down concentration gradients.',
+    hint: 'Protein-assisted.'
+  },
+  {
+    word: 'Active Transport',
+    translation: 'Movement against a concentration gradient using energy.',
+    context: 'Requires ATP.',
+    hint: 'Energy required.'
+  },
+  {
+    word: 'Hypertonic',
+    translation: 'Higher solute concentration than another solution.',
+    context: 'Causes cells to lose water.',
+    hint: 'Water leaves.'
+  },
+  {
+    word: 'Hypotonic',
+    translation: 'Lower solute concentration than another solution.',
+    context: 'Causes cells to gain water.',
+    hint: 'Water enters.'
+  },
+  {
+    word: 'Isotonic',
+    translation: 'Equal solute concentration.',
+    context: 'No net water movement.',
+    hint: 'Balanced.'
+  },
+  {
+    word: 'Action Potential',
+    translation: 'Rapid electrical signal traveling along a neuron.',
+    context: 'Generated by sodium and potassium channels.',
+    hint: 'Neural impulse.'
+  },
+  {
+    word: 'Depolarization',
+    translation: 'Membrane potential becomes less negative.',
+    context: 'Na⁺ enters the cell.',
+    hint: 'Sodium enters.'
+  },
+  {
+    word: 'Repolarization',
+    translation: 'Return toward resting membrane potential.',
+    context: 'K⁺ exits the cell.',
+    hint: 'Potassium exits.'
+  },
+  {
+    word: 'Myelin',
+    translation: 'Insulating sheath around axons.',
+    context: 'Speeds nerve impulse conduction.',
+    hint: 'Electrical insulation.'
+  },
+  {
+    word: 'Saltatory Conduction',
+    translation: 'Action potentials jump between nodes of Ranvier.',
+    context: 'Occurs in myelinated neurons.',
+    hint: 'Jumping signal.'
+  },
+  {
+    word: 'Sympathetic Nervous System',
+    translation: 'Division responsible for fight-or-flight responses.',
+    context: 'Increases heart rate.',
+    hint: 'Fight or flight.'
+  },
+  {
+    word: 'Parasympathetic Nervous System',
+    translation: 'Division responsible for rest-and-digest functions.',
+    context: 'Slows heart rate.',
+    hint: 'Rest and digest.'
+  },
+  {
+    word: 'Homeostasis',
+    translation: 'Maintenance of a stable internal environment.',
+    context: 'Often regulated by negative feedback.',
+    hint: 'Internal balance.'
+  },
+  {
+    word: 'Negative Feedback',
+    translation: 'Response that reverses a change.',
+    context: 'Maintains homeostasis.',
+    hint: 'Counteracts change.'
+  },
+  {
+    word: 'Positive Feedback',
+    translation: 'Response that amplifies a change.',
+    context: 'Occurs during childbirth.',
+    hint: 'Amplifies change.'
+  },
+  {
+    word: 'Antibody',
+    translation: 'Protein that specifically binds an antigen.',
+    context: 'Produced by plasma cells.',
+    hint: 'Targets invaders.'
+  },
+  {
+    word: 'Antigen',
+    translation: 'A molecule recognized by the immune system.',
+    context: 'Triggers antibody production.',
+    hint: 'Immune target.'
+  },
+  {
+    word: 'B Cell',
+    translation: 'Lymphocyte responsible for antibody production.',
+    context: 'Part of adaptive immunity.',
+    hint: 'Makes antibodies.'
+  },
+  {
+    word: 'T Cell',
+    translation: 'Lymphocyte involved in cell-mediated immunity.',
+    context: 'Includes helper and cytotoxic T cells.',
+    hint: 'Cell-mediated defense.'
+  },
+  {
+    word: 'Innate Immunity',
+    translation: 'Rapid, nonspecific immune defense.',
+    context: 'First line of protection.',
+    hint: 'Immediate defense.'
+  },
+  {
+    word: 'Adaptive Immunity',
+    translation: 'Specific immune response with memory.',
+    context: 'Develops after exposure.',
+    hint: 'Learned defense.'
+  },
+  {
+    word: 'Classical Conditioning',
+    translation: 'Learning by associating two stimuli.',
+    context: 'Pavlov’s dogs.',
+    hint: 'Stimulus association.'
+  },
+  {
+    word: 'Operant Conditioning',
+    translation: 'Learning through rewards and punishments.',
+    context: 'Skinner’s experiments.',
+    hint: 'Consequences matter.'
+  },
+  {
+    word: 'Positive Reinforcement',
+    translation: 'Adding a desirable stimulus to increase behavior.',
+    context: 'Reward after studying.',
+    hint: 'Add reward.'
+  },
+  {
+    word: 'Negative Reinforcement',
+    translation: 'Removing an unpleasant stimulus to increase behavior.',
+    context: 'Stopping an alarm after buckling a seatbelt.',
+    hint: 'Remove annoyance.'
+  },
+  {
+    word: 'Positive Punishment',
+    translation: 'Adding an unpleasant stimulus to decrease behavior.',
+    context: 'Extra chores after breaking rules.',
+    hint: 'Add consequence.'
+  },
+  {
+    word: 'Negative Punishment',
+    translation: 'Removing a desirable stimulus to decrease behavior.',
+    context: 'Taking away phone privileges.',
+    hint: 'Take away reward.'
+  },
+  {
+    word: 'Self-Concept',
+    translation: 'An individual’s perception of themselves.',
+    context: 'Influences behavior and identity.',
+    hint: 'Who am I?'
+  },
+  {
+    word: 'Self-Efficacy',
+    translation: 'Belief in one’s ability to succeed.',
+    context: 'Important in motivation.',
+    hint: 'I can do it.'
+  },
+  {
+    word: 'Cognitive Dissonance',
+    translation: 'Psychological discomfort from conflicting beliefs or behaviors.',
+    context: 'Often leads to attitude change.',
+    hint: 'Mental conflict.'
+  },
+  {
+    word: 'Confirmation Bias',
+    translation: 'Seeking information that supports existing beliefs.',
+    context: 'Ignores contradictory evidence.',
+    hint: 'Favor existing beliefs.'
+  },
+  {
+    word: 'Availability Heuristic',
+    translation: 'Judging likelihood based on ease of recall.',
+    context: 'Recent events seem more common.',
+    hint: 'Easy to remember.'
+  },
+  {
+    word: 'Representative Heuristic',
+    translation: 'Judging probability based on similarity to a prototype.',
+    context: 'Can ignore base rates.',
+    hint: 'Looks like it.'
+  },
+  {
+    word: 'Social Facilitation',
+    translation: 'Improved performance on simple tasks in the presence of others.',
+    context: 'Audience enhances well-learned behaviors.',
+    hint: 'Crowd boosts.'
+  },
+  {
+    word: 'Social Loafing',
+    translation: 'Reduced effort when working in groups.',
+    context: 'Individual responsibility decreases.',
+    hint: 'Hide in the group.'
+  },
+  {
+    word: 'Groupthink',
+    translation: 'Poor decision-making due to desire for group harmony.',
+    context: 'Suppresses dissenting opinions.',
+    hint: 'Harmony over accuracy.'
+  },
+  {
+    word: 'Deindividuation',
+    translation: 'Loss of self-awareness in groups.',
+    context: 'Can increase impulsive behavior.',
+    hint: 'Anonymous behavior.'
+  },
+  {
+    word: 'Role Strain',
+    translation: 'Stress from conflicting demands within one social role.',
+    context: 'Multiple expectations from one position.',
+    hint: 'One role, many demands.'
+  },
+  {
+    word: 'Role Conflict',
+    translation: 'Conflict between different social roles.',
+    context: 'Student versus employee responsibilities.',
+    hint: 'Two roles collide.'
+  },
+  {
+    word: 'Socialization',
+    translation: 'The process of learning societal norms and values.',
+    context: 'Begins during childhood.',
+    hint: 'Learning society.'
+  },
+  {
+    word: 'Culture',
+    translation: 'Shared beliefs, values, and behaviors of a group.',
+    context: 'Shapes social interactions.',
+    hint: 'Shared way of life.'
+  },
+  {
+    word: 'Norm',
+    translation: 'An expected standard of behavior.',
+    context: 'Can be formal or informal.',
+    hint: 'Social rule.'
+  },
+  {
+    word: 'Value',
+    translation: 'A culturally defined standard of what is desirable.',
+    context: 'Guides attitudes and behavior.',
+    hint: 'What matters.'
+  },
+  {
+    word: 'Demographic Transition',
+    translation: 'Shift from high birth/death rates to low birth/death rates.',
+    context: 'Occurs with economic development.',
+    hint: 'Population stages.'
+  },
+  {
+    word: 'Incidence',
+    translation: 'Number of new disease cases during a time period.',
+    context: 'Measures risk.',
+    hint: 'New cases.'
+  },
+  {
+    word: 'Prevalence',
+    translation: 'Total number of disease cases in a population.',
+    context: 'Measures disease burden.',
+    hint: 'All cases.'
+  },
+  {
+    word: 'Sensitivity',
+    translation: 'Ability of a test to identify true positives.',
+    context: 'High sensitivity reduces false negatives.',
+    hint: 'Detect disease.'
+  },
+  {
+    word: 'Specificity',
+    translation: 'Ability of a test to identify true negatives.',
+    context: 'High specificity reduces false positives.',
+    hint: 'Rule out disease.'
+  },
+  {
+    word: 'Independent Variable',
+    translation: 'Variable manipulated by the researcher.',
+    context: 'Presumed cause.',
+    hint: 'Manipulated factor.'
+  },
+  {
+    word: 'Dependent Variable',
+    translation: 'Variable measured during an experiment.',
+    context: 'Observed outcome.',
+    hint: 'Measured result.'
+  },
+  {
+    word: 'Control Group',
+    translation: 'Group not receiving the experimental treatment.',
+    context: 'Provides baseline comparison.',
+    hint: 'Baseline group.'
+  },
+  {
+    word: 'Double-Blind Study',
+    translation: 'Neither participants nor researchers know treatment assignments.',
+    context: 'Reduces bias.',
+    hint: 'Nobody knows.'
+  },
+  {
+    word: 'Placebo Effect',
+    translation: 'Improvement caused by expectation rather than treatment.',
+    context: 'Controlled using placebos.',
+    hint: 'Expectation matters.'
+  },
+  {
+    word: 'Randomization',
+    translation: 'Assigning participants to groups by chance.',
+    context: 'Reduces selection bias.',
+    hint: 'Random assignment.'
+  },
+  {
+    word: 'Reliability',
+    translation: 'Consistency of a measurement.',
+    context: 'Produces repeatable results.',
+    hint: 'Consistency.'
+  },
+  {
+    word: 'Validity',
+    translation: 'Accuracy of a measurement.',
+    context: 'Measures what it claims to measure.',
+    hint: 'Correctness.'
+  },
+  {
+    word: 'Pearson Correlation',
+    translation: 'Measures strength and direction of a linear relationship.',
+    context: 'Ranges from −1 to +1.',
+    hint: 'Linear relationship.'
+  },
+  {
+    word: 'Standard Deviation',
+    translation: 'A measure of variability around the mean.',
+    context: 'Higher values indicate greater spread.',
+    hint: 'Data spread.'
+  },
+  {
+    word: 'p-Value',
+    translation: 'Probability of observing results if the null hypothesis is true.',
+    context: 'Typically significant if below 0.05.',
+    hint: 'Statistical significance.'
+  },
+  {
+    word: 'Null Hypothesis',
+    translation: 'Assumes no difference or relationship exists.',
+    context: 'Tested during hypothesis testing.',
+    hint: 'No effect.'
+  }
+            // ─── ADD YOUR NEW FLASHCARDS DIRECTLY BELOW THIS LINE ────────────────
+            
         ];
 
+        /**
+         * =========================================================================
+         *  CORE SYSTEM ENGINE (DO NOT EDIT PATHWAYS BELOW)
+         * =========================================================================
+         */
         let lexemes = JSON.parse(localStorage.getItem('aura_lexemes')) || [];
         let activeSessionQueue = [];
         let totalQueueLength = 0;
@@ -718,8 +1260,13 @@
             localStorage.setItem('aura_lexemes', JSON.stringify(lexemes));
         }
 
+        /**
+         * Syncs new file insertions into the active tracking engine securely 
+         * without altering pre-existing memory progress scores.
+         */
         function synchronizeHardcodedDeck() {
             let changesMade = false;
+            
             HARDCODED_DECK.forEach(card => {
                 const normalizedWord = (card.word || '').trim();
                 const exists = lexemes.some(l => l.word.toLowerCase() === normalizedWord.toLowerCase());
@@ -733,17 +1280,61 @@
                         context: (card.context || '').trim() || 'No application context provided.',
                         hint: (card.hint || '').trim() || 'No specialized hints setup.',
                         halfLifeHours: 4, 
-                        lastTested: Date.now() - (6 * 60 * 60 * 1000)
+                        lastTested: Date.now() - (6 * 60 * 60 * 1000) // Places it instantly into initial test rotation
                     });
                     changesMade = true;
                 }
             });
-            if (changesMade) saveToStorage();
+
+            if (changesMade) {
+                saveToStorage();
+            }
         }
 
+        /**
+         * Standardized programmatic factory invocation layer
+         */
+        function addLexeme(word, translation, context = '', hint = '') {
+            const trackingId = 'l_' + Math.random().toString(36).substr(2, 5) + '_' + Date.now().toString().slice(-4);
+            const newCard = {
+                id: trackingId,
+                word: (word || '').trim(),
+                translation: (translation || '').trim(),
+                context: (context || '').trim() || 'No application context provided.',
+                hint: (hint || '').trim() || 'No specialized hints setup.',
+                halfLifeHours: 4, 
+                lastTested: Date.now() - (6 * 60 * 60 * 1000)
+            };
+
+            lexemes.push(newCard);
+            saveToStorage();
+            calculateAndRenderDashboard();
+            return newCard;
+        }
+
+        /**
+         * Interface wrapper hooked into the HTML Creator layout block
+         */
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            const wordInput = document.getElementById('form-word');
+            const translationInput = document.getElementById('form-translation');
+            const contextInput = document.getElementById('form-context');
+            const hintInput = document.getElementById('form-hint');
+
+            addLexeme(wordInput.value, translationInput.value, contextInput.value, hintInput.value);
+            event.target.reset();
+        }
+
+        /**
+         * Core Mathematical Logic - Half-Life Regression Engine
+         * Probability of Retention: P = 2^(-t / h)
+         */
         function calculateRetention(lexeme) {
             const elapsedHours = (Date.now() - lexeme.lastTested) / (1000 * 60 * 60);
-            return Math.min(Math.max(Math.pow(2, -elapsedHours / lexeme.halfLifeHours), 0.0), 1.0);
+            const retentionProbability = Math.pow(2, -elapsedHours / lexeme.halfLifeHours);
+            return Math.min(Math.max(retentionProbability, 0.0), 1.0);
         }
 
         function calculateAndRenderDashboard() {
@@ -757,9 +1348,14 @@
                 const percentage = Math.round(retention * 100);
                 
                 let healthColor = varLookUp('--health-high');
-                if (retention < 0.5) { decayedCount++; healthColor = varLookUp('--health-low'); }
-                else if (retention < 0.75) { healthColor = varLookUp('--health-mid'); }
-                else { healthyCount++; }
+                if (retention < 0.5) {
+                    decayedCount++;
+                    healthColor = varLookUp('--health-low');
+                } else if (retention < 0.75) {
+                    healthColor = varLookUp('--health-mid');
+                } else {
+                    healthyCount++;
+                }
 
                 const row = document.createElement('div');
                 row.className = 'lexeme-row';
@@ -787,6 +1383,7 @@
 
             const retainedEl = document.getElementById('retained-count');
             if (retainedEl) retainedEl.innerText = healthyCount;
+
             views.progressWrapper.style.visibility = 'hidden';
         }
 
@@ -799,15 +1396,20 @@
             document.getElementById('exit-session-btn').addEventListener('click', exitSessionView);
             document.getElementById('card-trigger').addEventListener('click', toggleCardFlip);
             document.getElementById('request-hint-btn').addEventListener('click', revealPassiveHint);
+
             document.getElementById('btn-eval-correct').addEventListener('click', () => handleEvaluationOutcome(true));
             document.getElementById('btn-eval-wrong').addEventListener('click', () => handleEvaluationOutcome(false));
         }
 
         function initiateSRSSession() {
             let candidates = lexemes.filter(item => calculateRetention(item) < 0.95);
-            if (candidates.length === 0) candidates = [...lexemes];
 
-            activeSessionQueue = candidates.sort((a, b) => calculateRetention(a) - calculateRetention(b)).slice(0, 5);
+            if (candidates.length === 0) {
+                candidates = [...lexemes];
+            }
+
+            activeSessionQueue = candidates.sort((a, b) => calculateRetention(a) - calculateRetention(b));
+            activeSessionQueue = activeSessionQueue.slice(0, 5);
             totalQueueLength = activeSessionQueue.length;
             currentActiveIndex = 0;
 
@@ -852,7 +1454,8 @@
             const card = document.getElementById('interactive-card');
             card.classList.toggle('flipped');
             
-            if (card.classList.contains('flipped')) {
+            const isFlipped = card.classList.contains('flipped');
+            if (isFlipped) {
                 document.getElementById('eval-actions-wrapper').style.display = 'grid';
                 document.getElementById('request-hint-btn').style.display = 'none';
             }
@@ -872,18 +1475,31 @@
                 if (isCorrect) {
                     const elapsedHours = (Date.now() - matchedLexeme.lastTested) / (1000 * 60 * 60);
                     let adaptiveMultiplier = matchedLexeme.halfLifeHours < 48 ? 2.5 : 1.6;
-                    if (hintRequestedForCurrentCard) adaptiveMultiplier *= 0.6;
-                    matchedLexeme.halfLifeHours = Math.min(Math.max(elapsedHours, matchedLexeme.halfLifeHours) * adaptiveMultiplier, 720);
+
+                    if (hintRequestedForCurrentCard) {
+                        adaptiveMultiplier *= 0.6;
+                    }
+
+                    const computedExtension = Math.max(elapsedHours, matchedLexeme.halfLifeHours) * adaptiveMultiplier;
+                    matchedLexeme.halfLifeHours = Math.min(computedExtension, 720);
                 } else {
-                    matchedLexeme.halfLifeHours = matchedLexeme.halfLifeHours > 72 ? matchedLexeme.halfLifeHours * 0.5 : Math.max(matchedLexeme.halfLifeHours * 0.25, 4);
+                    if (matchedLexeme.halfLifeHours > 72) {
+                        matchedLexeme.halfLifeHours = matchedLexeme.halfLifeHours * 0.5;
+                    } else {
+                        matchedLexeme.halfLifeHours = Math.max(matchedLexeme.halfLifeHours * 0.25, 4);
+                    }
                 }
+
                 matchedLexeme.lastTested = Date.now();
                 saveToStorage();
             }
 
             currentActiveIndex++;
             updateProgressBar();
-            setTimeout(() => { renderCurrentSessionCard(); }, 300);
+            
+            setTimeout(() => {
+                renderCurrentSessionCard();
+            }, 300);
         }
 
         function updateProgressBar() {
