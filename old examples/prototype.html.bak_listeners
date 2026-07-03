@@ -799,8 +799,6 @@
         }
 
         function setupEventListeners() {
-            if (window.__aura_listeners_installed) return;
-            window.__aura_listeners_installed = true;
             document.getElementById('start-srs-session').addEventListener('click', initiateSRSSession);
             document.getElementById('exit-session-btn').addEventListener('click', exitSessionView);
             document.getElementById('card-trigger').addEventListener('click', toggleCardFlip);
