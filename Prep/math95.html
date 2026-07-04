@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
+<style>
         :root {
             --bg-dark: #09090b;
             --bg-card: #121214;
@@ -53,7 +53,7 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
-            padding: 2rem 1rem;
+            padding: 1rem;
         }
 
         /* App Container */
@@ -62,7 +62,7 @@
             max-width: 480px;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         /* Header / Dashboard Metrics */
@@ -87,9 +87,28 @@
             gap: 0.5rem;
         }
 
+        /* Small left-side themed navigation CTA */
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.06);
+            margin-right: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 10px var(--accent-glow);
+        }
+
+        .nav-cta i { color: var(--accent); width: 18px; height: 18px; }
+
         .metrics {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             font-size: 0.9rem;
             font-weight: 600;
         }
@@ -110,7 +129,7 @@
             filter: drop-shadow(0 0 4px var(--accent));
         }
 
-        /* Global Smart Session Status Bar (Duolingo Style Progression) */
+        /* Session Status Bar */
         .session-progress-container {
             width: 100%;
             display: flex;
@@ -136,7 +155,7 @@
             box-shadow: 0 0 12px var(--accent-glow);
         }
 
-        /* Lexeme / Vocabulary Dashboard Grid */
+        /* Dashboard View */
         .dashboard-view {
             display: flex;
             flex-direction: column;
@@ -155,7 +174,7 @@
         .smart-cta {
             background: linear-gradient(135deg, var(--bg-card) 0%, rgba(20,20,22,1) 100%);
             border: 1px solid var(--border);
-            padding: 1.75rem;
+            padding: 1.5rem;
             border-radius: 24px;
             text-align: center;
             position: relative;
@@ -173,14 +192,9 @@
             pointer-events: none;
         }
 
-        .smart-cta:hover {
-            transform: translateY(-2px);
-            border-color: rgba(212, 175, 55, 0.3);
-        }
-
         .smart-cta h3 {
             font-family: var(--font-serif);
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             margin-bottom: 0.5rem;
         }
 
@@ -207,12 +221,6 @@
             transition: var(--transition);
         }
 
-        .btn-premium:hover {
-            background: #fff;
-            transform: scale(1.02);
-            box-shadow: 0 4px 20px rgba(255,255,255,0.15);
-        }
-
         /* Lexeme Registry List */
         .lexeme-list {
             display: flex;
@@ -223,11 +231,12 @@
         .lexeme-row {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            padding: 1rem 1.25rem;
+            padding: 1rem;
             border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
             transition: var(--transition);
         }
 
@@ -235,17 +244,25 @@
             display: flex;
             flex-direction: column;
             gap: 0.25rem;
+            flex: 1;
+            min-width: 0;
         }
 
         .lexeme-word {
             font-weight: 600;
-            font-size: 1.05rem;
+            font-size: 1rem;
             letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .lexeme-translation {
             font-size: 0.85rem;
             color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .lexeme-status {
@@ -253,7 +270,8 @@
             flex-direction: column;
             align-items: flex-end;
             gap: 0.4rem;
-            width: 100px;
+            width: 90px;
+            flex-shrink: 0;
         }
 
         .half-life-text {
@@ -276,17 +294,17 @@
             transition: width 0.5s ease;
         }
 
-        /* Core Flashcard Interface (Stage View) */
+        /* Stage View Layout */
         .stage-view {
-            display: none; /* Managed by JS switching */
+            display: none;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
             perspective: 1000px;
         }
 
         .card-perspective {
             width: 100%;
-            height: 340px;
+            height: 360px;
             cursor: pointer;
             position: relative;
         }
@@ -297,7 +315,7 @@
             position: absolute;
             transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-radius: 32px;
+            border-radius: 28px;
         }
 
         .flashcard.flipped {
@@ -309,13 +327,14 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 32px;
+            border-radius: 28px;
             border: 1px solid var(--border);
-            padding: 2.5rem;
+            padding: 1.75rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
         }
 
         .card-front {
@@ -341,24 +360,28 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.75rem;
             justify-content: center;
             flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 0.5rem 0;
         }
 
         .prompt-word {
             font-family: var(--font-serif);
-            font-size: 2.5rem;
+            font-size: 1.85rem;
             font-weight: 500;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
         }
 
         .prompt-context {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
             font-style: italic;
             line-height: 1.4;
-            max-width: 80%;
+            max-width: 95%;
             margin: 0 auto;
         }
 
@@ -371,29 +394,29 @@
             align-items: center;
             justify-content: center;
             gap: 0.25rem;
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
-        /* Input Controls Room (Duolingo Evaluative Engine) */
+        /* Interaction Panels */
         .interaction-panel {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .eval-buttons {
-            display: none; /* Visible only when card flipped */
+            display: none;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 0.75rem;
             width: 100%;
         }
 
         .btn-action {
-            padding: 1.1rem;
+            padding: 1rem 0.75rem;
             border-radius: 16px;
             font-family: var(--font-sans);
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -405,19 +428,15 @@
             color: var(--text-primary);
         }
 
-        .btn-action[data-status="wrong"] {
-            border-color: rgba(239, 68, 110, 0.2);
-        }
-        .btn-action[data-status="wrong"]:hover {
+        .btn-action[data-status="wrong"]:hover,
+        .btn-action[data-status="wrong"]:active {
             background: rgba(239, 68, 68, 0.1);
             border-color: var(--error);
             color: var(--error);
         }
 
-        .btn-action[data-status="correct"] {
-            border-color: rgba(16, 185, 129, 0.2);
-        }
-        .btn-action[data-status="correct"]:hover {
+        .btn-action[data-status="correct"]:hover,
+        .btn-action[data-status="correct"]:active {
             background: rgba(16, 185, 129, 0.1);
             border-color: var(--success);
             color: var(--success);
@@ -445,13 +464,38 @@
         .hidden { display: none !important; }
         .flex { display: flex !important; }
 
-        /* Smooth subtle keyframe entries */
         @keyframes subtleScale {
             from { transform: scale(0.98); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
         .animate-fade-in {
             animation: subtleScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        /* Premium Native App Scrollbar Styling */
+        .card-main-content::-webkit-scrollbar {
+            width: 4px; /* Ultra thin scrollbar */
+            height: 4px;
+        }
+
+        .card-main-content::-webkit-scrollbar-track {
+            background: transparent; /* No ugly background track box */
+        }
+
+        .card-main-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1); /* Subtle premium track indicator */
+            border-radius: 99px;
+            transition: var(--transition);
+        }
+
+        .card-main-content::-webkit-scrollbar-thumb:hover {
+            background: var(--accent); /* Glows gold only when active/interacted with */
+        }
+
+        /* Smooth iOS Momentum Scrolling */
+        .card-main-content {
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin; /* Firefox support */
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
         }
     </style>
 </head>
@@ -460,7 +504,10 @@
     <div class="app-container">
         <!-- Persistent Premium Status Bar -->
         <header>
-            <div class="brand">
+                        <a id="left-nav-cta" class="nav-cta" href="../index.html">
+                <i data-lucide="chevrons-left"></i>
+            </a>
+<div class="brand">
                 <span>AURA</span>
             </div>
             <div class="metrics">
@@ -569,82 +616,210 @@
 
     <!-- App Engine -->
     <script>
-        /**
-         * Aura Premium Spaced Repetition Engine
-         * Built on customized localized predictive Half-Life Regression calculations
+      /**
+         * =========================================================================
+         *  AURA KNOWLEDGE REGISTRY — HARDCODE NEW FLASHCARDS HERE
+         * =========================================================================
+         * To append new concepts to your matrix, drop a clean comma-separated object
+         * into this array using the exact property keys shown below.
+         *
+         * No manual IDs, half-lives, or timestamps are needed—the engine will 
+         * dynamically provision tracking metrics automatically upon initialization.
          */
-
-        // Initial High-Fidelity Mock Database Configuration
-        const INITIAL_LEXEMES = [
-            { id: 'l1', word: 'Resilience', translation: 'La Resiliencia', context: 'The capacity to recover quickly from difficulties.', hint: 'Think psychological flexibility and elasticity.', halfLifeHours: 12, lastTested: Date.now() - (14 * 60 * 60 * 1000) }, // Decayed past 50%
-            { id: 'l2', word: 'Ephemeral', translation: 'Efímero', context: 'Lasting for a very short time.', hint: 'Like a passing shadow or a morning mist.', halfLifeHours: 48, lastTested: Date.now() - (52 * 60 * 60 * 1000) }, // Decayed past 50%
-            { id: 'l3', word: 'Serendipity', translation: 'Serendipia', context: 'The occurrence of events by chance in a happy way.', hint: 'A fortunate, accidental stroke of luck.', halfLifeHours: 120, lastTested: Date.now() - (10 * 60 * 60 * 1000) }, // Stable state
-            { id: 'l4', word: 'Nostalgia', translation: 'La Nostalgia', context: 'A sentimental longing or wistful affection for the past.', hint: 'Homesickness mixed with sweet sorrow.', halfLifeHours: 24, lastTested: Date.now() - (26 * 60 * 60 * 1000) } // Decayed past 50%
+        const HARDCODED_DECK = [
+            {
+    word: 'Factoring Trinomials',
+    translation: 'x² + bx + c = (x + p)(x + q)',
+    context: 'Find two numbers where p + q = b (linear term) and p * q = c (constant term) to split the expression.',
+    hint: 'Sum is b, product is c.'
+  },
+  {
+    word: 'Difference of Squares',
+    translation: 'a² - b² = (a - b)(a + b)',
+    context: 'Must be subtraction. Perfect square terms split into matching binomial pairs with opposite signs (conjugates).',
+    hint: 'Subtracting perfect squares.'
+  },
+  {
+    word: 'Undefined Rational Expressions',
+    translation: 'P(x) / Q(x) is undefined when Q(x) = 0',
+    context: 'A rational fraction becomes completely undefined the exact moment its denominator evaluates to zero.',
+    hint: 'Bottom equals zero.'
+  },
+  {
+    word: 'Extraneous Solutions',
+    translation: 'An algebraic solution that violates the original domain rules.',
+    context: 'Found correctly during solving but invalid because it causes a zero in an original denominator.',
+    hint: 'Check your restricted values!'
+  },
+  {
+    word: 'Rational Exponents Rule',
+    translation: 'x^(m/n) = ⁿ√(xᵐ) = (ⁿ√x)ᵐ',
+    context: 'The top number (m) is the power, and the bottom number (n) is the root index.',
+    hint: 'Power over Root.'
+  },
+  {
+    word: 'Simplifying Radicals',
+    translation: 'ⁿ√(a * b) = ⁿ√a * ⁿ√b',
+    context: 'To simplify any radical, factor out the largest perfect n-th power hidden inside the radicand.',
+    hint: 'Pull out perfect powers.'
+  },
+  {
+    word: 'The Imaginary Unit',
+    translation: 'i = √(-1)  and  i² = -1',
+    context: 'Used to define square roots of negative numbers. Always substitute i² with -1 immediately.',
+    hint: 'Core complex building block.'
+  },
+  {
+    word: 'The Quadratic Formula',
+    translation: 'x = (-b ± √(b² - 4ac)) / 2a',
+    context: 'Solves any quadratic equation in standard form ax² + bx + c = 0 when factoring is too difficult.',
+    hint: 'Negative b plus or minus...'
+  },
+  {
+    word: 'The Discriminant',
+    translation: 'D = b² - 4ac',
+    context: 'The value under the radical. D > 0 means 2 real answers; D = 0 means 1 real answer; D < 0 means 2 complex answers.',
+    hint: 'Predicts types of solutions.'
+  },
+  {
+    word: 'Vertex of a Parabola',
+    translation: 'x = -b / 2a',
+    context: 'Calculates the symmetry axis line and x-coordinate for the absolute peak or valley of a parabola.',
+    hint: 'Plugs back in to find y.'
+  },
+  {
+    word: 'Vertical Line Test',
+    translation: 'Visual function test on a coordinate plane graph.',
+    context: 'If any vertical line intersects a graph more than once, the relation is officially NOT a function.',
+    hint: 'One x can only have one y.'
+  },
+  {
+    word: 'Domain vs. Range',
+    translation: 'Domain = All valid x-inputs | Range = All resulting y-outputs',
+    context: 'Watch out for domain restrictions like division by zero or negative values under even roots.',
+    hint: 'Inputs vs. Outputs.'
+  },
+  {
+    word: 'Compound Inequalities (AND)',
+    translation: 'Intersection (∩) of two inequality sets.',
+    context: 'The final solution must make BOTH inequalities true at the same time. Look for the overlap.',
+    hint: 'Shade only the overlap.'
+  },
+  {
+    word: 'Compound Inequalities (OR)',
+    translation: 'Union (∪) of two inequality sets.',
+    context: 'The final solution satisfies EITHER inequality. Combine all shaded sections from both together.',
+    hint: 'Shade everything from both.'
+  },
+  {
+    word: 'Slope Formula',
+    translation: 'm = (y₂ - y₁) / (x₂ - x₁)',
+    context: 'Measures the vertical rise over horizontal run. A vertical line has an undefined slope.',
+    hint: 'Constant rate of change.'
+  }
+            // ─── ADD YOUR NEW FLASHCARDS DIRECTLY BELOW THIS LINE ────────────────
+            
         ];
 
         /**
-         * MANUAL_SEED
-         * Add new hardcoded flash cards here for quick development/testing.
-         * Copy one of the objects below and edit the fields. Use simple entries
-         * — the engine will initialize halfLifeHours and lastTested if omitted.
-         * Example:
-         * { id: 'm1', word: 'Ethereal', translation: 'Etéreo', context: '...', hint: '...' }
+         * =========================================================================
+         *  CORE SYSTEM ENGINE (DO NOT EDIT PATHWAYS BELOW)
+         * =========================================================================
          */
-        const MANUAL_SEED = [
-            
-            ];
-
-        // System State
-        // Load saved lexemes or fall back to MANUAL_SEED + INITIAL_LEXEMES for easy hardcoding
-        let lexemes = JSON.parse(localStorage.getItem('aura_lexemes')) || (MANUAL_SEED.length ? MANUAL_SEED.concat(INITIAL_LEXEMES) : INITIAL_LEXEMES);
+        const STORAGE_KEY = 'aura_lexemes_01';
+        let lexemes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
         let activeSessionQueue = [];
         let totalQueueLength = 0;
         let currentActiveIndex = 0;
         let hintRequestedForCurrentCard = false;
 
-        // UI View State Nodes
         const views = {
             dashboard: document.getElementById('dashboard-view'),
             stage: document.getElementById('stage-view'),
             progressWrapper: document.getElementById('session-progress-wrapper')
         };
 
-        // Initialize App Layout & Engine Loop
         document.addEventListener('DOMContentLoaded', () => {
+            synchronizeHardcodedDeck();
             lucide.createIcons();
             calculateAndRenderDashboard();
             setupEventListeners();
         });
 
         function saveToStorage() {
-            localStorage.setItem('aura_lexemes', JSON.stringify(lexemes));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(lexemes));
         }
 
         /**
-         * Factory to generate standardized SRS flashcards
-         * Automatically boots new concepts to an active decay state for immediate ingestion
+         * Syncs new file insertions into the active tracking engine securely 
+         * without altering pre-existing memory progress scores.
+         */
+        function synchronizeHardcodedDeck() {
+            let changesMade = false;
+            
+            HARDCODED_DECK.forEach(card => {
+                const normalizedWord = (card.word || '').trim();
+                const exists = lexemes.some(l => l.word.toLowerCase() === normalizedWord.toLowerCase());
+                
+                if (!exists && normalizedWord !== '') {
+                    const trackingId = 'l_' + Math.random().toString(36).substr(2, 5) + '_' + Date.now().toString().slice(-4);
+                    lexemes.push({
+                        id: trackingId,
+                        word: normalizedWord,
+                        translation: (card.translation || '').trim(),
+                        context: (card.context || '').trim() || 'No application context provided.',
+                        hint: (card.hint || '').trim() || 'No specialized hints setup.',
+                        halfLifeHours: 4, 
+                        lastTested: Date.now() - (6 * 60 * 60 * 1000) // Places it instantly into initial test rotation
+                    });
+                    changesMade = true;
+                }
+            });
+
+            if (changesMade) {
+                saveToStorage();
+            }
+        }
+
+        /**
+         * Standardized programmatic factory invocation layer
          */
         function addLexeme(word, translation, context = '', hint = '') {
+            const trackingId = 'l_' + Math.random().toString(36).substr(2, 5) + '_' + Date.now().toString().slice(-4);
             const newCard = {
-                id: 'l_' + Date.now() + Math.random().toString(36).substr(2, 4),
+                id: trackingId,
                 word: (word || '').trim(),
                 translation: (translation || '').trim(),
-                context: (context || '').trim() || 'Context not specified.',
-                hint: (hint || '').trim() || 'No context hint available.',
-                halfLifeHours: 4, // Starts at base floor interval (4 hours)
-                lastTested: Date.now() - (6 * 60 * 60 * 1000) // Backdated 6 hours so it forces immediate review
+                context: (context || '').trim() || 'No application context provided.',
+                hint: (hint || '').trim() || 'No specialized hints setup.',
+                halfLifeHours: 4, 
+                lastTested: Date.now() - (6 * 60 * 60 * 1000)
             };
 
             lexemes.push(newCard);
             saveToStorage();
-            calculateAndRenderDashboard(); // Hot-reloads the layout cleanly
+            calculateAndRenderDashboard();
             return newCard;
+        }
+
+        /**
+         * Interface wrapper hooked into the HTML Creator layout block
+         */
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            const wordInput = document.getElementById('form-word');
+            const translationInput = document.getElementById('form-translation');
+            const contextInput = document.getElementById('form-context');
+            const hintInput = document.getElementById('form-hint');
+
+            addLexeme(wordInput.value, translationInput.value, contextInput.value, hintInput.value);
+            event.target.reset();
         }
 
         /**
          * Core Mathematical Logic - Half-Life Regression Engine
          * Probability of Retention: P = 2^(-t / h)
-         * Where t = elapsed hours, h = parameter word half-life assignment
          */
         function calculateRetention(lexeme) {
             const elapsedHours = (Date.now() - lexeme.lastTested) / (1000 * 60 * 60);
@@ -672,7 +847,6 @@
                     healthyCount++;
                 }
 
-                // Append Dynamic View Engine Row Markup
                 const row = document.createElement('div');
                 row.className = 'lexeme-row';
                 row.innerHTML = `
@@ -690,19 +864,16 @@
                 container.appendChild(row);
             });
 
-            // Safely update the CTA paragraph so we don't destroy structural nodes
             const ctaParagraph = document.querySelector('#start-srs-session p');
             if (decayedCount === 0) {
-                if (ctaParagraph) ctaParagraph.innerText = 'All items are mathematically stable in memory lanes.';
+                if (ctaParagraph) ctaParagraph.innerText = 'All matrix fields are mathematically safe and stable.';
             } else {
                 if (ctaParagraph) ctaParagraph.innerHTML = `Our Half-Life Regression model indicates <strong><span id="decayed-count-prompt">${decayedCount}</span> concepts</strong> are approaching their memory critical dip threshold.`;
             }
 
-            // Update retained metric
             const retainedEl = document.getElementById('retained-count');
             if (retainedEl) retainedEl.innerText = healthyCount;
 
-            // Hide session metrics track during base dashboard status checks
             views.progressWrapper.style.visibility = 'hidden';
         }
 
@@ -711,37 +882,23 @@
         }
 
         function setupEventListeners() {
-            // Navigation Elements Hook
             document.getElementById('start-srs-session').addEventListener('click', initiateSRSSession);
             document.getElementById('exit-session-btn').addEventListener('click', exitSessionView);
-            
-            // Core Card Flip Engine Hook
             document.getElementById('card-trigger').addEventListener('click', toggleCardFlip);
-            
-            // Hint Engine Setup Toggle
             document.getElementById('request-hint-btn').addEventListener('click', revealPassiveHint);
 
-            // Algorithmic SRS Button Hooks
             document.getElementById('btn-eval-correct').addEventListener('click', () => handleEvaluationOutcome(true));
             document.getElementById('btn-eval-wrong').addEventListener('click', () => handleEvaluationOutcome(false));
         }
 
-        /**
-         * Duolingo Adaptive Scheduling Engine Architecture
-         * Pulls items decaying under peak thresholds dynamically into structured sessions
-         */
         function initiateSRSSession() {
-            // Only pull items that have begun to actively decay (e.g., below 95% retention)
             let candidates = lexemes.filter(item => calculateRetention(item) < 0.95);
 
-            // Fallback: If everything is perfectly fresh, allow reviewing the absolute lowest
             if (candidates.length === 0) {
                 candidates = [...lexemes];
             }
 
             activeSessionQueue = candidates.sort((a, b) => calculateRetention(a) - calculateRetention(b));
-
-            // Limit to actionable session sizes to prevent user attrition
             activeSessionQueue = activeSessionQueue.slice(0, 5);
             totalQueueLength = activeSessionQueue.length;
             currentActiveIndex = 0;
@@ -762,7 +919,6 @@
                 return;
             }
 
-            // Reset interaction parameters
             hintRequestedForCurrentCard = false;
             document.getElementById('hint-panel').style.display = 'none';
             document.getElementById('request-hint-btn').style.display = 'inline-flex';
@@ -772,14 +928,12 @@
             const item = activeSessionQueue[currentActiveIndex];
             const retention = calculateRetention(item);
 
-            // Set UI copy definitions dynamically
             document.getElementById('word-front').innerText = item.word;
             document.getElementById('context-front').innerText = item.context;
             document.getElementById('word-back').innerText = item.translation;
-            document.getElementById('context-back').innerText = `"${item.context}"`;
+            document.getElementById('context-back').innerText = item.context;
             document.getElementById('hint-text').innerText = item.hint;
 
-            // Compute and apply context color points to card top status parameters
             const healthDot = document.getElementById('health-dot');
             if (retention < 0.5) healthDot.style.backgroundColor = varLookUp('--health-low');
             else if (retention < 0.75) healthDot.style.backgroundColor = varLookUp('--health-mid');
@@ -790,7 +944,6 @@
             const card = document.getElementById('interactive-card');
             card.classList.toggle('flipped');
             
-            // Determine visibility vectors of underlying evaluation matrices mapping
             const isFlipped = card.classList.contains('flipped');
             if (isFlipped) {
                 document.getElementById('eval-actions-wrapper').style.display = 'grid';
@@ -804,36 +957,26 @@
             document.getElementById('request-hint-btn').style.display = 'none';
         }
 
-        /**
-         * HLR Predictive Update Algorithms Runtime Execution Engine
-         * Updates target parameters mapping values explicitly directly on storage items
-         */
         function handleEvaluationOutcome(isCorrect) {
             const currentItem = activeSessionQueue[currentActiveIndex];
             const matchedLexeme = lexemes.find(l => l.id === currentItem.id);
 
             if (matchedLexeme) {
-                let currentHalfLife = matchedLexeme.halfLifeHours;
-
                 if (isCorrect) {
                     const elapsedHours = (Date.now() - matchedLexeme.lastTested) / (1000 * 60 * 60);
-
-                    // Dynamic Spacing: shorter intervals grow faster; mature intervals expand conservatively
                     let adaptiveMultiplier = matchedLexeme.halfLifeHours < 48 ? 2.5 : 1.6;
 
-                    // Reduce growth if the user needed a hint
                     if (hintRequestedForCurrentCard) {
                         adaptiveMultiplier *= 0.6;
                     }
 
                     const computedExtension = Math.max(elapsedHours, matchedLexeme.halfLifeHours) * adaptiveMultiplier;
-                    matchedLexeme.halfLifeHours = Math.min(computedExtension, 720); // 720 hours = 30 days
+                    matchedLexeme.halfLifeHours = Math.min(computedExtension, 720);
                 } else {
-                    // Soft-Landing Penalty: preserve storage strength for mature cards
                     if (matchedLexeme.halfLifeHours > 72) {
-                        matchedLexeme.halfLifeHours = matchedLexeme.halfLifeHours * 0.5; // Moderate drop for mature cards
+                        matchedLexeme.halfLifeHours = matchedLexeme.halfLifeHours * 0.5;
                     } else {
-                        matchedLexeme.halfLifeHours = Math.max(matchedLexeme.halfLifeHours * 0.25, 4); // Sharper reset for volatile cards
+                        matchedLexeme.halfLifeHours = Math.max(matchedLexeme.halfLifeHours * 0.25, 4);
                     }
                 }
 
@@ -841,11 +984,9 @@
                 saveToStorage();
             }
 
-            // Step queue forward
             currentActiveIndex++;
             updateProgressBar();
             
-            // Delay transitions mechanics to protect UX perspective rotations space loops
             setTimeout(() => {
                 renderCurrentSessionCard();
             }, 300);
@@ -858,7 +999,6 @@
 
         function completeSessionView() {
             exitSessionView();
-            // Upward streak adjustments
             const streakElement = document.getElementById('streak-count');
             streakElement.innerText = parseInt(streakElement.innerText) + 1;
         }
