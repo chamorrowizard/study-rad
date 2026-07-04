@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura — Premium Spaced Repetition</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+        :root {
+            --bg-dark: #09090b;
+            --bg-card: #121214;
+            --bg-card-hover: #1a1a1e;
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
+            
+            /* Premium Accent Palette */
+            --accent: #d4af37; /* Matte Gold */
+            --accent-glow: rgba(212, 175, 55, 0.15);
+            --success: #10b981;
+            --error: #ef4444;
+            
+            /* HLR Decay / Health colors */
+            --health-high: #34d399;
+            --health-mid: #fbbf24;
+            --health-low: #f87171;
+
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 1rem;
+        }
+
+        /* App Container */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Header / Dashboard Metrics */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Small left-side themed navigation CTA */
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.06);
+            margin-right: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 10px var(--accent-glow);
+        }
+
+        .nav-cta i { color: var(--accent); width: 18px; height: 18px; }
+
+        .metrics {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .metric-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.5rem 0.75rem;
+            border-radius: 99px;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: var(--text-secondary);
+        }
+        
+        .metric-badge.active i {
+            color: var(--accent);
+            filter: drop-shadow(0 0 4px var(--accent));
+        }
+
+        /* Session Status Bar */
+        .session-progress-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .progress-bar-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 99px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent) 0%, #f3e5ab 100%);
+            border-radius: 99px;
+            transition: var(--transition);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        /* Dashboard View */
+        .dashboard-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .smart-cta {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(20,20,22,1) 100%);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .smart-cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at top right, var(--accent-glow), transparent 60%);
+            pointer-events: none;
+        }
+
+        .smart-cta h3 {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .smart-cta p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.4;
+        }
+
+        .btn-premium {
+            background: var(--text-primary);
+            color: var(--bg-dark);
+            border: none;
+            padding: 0.85rem 1.75rem;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        /* Lexeme Registry List */
+        .lexeme-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .lexeme-row {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .lexeme-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .lexeme-word {
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lexeme-translation {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lexeme-status {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.4rem;
+            width: 90px;
+            flex-shrink: 0;
+        }
+
+        .half-life-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .health-bar-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .health-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            transition: width 0.5s ease;
+        }
+
+        /* Stage View Layout */
+        .stage-view {
+            display: none;
+            flex-direction: column;
+            gap: 1.5rem;
+            perspective: 1000px;
+        }
+
+        .card-perspective {
+            width: 100%;
+            height: 360px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 28px;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: linear-gradient(145deg, var(--bg-card) 0%, #16161a 100%);
+        }
+
+        .card-back {
+            background: linear-gradient(145deg, #131317 0%, var(--bg-dark) 100%);
+            transform: rotateY(180deg);
+        }
+
+        .card-meta-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .card-main-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            justify-content: center;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 0.5rem 0;
+        }
+
+        .prompt-word {
+            font-family: var(--font-serif);
+            font-size: 1.85rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .prompt-context {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.4;
+            max-width: 95%;
+            margin: 0 auto;
+        }
+
+        .reveal-hint-text {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            opacity: 0.8;
+        }
+
+        /* Interaction Panels */
+        .interaction-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .eval-buttons {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            width: 100%;
+        }
+
+        .btn-action {
+            padding: 1rem 0.75rem;
+            border-radius: 16px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-action[data-status="wrong"]:hover,
+        .btn-action[data-status="wrong"]:active {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        .btn-action[data-status="correct"]:hover,
+        .btn-action[data-status="correct"]:active {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .hint-disclosure {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border);
+            border-radius: 14px;
+            padding: 0.85rem 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .hint-disclosure i {
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        .flex { display: flex !important; }
+
+        @keyframes subtleScale {
+            from { transform: scale(0.98); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-fade-in {
+            animation: subtleScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        /* Premium Native App Scrollbar Styling */
+        .card-main-content::-webkit-scrollbar {
+            width: 4px; /* Ultra thin scrollbar */
+            height: 4px;
+        }
+
+        .card-main-content::-webkit-scrollbar-track {
+            background: transparent; /* No ugly background track box */
+        }
+
+        .card-main-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1); /* Subtle premium track indicator */
+            border-radius: 99px;
+            transition: var(--transition);
+        }
+
+        .card-main-content::-webkit-scrollbar-thumb:hover {
+            background: var(--accent); /* Glows gold only when active/interacted with */
+        }
+
+        /* Smooth iOS Momentum Scrolling */
+        .card-main-content {
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin; /* Firefox support */
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Persistent Premium Status Bar -->
+        <header>
+                        <a id="left-nav-cta" class="nav-cta" href="../index.html">
+                <i data-lucide="chevrons-left"></i>
+            </a>
+<div class="brand">
+                <span>AURA</span>
+            </div>
+            <div class="metrics">
+                <div class="metric-badge active" title="Current Daily Streak">
+                    <i data-lucide="zap"></i>
+                    <span id="streak-count">6</span>
+                </div>
+                <div class="metric-badge" title="Total Retained Lexemes">
+                    <i data-lucide="layers"></i>
+                    <span id="retained-count">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contextual Duolingo HLR Progress Module -->
+        <div class="session-progress-container" id="session-progress-wrapper">
+            <button class="btn-action" id="exit-session-btn" style="padding: 0.4rem; border-radius: 50%; width: 32px; height: 32px;" title="Exit Session">
+                <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+            </button>
+            <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="session-progress"></div>
+            </div>
+        </div>
+
+        <!-- VIEW 1: PREMIUM USER DASHBOARD -->
+        <div id="dashboard-view" class="dashboard-view animate-fade-in">
+            <div class="smart-cta" id="start-srs-session">
+                <h3>Personalized Practice</h3>
+                <p>Our Half-Life Regression model indicates <strong><span id="decayed-count-prompt">3</span> concepts</strong> are approaching their memory critical dip threshold.</p>
+                <button class="btn-premium">
+                    <i data-lucide="sparkles"></i> Begin Review
+                </button>
+            </div>
+
+            <div>
+                <h4 class="section-title">Lexeme Registry (SRS Status)</h4>
+                <div class="lexeme-list" id="lexeme-container">
+                    <!-- Dynamic Rows Rendered by JS Engine -->
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: SRS COGNITIVE STAGE (FLASHCARD CORE) -->
+        <div id="stage-view" class="stage-view">
+            <div class="card-perspective" id="card-trigger">
+                <div class="flashcard" id="interactive-card">
+                    
+                    <!-- Front Face -->
+                    <div class="card-face card-front">
+                        <div class="card-meta-top">
+                            <span id="card-category-front">Grammar Lexeme</span>
+                            <div id="card-health-indicator-front" style="display: flex; align-items:center; gap:4px;">
+                                <div style="width:8px; height:8px; border-radius:50%;" id="health-dot"></div>
+                            </div>
+                        </div>
+                        <div class="card-main-content">
+                            <span class="prompt-word" id="word-front">--</span>
+                            <p class="prompt-context" id="context-front">--</p>
+                        </div>
+                        <div class="reveal-hint-text">
+                            <i data-lucide="rotate-cw" style="width: 14px; height:14px;"></i> Tap card to flip and evaluate
+                        </div>
+                    </div>
+
+                    <!-- Back Face -->
+                    <div class="card-face card-back">
+                        <div class="card-meta-top">
+                            <span>Target Translation</span>
+                            <i data-lucide="check-circle-2" style="width: 14px; color: var(--text-muted)"></i>
+                        </div>
+                        <div class="card-main-content">
+                            <span class="prompt-word" id="word-back" style="color: var(--accent)">--</span>
+                            <p class="prompt-context" id="context-back">--</p>
+                        </div>
+                        <div style="height: 14px;"></div> <!-- Spacer matching front layout structure -->
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Interaction Mechanics Footer -->
+            <div class="interaction-panel">
+                <div class="hint-disclosure" id="hint-panel">
+                    <i data-lucide="help-circle"></i>
+                    <span id="hint-text"></span>
+                </div>
+                
+                <!-- Prompt Toggle Mode Box -->
+                <button class="btn-action" id="request-hint-btn" style="font-size: 0.85rem; color: var(--text-secondary);">
+                    <i data-lucide="eye" style="width:16px;"></i> Reveal Passive Hint
+                </button>
+
+                <!-- Spaced Repetition Algorithmic Evaluations Hooks -->
+                <div class="eval-buttons" id="eval-actions-wrapper">
+                    <button class="btn-action" data-status="wrong" id="btn-eval-wrong">
+                        <i data-lucide="x-circle"></i> Forgot / Miscalculated
+                    </button>
+                    <button class="btn-action" data-status="correct" id="btn-eval-correct">
+                        <i data-lucide="check-circle"></i> Retained Cleanly
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- App Engine -->
+    <script>
+      /**
+         * =========================================================================
+         *  AURA KNOWLEDGE REGISTRY — HARDCODE NEW FLASHCARDS HERE
+         * =========================================================================
+         * To append new concepts to your matrix, drop a clean comma-separated object
+         * into this array using the exact property keys shown below.
+         *
+         * No manual IDs, half-lives, or timestamps are needed—the engine will 
+         * dynamically provision tracking metrics automatically upon initialization.
+         */
+        const HARDCODED_DECK = [
+            {
+    "word": "Frontline Clinical Chaos vs. Reading Room Structure",
+    "translation": "Moving from unpredictable ER/trauma imaging to a quiet, controlled diagnostic workstation.",
+    "context": "Justifies how a Radiologist's environment mitigates PTSD hypervigilance compared to an X-ray tech role.",
+    "hint": "Contrast the environmental stressors of the two settings."
+  },
+  {
+    "word": "Heavy Equipment Manipulation",
+    "translation": "Pulling overhead tubes, moving portable C-arms, and lifting lead shields.",
+    "context": "Identifies the specific physical barriers in radiography that directly aggravate shoulder DJD.",
+    "hint": "Physical demands of operating imaging machinery."
+  },
+  {
+    "word": "Patient Manipulation Barriers",
+    "translation": "Physically lifting, transferring, and positioning non-ambulatory or trauma patients.",
+    "context": "Proves an Employment Handicap exists because shoulder DJD prevents safe patient handling.",
+    "hint": "The physical strain of moving people onto tables."
+  },
+  {
+    "word": "Severe Employment Handicap (SEH)",
+    "translation": "A significant restriction that requires extra time, services, and structural adjustments to overcome.",
+    "context": "An official VA determination that unlocks expanded funding, tracking flexibility, and extended timeline limits.",
+    "hint": "The legal status needed for long-term, high-cost academic tracks like medical school."
+  },
+  {
+    "word": "The Diagnostic Workstation Paradigm",
+    "translation": "Sitting at a computer interpreting PACS images and dictating reports.",
+    "context": "Proves the physical demands of a physician drop to near zero, making it sustainable for shoulder DJD.",
+    "hint": "The core daily workspace of a Radiologist."
+  },
+  {
+    "word": "Feasibility of Achievement",
+    "translation": "Proving that the academic and physical plan is realistic based on documented capability and health.",
+    "context": "Required by the counselor to ensure the veteran can realistically finish a lengthy medical track without worsening their conditions.",
+    "hint": "The counselor's assessment of whether you can actually cross the finish line."
+  },
+  {
+    "word": "VBA vs. VHA Boundary",
+    "translation": "The VR&E staff are benefits administrators (VBA), not treating medical doctors or clinical psychologists (VHA).",
+    "context": "Reminds you that their evaluations are strictly focused on employment logistics, functional limits, and career psychology.",
+    "hint": "Benefits side vs. healthcare side."
+  },
+  {
+    "word": "Environmental Workspace Control",
+    "translation": "The ability to adjust lighting, manage noise levels, and minimize unpredicted face-to-face friction.",
+    "context": "Explains how a diagnostic reading room natively fosters psychological stability for managing PTSD.",
+    "hint": "Having autonomy over your immediate surroundings."
+  },
+  {
+    "word": "Leveraging Existing Domain Expertise",
+    "translation": "Building upward from a foundational mastery of anatomy, radiation safety, and hospital workflows.",
+    "context": "Demonstrates to the counselor that you are not starting from scratch, increasing the feasibility of the track.",
+    "hint": "Using your past X-ray tech background as an academic springboard."
+  },
+  {
+    "word": "Vocational Rehabilitation Counselor (VRC)",
+    "translation": "The VA case manager responsible for determining entitlement and approving the rehabilitation plan.",
+    "context": "The primary official you must convince by linking your disabilities to your job barriers.",
+    "hint": "Your main point of contact and decision-maker in VR&E."
+  },
+  {
+    "word": "Severe Employment Handicap (SEH)",
+    "translation": "A formal VA determination that a veteran’s service-connected disabilities create significant barriers to employment, requiring specialized, long-term training.",
+    "context": "The mandatory legal gateway to secure VR&E funding for extended academic tracks like medical school.",
+    "hint": "This status removes the standard 48-month entitlement cap and 12-year basic period of eligibility."
+  },
+  {
+    "word": "SEH Environmental Justification",
+    "translation": "Proving that your current or past workspace actively compromises your psychological safety due to unpredictable, high-stress conditions.",
+    "context": "Used to demonstrate why a frontline clinical environment is no longer viable for a veteran with PTSD.",
+    "hint": "Focuses on the incompatibility of the job environment with your medical limitations."
+  },
+  {
+    "word": "Feasibility of Independence",
+    "translation": "An assessment of whether a vocational goal is realistic and sustainable over a 20-to-30-year career without aggravating existing physical or mental injuries.",
+    "context": "The counselor must document that becoming a physician will stabilize, rather than degrade, your long-term health.",
+    "hint": "Proving that the destination desk-based career provides a safe environment for your disabilities."
+  },
+  {
+    "word": "PTSD Amygdala Hyperactivation",
+    "translation": "The brain's threat-detection center remains in a permanent state of high alert, misinterpreting benign workplace stressors as immediate dangers.",
+    "context": "Explains why sudden clinical alarms, screaming patients, or unannounced operational changes trigger an involuntary fight-or-flight response.",
+    "hint": "The physiological root of hypervigilance in chaotic environments."
+  },
+  {
+    "word": "Cognitive Load and PTSD",
+    "translation": "The mental energy expended on maintaining environmental scanning, which depletes working memory, executive function, and emotional regulation.",
+    "context": "Explains why a chaotic ER environment causes rapid cognitive fatigue, whereas a quiet reading room preserves mental clarity.",
+    "hint": "Why hypervigilance makes multi-tasking in high-stress settings mentally exhausting."
+  },
+  {
+    "word": "Hypervigilance vs. Objective Analysis",
+    "translation": "A psychological state where focus is fragmented by defensive scanning, directly competing with the deep, uninterrupted focus required for complex data interpretation.",
+    "context": "Justifies moving from an open, public-facing hospital floor to a secluded, low-friction diagnostic workstation.",
+    "hint": "Quiet environments allow the brain to shift from defensive scanning to analytical problem-solving."
+  },
+  {
+    "word": "Frontline Trauma Exposure Triggers",
+    "translation": "Direct exposure to acute injuries, high-acuity medical crises, or distressed family members that mirrors or amplifies past operational trauma.",
+    "context": "Justifies removing oneself from frontline imaging duties (like trauma bays) to protect psychological stability.",
+    "hint": "Why being the first line of clinical response is psychologically high-risk."
+  },
+  {
+    "word": "Environmental Predictability",
+    "translation": "A structured workspace with controlled lighting, low ambient noise, and minimal face-to-face interpersonal friction.",
+    "context": "The exact structural attribute of a diagnostic reading room that minimizes autonomic nervous system arousal.",
+    "hint": "A primary workspace requirement for managing chronic PTSD symptoms."
+  },
+  {
+    "word": "Autonomic Nervous System (ANS) Dysregulation",
+    "translation": "The body remains locked in a sympathetic (fight-or-flight) state, causing elevated heart rate, muscle tension, and anxiety in response to ambient noise.",
+    "context": "Teaches the counselor why open, un-isolated clinical bays inherently trigger structural panic or irritability.",
+    "hint": "The physical breakdown of how a loud workspace triggers an anxious body response."
+  },
+  {
+    "word": "Left Shoulder Degenerative Joint Disease (DJD)",
+    "translation": "Progressive osteoarthritis within the glenohumeral joint, characterized by cartilage loss, bone-on-bone friction, and chronic inflammatory pain.",
+    "context": "The foundational physical impairment preventing manual labor, heavy lifting, or repetitive upper extremity manipulation.",
+    "hint": "Structural damage that worsens with repetitive physical mechanical stress."
+  },
+  {
+    "word": "Status Post Left Clavicle Fracture with ORIF",
+    "translation": "A history of a broken collarbone surgically stabilized with hardware (plates and screws), leading to altered shoulder biomechanics and localized scar tissue.",
+    "context": "Establishes structural vulnerability, reduced load-bearing capacity, and focal hardware discomfort in the left shoulder girdle.",
+    "hint": "Open Reduction Internal Fixation leaves permanent hardware that changes how the joint handles load."
+  },
+  {
+    "word": "ORIF Mechanical Imbalances",
+    "translation": "The presence of rigid surgical plating limits normal clavicular rotation and elevation, shifting compensatory stress onto an arthritic glenohumeral joint.",
+    "context": "Explains why lifting overhead tubes or pushing portable machinery causes accelerated wear and acute pain flare-ups.",
+    "hint": "Surgical hardware restricts natural flexibility, overworking the surrounding damaged joints."
+  },
+  {
+    "word": "Frontline Mechanical Restrictions",
+    "translation": "The physical inability to perform repetitive overhead reaching, heavy pushing, or manual patient transfers without risking joint degradation.",
+    "context": "Directly disqualifies the career field of an active imaging technician due to the weight of equipment and patients.",
+    "hint": "Why an X-ray tech role is physically incompatible with shoulder arthropathy."
+  },
+  {
+    "word": "Ergonomic Neutrality",
+    "translation": "A working posture where joints remain naturally aligned, minimizing mechanical strain on the shoulder girdle and lower extremities.",
+    "context": "A primary feature of a diagnostic reading room, utilizing customized chairs, dictation desks, and optimized monitors.",
+    "hint": "The structural solution to preventing joint strain during a full workday."
+  },
+  {
+    "word": "Status Post Right Tibia Fracture with ORIF",
+    "translation": "A history of a broken shinbone surgically repaired with hardware, creating risks for chronic regional pain, hardware awareness, and early ankle/knee arthropathy.",
+    "context": "Establishes structural limits on prolonged weight-bearing, standing, sprinting, or carrying heavy loads over hard surfaces.",
+    "hint": "Permanent lower-extremity hardware that limits prolonged standing capacity."
+  },
+  {
+    "word": "Prolonged Standing Limitations (Tibia ORIF)",
+    "translation": "Axial loading over surgical plating and scarred bone tissue leads to localized fatigue, swelling, and compensatory gait alterations over extended shifts.",
+    "context": "Justifies why a job requiring hours of standing on hard hospital floors (like an X-ray tech) causes lower extremity degradation.",
+    "hint": "Standing on concrete hospital floors strains an anchored, surgically repaired bone."
+  },
+  {
+    "word": "Sedentary/Desk-Based Feasibility",
+    "translation": "A career classification where physical exertion is negligible, allowing the worker to self-pace movements, sit, or stand as needed.",
+    "context": "Proves that a Radiologist role accommodates a tibia ORIF by removing mandatory, continuous on-your-feet clinical rounds.",
+    "hint": "The ultimate vocational accommodation for lower extremity and shoulder limitations."
+  },
+  {
+    "word": "Leveraging Domain Expertise for Feasibility",
+    "translation": "Utilizing an established medical baseline (anatomy, PACS systems, workflow) to reduce academic failure risk in a long-term medical track.",
+    "context": "Proves to the VR&E counselor that the transition is an optimization of existing skills rather than an erratic career pivot.",
+    "hint": "Using your clinical background to guarantee your academic capability."
+  },
+  {
+    "word": "Avoidance Symptoms vs. Vocational Withdrawal",
+    "translation": "A core PTSD symptom where a veteran withdraws from crowded or chaotic spaces, which can look like poor job performance if forced into frontline roles.",
+    "context": "Explains why moving to an autonomous, non-public-facing role prevents vocational burnout and drops absenteeism.",
+    "hint": "Controlling the environment removes the need to avoid the workplace entirely."
+  },
+  {
+    "word": "The Radiologist Career Destination Paradigm",
+    "translation": "A diagnostic, analytical medical role focused on image interpretation, report dictation, and clinical consultation from a controlled office space.",
+    "context": "The ideal vocational rehabilitation goal that fully accommodates left shoulder DJD, clavicle ORIF, tibia ORIF, and severe PTSD.",
+    "hint": "The ultimate objective that harmonizes high-level cognitive capability with severe physical limitations."
+  }
+            // ─── ADD YOUR NEW FLASHCARDS DIRECTLY BELOW THIS LINE ────────────────
+            
+        ];
+
+        /**
+         * =========================================================================
+         *  CORE SYSTEM ENGINE (DO NOT EDIT PATHWAYS BELOW)
+         * =========================================================================
+         */
+        const STORAGE_KEY = 'aura_lexemes_' + window.location.pathname.replace(/[^a-z0-9]/gi, '_');
+        let lexemes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        let activeSessionQueue = [];
+        let totalQueueLength = 0;
+        let currentActiveIndex = 0;
+        let hintRequestedForCurrentCard = false;
+
+        const views = {
+            dashboard: document.getElementById('dashboard-view'),
+            stage: document.getElementById('stage-view'),
+            progressWrapper: document.getElementById('session-progress-wrapper')
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            synchronizeHardcodedDeck();
+            lucide.createIcons();
+            calculateAndRenderDashboard();
+            setupEventListeners();
+        });
+
+        function saveToStorage() {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(lexemes));
+        }
+
+        /**
+         * Syncs new file insertions into the active tracking engine securely 
+         * without altering pre-existing memory progress scores.
+         */
+        function synchronizeHardcodedDeck() {
+            let changesMade = false;
+            
+            HARDCODED_DECK.forEach(card => {
+                const normalizedWord = (card.word || '').trim();
+                const exists = lexemes.some(l => l.word.toLowerCase() === normalizedWord.toLowerCase());
+                
+                if (!exists && normalizedWord !== '') {
+                    const trackingId = 'l_' + Math.random().toString(36).substr(2, 5) + '_' + Date.now().toString().slice(-4);
+                    lexemes.push({
+                        id: trackingId,
+                        word: normalizedWord,
+                        translation: (card.translation || '').trim(),
+                        context: (card.context || '').trim() || 'No application context provided.',
+                        hint: (card.hint || '').trim() || 'No specialized hints setup.',
+                        halfLifeHours: 4, 
+                        lastTested: Date.now() - (6 * 60 * 60 * 1000) // Places it instantly into initial test rotation
+                    });
+                    changesMade = true;
+                }
+            });
+
+            if (changesMade) {
+                saveToStorage();
+            }
+        }
+
+        /**
+         * Standardized programmatic factory invocation layer
+         */
+        function addLexeme(word, translation, context = '', hint = '') {
+            const trackingId = 'l_' + Math.random().toString(36).substr(2, 5) + '_' + Date.now().toString().slice(-4);
+            const newCard = {
+                id: trackingId,
+                word: (word || '').trim(),
+                translation: (translation || '').trim(),
+                context: (context || '').trim() || 'No application context provided.',
+                hint: (hint || '').trim() || 'No specialized hints setup.',
+                halfLifeHours: 4, 
+                lastTested: Date.now() - (6 * 60 * 60 * 1000)
+            };
+
+            lexemes.push(newCard);
+            saveToStorage();
+            calculateAndRenderDashboard();
+            return newCard;
+        }
+
+        /**
+         * Interface wrapper hooked into the HTML Creator layout block
+         */
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            const wordInput = document.getElementById('form-word');
+            const translationInput = document.getElementById('form-translation');
+            const contextInput = document.getElementById('form-context');
+            const hintInput = document.getElementById('form-hint');
+
+            addLexeme(wordInput.value, translationInput.value, contextInput.value, hintInput.value);
+            event.target.reset();
+        }
+
+        /**
+         * Core Mathematical Logic - Half-Life Regression Engine
+         * Probability of Retention: P = 2^(-t / h)
+         */
+        function calculateRetention(lexeme) {
+            const elapsedHours = (Date.now() - lexeme.lastTested) / (1000 * 60 * 60);
+            const retentionProbability = Math.pow(2, -elapsedHours / lexeme.halfLifeHours);
+            return Math.min(Math.max(retentionProbability, 0.0), 1.0);
+        }
+
+        function calculateAndRenderDashboard() {
+            const container = document.getElementById('lexeme-container');
+            container.innerHTML = '';
+            let decayedCount = 0;
+            let healthyCount = 0;
+
+            lexemes.forEach(item => {
+                const retention = calculateRetention(item);
+                const percentage = Math.round(retention * 100);
+                
+                let healthColor = varLookUp('--health-high');
+                if (retention < 0.5) {
+                    decayedCount++;
+                    healthColor = varLookUp('--health-low');
+                } else if (retention < 0.75) {
+                    healthColor = varLookUp('--health-mid');
+                } else {
+                    healthyCount++;
+                }
+
+                const row = document.createElement('div');
+                row.className = 'lexeme-row';
+                row.innerHTML = `
+                    <div class="lexeme-info">
+                        <span class="lexeme-word">${item.word}</span>
+                        <span class="lexeme-translation">${item.translation}</span>
+                    </div>
+                    <div class="lexeme-status">
+                        <span class="half-life-text">${percentage}% Recall</span>
+                        <div class="health-bar-track">
+                            <div class="health-bar-fill" style="width: ${percentage}%; background-color: ${healthColor};"></div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            const ctaParagraph = document.querySelector('#start-srs-session p');
+            if (decayedCount === 0) {
+                if (ctaParagraph) ctaParagraph.innerText = 'All matrix fields are mathematically safe and stable.';
+            } else {
+                if (ctaParagraph) ctaParagraph.innerHTML = `Our Half-Life Regression model indicates <strong><span id="decayed-count-prompt">${decayedCount}</span> concepts</strong> are approaching their memory critical dip threshold.`;
+            }
+
+            const retainedEl = document.getElementById('retained-count');
+            if (retainedEl) retainedEl.innerText = healthyCount;
+
+            views.progressWrapper.style.visibility = 'hidden';
+        }
+
+        function varLookUp(variableName) {
+            return getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+        }
+
+        function setupEventListeners() {
+            document.getElementById('start-srs-session').addEventListener('click', initiateSRSSession);
+            document.getElementById('exit-session-btn').addEventListener('click', exitSessionView);
+            document.getElementById('card-trigger').addEventListener('click', toggleCardFlip);
+            document.getElementById('request-hint-btn').addEventListener('click', revealPassiveHint);
+
+            document.getElementById('btn-eval-correct').addEventListener('click', () => handleEvaluationOutcome(true));
+            document.getElementById('btn-eval-wrong').addEventListener('click', () => handleEvaluationOutcome(false));
+        }
+
+        function initiateSRSSession() {
+            let candidates = lexemes.filter(item => calculateRetention(item) < 0.95);
+
+            if (candidates.length === 0) {
+                candidates = [...lexemes];
+            }
+
+            activeSessionQueue = candidates.sort((a, b) => calculateRetention(a) - calculateRetention(b));
+            activeSessionQueue = activeSessionQueue.slice(0, 5);
+            totalQueueLength = activeSessionQueue.length;
+            currentActiveIndex = 0;
+
+            if (totalQueueLength === 0) return;
+
+            views.dashboard.style.display = 'none';
+            views.stage.style.display = 'flex';
+            views.progressWrapper.style.visibility = 'visible';
+
+            renderCurrentSessionCard();
+            updateProgressBar();
+        }
+
+        function renderCurrentSessionCard() {
+            if (currentActiveIndex >= totalQueueLength) {
+                completeSessionView();
+                return;
+            }
+
+            hintRequestedForCurrentCard = false;
+            document.getElementById('hint-panel').style.display = 'none';
+            document.getElementById('request-hint-btn').style.display = 'inline-flex';
+            document.getElementById('eval-actions-wrapper').style.display = 'none';
+            document.getElementById('interactive-card').classList.remove('flipped');
+
+            const item = activeSessionQueue[currentActiveIndex];
+            const retention = calculateRetention(item);
+
+            document.getElementById('word-front').innerText = item.word;
+            document.getElementById('context-front').innerText = item.context;
+            document.getElementById('word-back').innerText = item.translation;
+            document.getElementById('context-back').innerText = item.context;
+            document.getElementById('hint-text').innerText = item.hint;
+
+            const healthDot = document.getElementById('health-dot');
+            if (retention < 0.5) healthDot.style.backgroundColor = varLookUp('--health-low');
+            else if (retention < 0.75) healthDot.style.backgroundColor = varLookUp('--health-mid');
+            else healthDot.style.backgroundColor = varLookUp('--health-high');
+        }
+
+        function toggleCardFlip() {
+            const card = document.getElementById('interactive-card');
+            card.classList.toggle('flipped');
+            
+            const isFlipped = card.classList.contains('flipped');
+            if (isFlipped) {
+                document.getElementById('eval-actions-wrapper').style.display = 'grid';
+                document.getElementById('request-hint-btn').style.display = 'none';
+            }
+        }
+
+        function revealPassiveHint() {
+            hintRequestedForCurrentCard = true;
+            document.getElementById('hint-panel').style.display = 'flex';
+            document.getElementById('request-hint-btn').style.display = 'none';
+        }
+
+        function handleEvaluationOutcome(isCorrect) {
+            const currentItem = activeSessionQueue[currentActiveIndex];
+            const matchedLexeme = lexemes.find(l => l.id === currentItem.id);
+
+            if (matchedLexeme) {
+                if (isCorrect) {
+                    const elapsedHours = (Date.now() - matchedLexeme.lastTested) / (1000 * 60 * 60);
+                    let adaptiveMultiplier = matchedLexeme.halfLifeHours < 48 ? 2.5 : 1.6;
+
+                    if (hintRequestedForCurrentCard) {
+                        adaptiveMultiplier *= 0.6;
+                    }
+
+                    const computedExtension = Math.max(elapsedHours, matchedLexeme.halfLifeHours) * adaptiveMultiplier;
+                    matchedLexeme.halfLifeHours = Math.min(computedExtension, 720);
+                } else {
+                    if (matchedLexeme.halfLifeHours > 72) {
+                        matchedLexeme.halfLifeHours = matchedLexeme.halfLifeHours * 0.5;
+                    } else {
+                        matchedLexeme.halfLifeHours = Math.max(matchedLexeme.halfLifeHours * 0.25, 4);
+                    }
+                }
+
+                matchedLexeme.lastTested = Date.now();
+                saveToStorage();
+            }
+
+            currentActiveIndex++;
+            updateProgressBar();
+            
+            setTimeout(() => {
+                renderCurrentSessionCard();
+            }, 300);
+        }
+
+        function updateProgressBar() {
+            const ratio = (currentActiveIndex / totalQueueLength) * 100;
+            document.getElementById('session-progress').style.width = `${ratio}%`;
+        }
+
+        function completeSessionView() {
+            exitSessionView();
+            const streakElement = document.getElementById('streak-count');
+            streakElement.innerText = parseInt(streakElement.innerText) + 1;
+        }
+
+        function exitSessionView() {
+            views.stage.style.display = 'none';
+            views.dashboard.style.display = 'flex';
+            calculateAndRenderDashboard();
+        }
+    </script>
+</body>
+</html>
