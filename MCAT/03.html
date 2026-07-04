@@ -1236,7 +1236,8 @@
          *  CORE SYSTEM ENGINE (DO NOT EDIT PATHWAYS BELOW)
          * =========================================================================
          */
-        let lexemes = JSON.parse(localStorage.getItem('aura_lexemes')) || [];
+        const STORAGE_KEY = 'aura_lexemes_03';
+        let lexemes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
         let activeSessionQueue = [];
         let totalQueueLength = 0;
         let currentActiveIndex = 0;
@@ -1256,7 +1257,7 @@
         });
 
         function saveToStorage() {
-            localStorage.setItem('aura_lexemes', JSON.stringify(lexemes));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(lexemes));
         }
 
         /**
