@@ -628,94 +628,184 @@
          */
         const HARDCODED_DECK = [
             {
-    word: 'Factoring Trinomials',
-    translation: 'x² + bx + c = (x + p)(x + q)',
-    context: 'Find two numbers where p + q = b (linear term) and p * q = c (constant term) to split the expression.',
-    hint: 'Sum is b, product is c.'
+    "word": "Factoring Trinomials: Identifying b and c",
+    "translation": "x² + bx + c = (x + p)(x + q)",
+    "context": "Step 1: Isolate the coefficients. In the standard quadratic trinomial x² + bx + c, target the middle linear coefficient (b) and the constant term (c). Keep track of their negative or positive signs as they dictate the factor signs.",
+    "hint": "For x² - 5x + 6, explicitly extract b = -5 and c = 6 before calculating anything else."
   },
   {
-    word: 'Difference of Squares',
-    translation: 'a² - b² = (a - b)(a + b)',
-    context: 'Must be subtraction. Perfect square terms split into matching binomial pairs with opposite signs (conjugates).',
-    hint: 'Subtracting perfect squares.'
+    "word": "Factoring Trinomials: The Magic Numbers Rule",
+    "translation": "p * q = c  and  p + q = b",
+    "context": "Step 2: Find two numbers, p and q, that satisfy two requirements simultaneously: they must multiply to equal the constant (c) and add up to equal the linear coefficient (b). If c is positive and b is negative, both factors must be negative.",
+    "hint": "List factor pairs of c. For c = 6 and b = -5, the correct pair is -2 and -3 because (-2)(-3) = 6 and -2 + (-3) = -5."
   },
   {
-    word: 'Undefined Rational Expressions',
-    translation: 'P(x) / Q(x) is undefined when Q(x) = 0',
-    context: 'A rational fraction becomes completely undefined the exact moment its denominator evaluates to zero.',
-    hint: 'Bottom equals zero.'
+    "word": "Factoring Trinomials: Writing the Final Binomials",
+    "translation": "x² + bx + c = (x + p)(x + q)",
+    "context": "Step 3: Once you isolate the magic numbers p and q, drop them directly into the binomial template signs intact. This splits your original quadratic expression into two linear factors that can be verified by FOIL multiplication.",
+    "hint": "Using the factors -2 and -3, substitute them into the template brackets to yield the final factored expression: (x - 2)(x - 3)."
   },
   {
-    word: 'Extraneous Solutions',
-    translation: 'An algebraic solution that violates the original domain rules.',
-    context: 'Found correctly during solving but invalid because it causes a zero in an original denominator.',
-    hint: 'Check your restricted values!'
+    "word": "Difference of Squares: Structural Verification",
+    "translation": "Expression must fit: PerfectSquare₁ - PerfectSquare₂",
+    "context": "Step 1: Verify the expression contains exactly two terms, separated strictly by a subtraction sign (a difference). Both terms must be perfect squares. If it features addition (a² + b²) or non-square components, this method fails.",
+    "hint": "Check the anatomy: 4x² - 49 works because 4, x², and 49 are perfect squares separated by a minus sign."
   },
   {
-    word: 'Rational Exponents Rule',
-    translation: 'x^(m/n) = ⁿ√(xᵐ) = (ⁿ√x)ᵐ',
-    context: 'The top number (m) is the power, and the bottom number (n) is the root index.',
-    hint: 'Power over Root.'
+    "word": "Difference of Squares: Finding Base Components",
+    "translation": "a = √Term₁  and  b = √Term₂",
+    "context": "Step 2: Isolate the underlying base components, a and b, by calculating the principal square root of each individual term. Completely disregard the central minus sign during this root calculation step.",
+    "hint": "For the expression 4x² - 49, take the individual square roots: a = √(4x²) = 2x, and b = √49 = 7."
   },
   {
-    word: 'Simplifying Radicals',
-    translation: 'ⁿ√(a * b) = ⁿ√a * ⁿ√b',
-    context: 'To simplify any radical, factor out the largest perfect n-th power hidden inside the radicand.',
-    hint: 'Pull out perfect powers.'
+    "word": "Difference of Squares: Conjugate Pair Expansion",
+    "translation": "a² - b² = (a - b)(a + b)",
+    "context": "Step 3: Plug your calculated base components into the conjugate pair template. The resulting binomial brackets are identical in values but carry opposite mathematical operations (one subtraction, one addition).",
+    "hint": "Using the bases a = 2x and b = 7, arrange them into opposite-signed brackets to get the final answer: (2x - 7)(2x + 7)."
   },
   {
-    word: 'The Imaginary Unit',
-    translation: 'i = √(-1)  and  i² = -1',
-    context: 'Used to define square roots of negative numbers. Always substitute i² with -1 immediately.',
-    hint: 'Core complex building block.'
+    "word": "Undefined Rational Expressions: Isolating the Problem",
+    "translation": "P(x) / Q(x) requires Q(x) ≠ 0",
+    "context": "Step 1: A rational expression breaks down and becomes completely undefined the exact moment its denominator evaluates to zero. To discover these restricted breaking points, isolate the denominator and ignore the numerator entirely.",
+    "hint": "If given the expression (x + 5)/(x² - 9), extract only the bottom portion to build your equation: x² - 9 = 0."
   },
   {
-    word: 'The Quadratic Formula',
-    translation: 'x = (-b ± √(b² - 4ac)) / 2a',
-    context: 'Solves any quadratic equation in standard form ax² + bx + c = 0 when factoring is too difficult.',
-    hint: 'Negative b plus or minus...'
+    "word": "Undefined Rational Expressions: Solving for Exclusions",
+    "translation": "Set Q(x) = 0 and solve for x",
+    "context": "Step 2: Solve the isolated denominator equation using factoring or basic algebra. The values resulting from this calculation represent the strict domain exclusions where the function cannot exist.",
+    "hint": "Factor x² - 9 = 0 into (x - 3)(x + 3) = 0. Solving gives x = 3 and x = -3; the expression is completely undefined at these two values."
   },
   {
-    word: 'The Discriminant',
-    translation: 'D = b² - 4ac',
-    context: 'The value under the radical. D > 0 means 2 real answers; D = 0 means 1 real answer; D < 0 means 2 complex answers.',
-    hint: 'Predicts types of solutions.'
+    "word": "Extraneous Solutions: Setting Up Domain Restraints",
+    "translation": "Track denominator restrictions before solving algebraic steps.",
+    "context": "Step 1: Prior to manipulating or clearing an equation, inspect every denominator. Determine which variable inputs will cause any denominator to equal zero, and document these values as strictly restricted domain boundaries.",
+    "hint": "In the equation x/(x-2) = 2/(x-2) + 3, instantly note down the core restriction: x cannot equal 2."
   },
   {
-    word: 'Vertex of a Parabola',
-    translation: 'x = -b / 2a',
-    context: 'Calculates the symmetry axis line and x-coordinate for the absolute peak or valley of a parabola.',
-    hint: 'Plugs back in to find y.'
+    "word": "Extraneous Solutions: Verifying and Filtering Results",
+    "translation": "Final Answer Check: Does Solution = Restricted Value?",
+    "context": "Step 2: Solve the algebraic equation normally (e.g., by multiplying by the LCD to eliminate fractions). Once you obtain your final x values, cross-check them against your initial restrictions. Reject any solution that violates the domain.",
+    "hint": "If clearing fractions yields x = 2, compare it to your rule (x ≠ 2). Discard x = 2 as an extraneous solution, leaving 'No Solution'."
   },
   {
-    word: 'Vertical Line Test',
-    translation: 'Visual function test on a coordinate plane graph.',
-    context: 'If any vertical line intersects a graph more than once, the relation is officially NOT a function.',
-    hint: 'One x can only have one y.'
+    "word": "Rational Exponents: Decoding anatomy",
+    "translation": "x^(m/n) -> m = regular power, n = root index",
+    "context": "Step 1: Break down the fractional exponent. The numerator (top number, m) acts as a standard base power. The denominator (bottom number, n) dictates the radical root index. Remember it structurally as 'Power over Root'.",
+    "hint": "When evaluating the expression 8^(2/3), identify that you are dealing with a root index of 3 (cube root) and an algebra power of 2."
   },
   {
-    word: 'Domain vs. Range',
-    translation: 'Domain = All valid x-inputs | Range = All resulting y-outputs',
-    context: 'Watch out for domain restrictions like division by zero or negative values under even roots.',
-    hint: 'Inputs vs. Outputs.'
+    "word": "Rational Exponents: Root-First Evaluation Strategy",
+    "translation": "x^(m/n) = (ⁿ√x)ᵐ",
+    "context": "Step 2: For efficient mental math, evaluate the root of the base number before applying the power. Shrinking the base number first keeps calculations small and manageable compared to raising the base to a large power inside a radical.",
+    "hint": "For 8^(2/3), compute the cube root of 8 first: ³√8 = 2. Then apply the remaining power of 2 to that result: 2² = 4."
   },
   {
-    word: 'Compound Inequalities (AND)',
-    translation: 'Intersection (∩) of two inequality sets.',
-    context: 'The final solution must make BOTH inequalities true at the same time. Look for the overlap.',
-    hint: 'Shade only the overlap.'
+    "word": "Simplifying Radicals: Determining Index Criteria",
+    "translation": "Identify n in ⁿ√x. If blank, index n = 2.",
+    "context": "Step 1: Inspect the radical index (n) on the outside crook of the root symbol. This value dictates the sizing requirement for grouping factors. If no index number is written explicitly, it defaults to a standard square root (index 2).",
+    "hint": "A square root (index 2) requires pairs of matching factors; a cube root (index 3) requires matching triplets to simplify."
   },
   {
-    word: 'Compound Inequalities (OR)',
-    translation: 'Union (∪) of two inequality sets.',
-    context: 'The final solution satisfies EITHER inequality. Combine all shaded sections from both together.',
-    hint: 'Shade everything from both.'
+    "word": "Simplifying Radicals: Finding the Perfect Power Factor",
+    "translation": "ⁿ√(a * b) where 'a' is a perfect n-th power",
+    "context": "Step 2: Split the internal radicand value into a product of two strategic factors. One factor must be the absolute largest perfect n-th power hidden within the number, while the second factor holds the leftover remainder.",
+    "hint": "To simplify √50, look for perfect square factors (4, 9, 16, 25...). Split 50 into 25 * 2, where 25 is your targeted perfect square."
   },
   {
-    word: 'Slope Formula',
-    translation: 'm = (y₂ - y₁) / (x₂ - x₁)',
-    context: 'Measures the vertical rise over horizontal run. A vertical line has an undefined slope.',
-    hint: 'Constant rate of change.'
+    "word": "Simplifying Radicals: Extracting Factors Outside the Root",
+    "translation": "ⁿ√(a * b) = ⁿ√a * ⁿ√b",
+    "context": "Step 3: Separate the radical into individual components. Calculate the explicit root of your perfect power factor to pull it outside the radical completely. Leave the non-square remainder trapped inside the root symbol.",
+    "hint": "Distribute the root: √50 = √25 * √2. Compute the square root of 25 to get 5, yielding the final simplified radical form: 5√2."
+  },
+  {
+    "word": "The Imaginary Unit: Extracting Negative Radicals",
+    "translation": "√(-x) = √x * √(-1) = i√x",
+    "context": "Step 1: When simplifying a negative number inside a square root, immediately isolate the negative sign by factoring it out as √(-1). Replace the √(-1) component with the imaginary unit symbol i outside the radical.",
+    "hint": "Convert √(-36) into √36 * √(-1). Substitute i for the negative root to write it as i√36, which then evaluates cleanly to 6i."
+  },
+  {
+    "word": "The Imaginary Unit: Simplifying Complex i² Powers",
+    "translation": "i² = -1",
+    "context": "Step 2: During polynomial distribution or algebraic multiplication, any interaction that multiplies i by itself creates i². You must immediately substitute every instance of i² with the real integer constant -1 to finish simplifying.",
+    "hint": "If a calculation leaves you with (3i)(2i) = 6i², execute the substitution step: 6(-1) = -6. The expression shifts from imaginary back to real."
+  },
+  {
+    "word": "The Quadratic Formula: Transitioning to Standard Form",
+    "translation": "Force equation into: ax² + bx + c = 0",
+    "context": "Step 1: Before identifying values or performing calculations, manipulate your equation so all terms sit on the left side, leaving zero on the right. Ensure it matches standard descending order to accurately assign coefficients.",
+    "hint": "If given 2x² - 4x = 3, subtract 3 from both sides to establish standard form: 2x² - 4x - 3 = 0. Extract a = 2, b = -4, c = -3."
+  },
+  {
+    "word": "The Discriminant: Pre-Solving Value Computation",
+    "translation": "D = b² - 4ac",
+    "context": "Step 2: Isolate and calculate the discriminant expression located directly beneath the radical sign. This core calculation acts as a diagnostic test for the quadratic equation, mapping out the types of answers you will get.",
+    "hint": "Use parentheses when squaring negative coefficients. For a=2, b=-4, c=-3: D = (-4)² - 4(2)(-3) = 16 - (-24) = 16 + 24 = 40."
+  },
+  {
+    "word": "The Discriminant: Diagnosing Solution Types",
+    "translation": "D > 0 (2 Real) | D = 0 (1 Real) | D < 0 (2 Complex)",
+    "context": "Step 3: Analyze the numerical value of your calculated discriminant (D) to determine the nature of the roots without running the full formula. D > 0 gives two real answers, D = 0 gives one repeating real answer, and D < 0 gives two complex answers.",
+    "hint": "If D = -16, the negative value means you will be taking the square root of a negative number, guaranteeing 2 complex/imaginary solutions."
+  },
+  {
+    "word": "The Quadratic Formula: Executing Final Reductions",
+    "translation": "x = (-b ± √D) / 2a",
+    "context": "Step 4: Substitute your extracted b value and your pre-calculated discriminant (D) into the complete formula structure. Simplify the remaining radical arithmetic and run both the '+' and '-' operations to obtain both solutions.",
+    "hint": "With b = -4, D = 40, and a = 2, set up: x = (-(-4) ± √40) / (2 * 2). This simplifies down to (4 ± 2√10) / 4, reducing down to (2 ± √10) / 2."
+  },
+  {
+    "word": "Vertex of a Parabola: Calculating Axis Line (x)",
+    "translation": "x = -b / 2a",
+    "context": "Step 1: Identify the standard coefficients a and b from the quadratic function. Plug them into the axis of symmetry formula to calculate the exact x-coordinate of the parabola’s turning peak or valley point.",
+    "hint": "In the function f(x) = x² - 6x + 5, a = 1 and b = -6. Plug them in: x = -(-6) / (2 * 1) = 6 / 2 = 3. Your vertex x-coordinate is 3."
+  },
+  {
+    "word": "Vertex of a Parabola: Locating Extremum Height (y)",
+    "translation": "y = f(x_vertex)",
+    "context": "Step 2: Take the output x-coordinate calculated from the axis formula and plug it directly back into every x position within your original function. Evaluate the resulting expression to uncover the corresponding vertical y-value.",
+    "hint": "Substitute x = 3 back into the original function: y = (3)² - 6(3) + 5. Simplifying yields 9 - 18 + 5 = -4. The complete vertex coordinate point is (3, -4)."
+  },
+  {
+    "word": "Vertical Line Test: Visual Function Verification",
+    "translation": "If any vertical line intersects more than once -> NOT a function.",
+    "context": "Step 1: Scan a completed graph from left to right, visualizing a perfectly straight up-and-down vertical line moving across the grid. If this line ever slices through more than one single point at the same time, the relation fails the definition of a function.",
+    "hint": "A circle fails completely because a vertical line cuts through both the top and bottom arcs simultaneously, proving one x-input has two different y-outputs."
+  },
+  {
+    "word": "Domain Restrictions: Finding Valid Inputs",
+    "translation": "Domain = Denominator ≠ 0  and  Even Roots Radicand ≥ 0",
+    "context": "Step 1: Scan equations for mathematical landmines to define the domain. You must establish constraints that prevent division by zero (set denominators to not equal zero) and prevent imaginary outputs (set terms inside square roots to be greater than or equal to zero).",
+    "hint": "For the function f(x) = √(x - 4), find valid inputs by forcing the interior radicand to stay non-negative: x - 4 ≥ 0, which resolves to a domain of x ≥ 4."
+  },
+  {
+    "word": "Range Behavior: Mapping Output Boundaries",
+    "translation": "Range = The span of all resulting y-axis output values.",
+    "context": "Step 2: Track structural constraints or look at graph behavior to find the range. Look for natural floors or ceilings created by powers or roots. For instance, standard squared elements or absolute values can never produce negative real numbers on their own.",
+    "hint": "For a standard parabola opening upward with a vertex at (3, -4), the turning point creates a hard physical floor, meaning the output range must be y ≥ -4."
+  },
+  {
+    "word": "Compound Inequalities: Evaluating AND Relationships",
+    "translation": "Intersection (∩): Both conditions must be true at once.",
+    "context": "Step 1: Solve both inequality statements completely independently. When graphing them together onto a single shared number line, the final valid solution set consists exclusively of the overlapping region where both shaded sections cross paths.",
+    "hint": "If statement one covers x > 1 and statement two covers x ≤ 5, the AND solution is only the shared middle segment where they run together: 1 < x ≤ 5."
+  },
+  {
+    "word": "Compound Inequalities: Evaluating OR Relationships",
+    "translation": "Union (∪): Satisfying either condition validates the solution.",
+    "context": "Step 2: Solve both inequalities independently. When translating them to a number line graph, combine every single region shaded by either condition into one large master group. No overlap is required; all shaded spaces are accepted.",
+    "hint": "If you have x < -2 OR x > 3, combine both separate outward-pointing arrows into your solution set. The total answer includes any number matching either rule."
+  },
+  {
+    "word": "Slope Formula: Executing Coordinate Setups",
+    "translation": "m = (y₂ - y₁) / (x₂ - x₁)",
+    "context": "Step 1: Assign point 1 and point 2 labels to your two coordinate sets. Insert the values carefully into the rise-over-run fraction format, ensuring that the coordinate values from the same point stack perfectly vertically above each other.",
+    "hint": "Given points (-2, 4) and (3, 14), set up the slope equation: m = (14 - 4) / (3 - (-2)). This simplifies to 10 / (3 + 2) = 10 / 5 = 2."
+  },
+  {
+    "word": "Slope Formula: Zero vs. Undefined Boundaries",
+    "translation": "0 / Run = Horizontal Slope | Rise / 0 = Undefined Vertical Slope",
+    "context": "Step 2: Analyze fractional output traits. If subtracting the coordinates leaves a zero in the numerator (0/run), the line is perfectly flat and possesses a slope of zero. If zero lands in the denominator (rise/0), division by zero occurs, making the slope undefined.",
+    "hint": "Points (2, 5) and (2, 9) yield a denominator calculation of 2 - 2 = 0. Because you cannot divide by zero, this vertical line has an 'Undefined' slope."
   }
             // ─── ADD YOUR NEW FLASHCARDS DIRECTLY BELOW THIS LINE ────────────────
             
