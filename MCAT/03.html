@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura — Premium Spaced Repetition</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+        :root {
+            --bg-dark: #09090b;
+            --bg-card: #121214;
+            --bg-card-hover: #1a1a1e;
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
+            
+            /* Premium Accent Palette */
+            --accent: #d4af37; /* Matte Gold */
+            --accent-glow: rgba(212, 175, 55, 0.15);
+            --success: #10b981;
+            --error: #ef4444;
+            
+            /* HLR Decay / Health colors */
+            --health-high: #34d399;
+            --health-mid: #fbbf24;
+            --health-low: #f87171;
+
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 1rem;
+        }
+
+        /* App Container */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Header / Dashboard Metrics */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Small left-side themed navigation CTA */
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.06);
+            margin-right: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 10px var(--accent-glow);
+        }
+
+        .nav-cta i { color: var(--accent); width: 18px; height: 18px; }
+
+        .metrics {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .metric-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.5rem 0.75rem;
+            border-radius: 99px;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: var(--text-secondary);
+        }
+        
+        .metric-badge.active i {
+            color: var(--accent);
+            filter: drop-shadow(0 0 4px var(--accent));
+        }
+
+        /* Session Status Bar */
+        .session-progress-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .progress-bar-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 99px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent) 0%, #f3e5ab 100%);
+            border-radius: 99px;
+            transition: var(--transition);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        /* Dashboard View */
+        .dashboard-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .smart-cta {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(20,20,22,1) 100%);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .smart-cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at top right, var(--accent-glow), transparent 60%);
+            pointer-events: none;
+        }
+
+        .smart-cta h3 {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .smart-cta p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.4;
+        }
+
+        .btn-premium {
+            background: var(--text-primary);
+            color: var(--bg-dark);
+            border: none;
+            padding: 0.85rem 1.75rem;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        /* Lexeme Registry List */
+        .lexeme-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .lexeme-row {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .lexeme-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .lexeme-word {
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lexeme-translation {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lexeme-status {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.4rem;
+            width: 90px;
+            flex-shrink: 0;
+        }
+
+        .half-life-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .health-bar-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .health-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            transition: width 0.5s ease;
+        }
+
+        /* Stage View Layout */
+        .stage-view {
+            display: none;
+            flex-direction: column;
+            gap: 1.5rem;
+            perspective: 1000px;
+        }
+
+        .card-perspective {
+            width: 100%;
+            height: 360px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 28px;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: linear-gradient(145deg, var(--bg-card) 0%, #16161a 100%);
+        }
+
+        .card-back {
+            background: linear-gradient(145deg, #131317 0%, var(--bg-dark) 100%);
+            transform: rotateY(180deg);
+        }
+
+        .card-meta-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .card-main-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            justify-content: center;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 0.5rem 0;
+        }
+
+        .prompt-word {
+            font-family: var(--font-serif);
+            font-size: 1.85rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .prompt-context {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.4;
+            max-width: 95%;
+            margin: 0 auto;
+        }
+
+        .reveal-hint-text {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            opacity: 0.8;
+        }
+
+        /* Interaction Panels */
+        .interaction-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .eval-buttons {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            width: 100%;
+        }
+
+        .btn-action {
+            padding: 1rem 0.75rem;
+            border-radius: 16px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-action[data-status="wrong"]:hover,
+        .btn-action[data-status="wrong"]:active {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        .btn-action[data-status="correct"]:hover,
+        .btn-action[data-status="correct"]:active {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .hint-disclosure {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border);
+            border-radius: 14px;
+            padding: 0.85rem 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .hint-disclosure i {
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        .flex { display: flex !important; }
+
+        @keyframes subtleScale {
+            from { transform: scale(0.98); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-fade-in {
+            animation: subtleScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        /* Premium Native App Scrollbar Styling */
+        .card-main-content::-webkit-scrollbar {
+            width: 4px; /* Ultra thin scrollbar */
+            height: 4px;
+        }
+
+        .card-main-content::-webkit-scrollbar-track {
+            background: transparent; /* No ugly background track box */
+        }
+
+        .card-main-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1); /* Subtle premium track indicator */
+            border-radius: 99px;
+            transition: var(--transition);
+        }
+
+        .card-main-content::-webkit-scrollbar-thumb:hover {
+            background: var(--accent); /* Glows gold only when active/interacted with */
+        }
+
+        /* Smooth iOS Momentum Scrolling */
+        .card-main-content {
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin; /* Firefox support */
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Persistent Premium Status Bar -->
+        <header>
+                        <a id="left-nav-cta" class="nav-cta" href="../index.html">
+                <i data-lucide="chevrons-left"></i>
+            </a>
+<div class="brand">
+                <span>AURA</span>
+            </div>
+            <div class="metrics">
+                <div class="metric-badge active" title="Current Daily Streak">
+                    <i data-lucide="zap"></i>
+                    <span id="streak-count">6</span>
+                </div>
+                <div class="metric-badge" title="Total Retained Lexemes">
+                    <i data-lucide="layers"></i>
+                    <span id="retained-count">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contextual Duolingo HLR Progress Module -->
+        <div class="session-progress-container" id="session-progress-wrapper">
+            <button class="btn-action" id="exit-session-btn" style="padding: 0.4rem; border-radius: 50%; width: 32px; height: 32px;" title="Exit Session">
+                <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+            </button>
+            <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="session-progress"></div>
+            </div>
+        </div>
+
+        <!-- VIEW 1: PREMIUM USER DASHBOARD -->
+        <div id="dashboard-view" class="dashboard-view animate-fade-in">
+            <div class="smart-cta" id="start-srs-session">
+                <h3>Personalized Practice</h3>
+                <p>Our Half-Life Regression model indicates <strong><span id="decayed-count-prompt">3</span> concepts</strong> are approaching their memory critical dip threshold.</p>
+                <button class="btn-premium">
+                    <i data-lucide="sparkles"></i> Begin Review
+                </button>
+            </div>
+
+            <div>
+                <h4 class="section-title">Lexeme Registry (SRS Status)</h4>
+                <div class="lexeme-list" id="lexeme-container">
+                    <!-- Dynamic Rows Rendered by JS Engine -->
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: SRS COGNITIVE STAGE (FLASHCARD CORE) -->
+        <div id="stage-view" class="stage-view">
+            <div class="card-perspective" id="card-trigger">
+                <div class="flashcard" id="interactive-card">
+                    
+                    <!-- Front Face -->
+                    <div class="card-face card-front">
+                        <div class="card-meta-top">
+                            <span id="card-category-front">Grammar Lexeme</span>
+                            <div id="card-health-indicator-front" style="display: flex; align-items:center; gap:4px;">
+                                <div style="width:8px; height:8px; border-radius:50%;" id="health-dot"></div>
+                            </div>
+                        </div>
+                        <div class="card-main-content">
+                            <span class="prompt-word" id="word-front">--</span>
+                            <p class="prompt-context" id="context-front">--</p>
+                        </div>
+                        <div class="reveal-hint-text">
+                            <i data-lucide="rotate-cw" style="width: 14px; height:14px;"></i> Tap card to flip and evaluate
+                        </div>
+                    </div>
+
+                    <!-- Back Face -->
+                    <div class="card-face card-back">
+                        <div class="card-meta-top">
+                            <span>Target Translation</span>
+                            <i data-lucide="check-circle-2" style="width: 14px; color: var(--text-muted)"></i>
+                        </div>
+                        <div class="card-main-content">
+                            <span class="prompt-word" id="word-back" style="color: var(--accent)">--</span>
+                            <p class="prompt-context" id="context-back">--</p>
+                        </div>
+                        <div style="height: 14px;"></div> <!-- Spacer matching front layout structure -->
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Interaction Mechanics Footer -->
+            <div class="interaction-panel">
+                <div class="hint-disclosure" id="hint-panel">
+                    <i data-lucide="help-circle"></i>
+                    <span id="hint-text"></span>
+                </div>
+                
+                <!-- Prompt Toggle Mode Box -->
+                <button class="btn-action" id="request-hint-btn" style="font-size: 0.85rem; color: var(--text-secondary);">
+                    <i data-lucide="eye" style="width:16px;"></i> Reveal Passive Hint
+                </button>
+
+                <!-- Spaced Repetition Algorithmic Evaluations Hooks -->
+                <div class="eval-buttons" id="eval-actions-wrapper">
+                    <button class="btn-action" data-status="wrong" id="btn-eval-wrong">
+                        <i data-lucide="x-circle"></i> Forgot / Miscalculated
+                    </button>
+                    <button class="btn-action" data-status="correct" id="btn-eval-correct">
+                        <i data-lucide="check-circle"></i> Retained Cleanly
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- App Engine -->
+    <script>
+      /**
+         * =========================================================================
+         *  AURA KNOWLEDGE REGISTRY — HARDCODE NEW FLASHCARDS HERE
+         * =========================================================================
+         * To append new concepts to your matrix, drop a clean comma-separated object
+         * into this array using the exact property keys shown below.
+         *
+         * No manual IDs, half-lives, or timestamps are needed—the engine will 
+         * dynamically provision tracking metrics automatically upon initialization.
+         */
+        const HARDCODED_DECK = [
+            { 
+                word: 'Vmax', 
+                translation: 'The maximum velocity of an enzymatic reaction when the enzyme is fully saturated with substrate.', 
+                context: 'Depends entirely on enzyme concentration; adding more enzyme will increase this value proportionally.', 
+                hint: 'Theoretical ceiling of catalytic speed.' 
+            },
+            { 
+                word: 'Lineweaver-Burk Plot', 
+                translation: 'A double-reciprocal graph of enzyme kinetics where the y-intercept is $1/V_{max}$ and the x-intercept is $-1/K_m$.', 
+                context: 'Used to visually distinguish between different types of reversible enzyme inhibitors.', 
+                hint: 'The inverse linear perspective of kinetics.' 
+            },
+            { 
+                word: 'Hill Coefficient', 
+                translation: 'A value indicating the degree of cooperativity in a binding molecule.', 
+                context: 'A coefficient greater than 1 indicates positive cooperativity, like oxygen binding to hemoglobin.', 
+                hint: 'Sigmoidal curve steepness factor.' 
+            },
+            { 
+                word: 'Feedback Inhibition', 
+                translation: 'A regulatory mechanism where the final product of a metabolic pathway downregulates an enzyme earlier in the path.', 
+                context: 'Maintains homeostatic concentrations of metabolites without wasting cellular resources.', 
+                hint: 'End-product shutdown signal.' 
+            },
+            { 
+                word: 'Prostaglandins', 
+                translation: '20-carbon signaling fatty acids derived from arachidonic acid that mediate inflammation and pain.', 
+                context: 'Act as autocrine or paracrine signals, rather than endocrine hormones.', 
+                hint: 'Local lipid inflammatory messengers.' 
+            },
+            { 
+                word: 'Sphingolipids', 
+                translation: 'Membrane lipids with a sphingosine backbone rather than a glycerol backbone.', 
+                context: 'Abundant in the myelin sheaths of neurons, facilitating rapid nerve impulse transmission.', 
+                hint: 'Alternative neural membrane scaffold.' 
+            },
+            { 
+                word: 'Terpenes', 
+                translation: 'Hydrocarbon molecules built from isoprene units ($C_5H_8$) that serve as precursors to steroids.', 
+                context: 'A monoprene contains two isoprene units, while triterpenes contain six and form cholesterol.', 
+                hint: 'Isoprene-based metabolic Lego bricks.' 
+            },
+            { 
+                word: 'Ribozyme', 
+                translation: 'An RNA molecule capable of acting as an enzyme to catalyze specific biochemical reactions.', 
+                context: 'Crucial in the ribosome where peptidyl transferase activity is driven by ribosomal RNA.', 
+                hint: 'Non-protein catalytic nucleotide.' 
+            },
+            { 
+                word: 'Spliceosome', 
+                translation: 'A complex of snRNA and snRNPs that excises introns and splices exons during post-transcriptional processing.', 
+                context: 'Recognizes highly conserved splice donor and acceptor sites at the boundaries of introns.', 
+                hint: 'Molecular editor of pre-mRNA.' 
+            },
+            { 
+                word: 'Shine-Dalgarno Sequence', 
+                translation: 'The prokaryotic ribosomal binding site on mRNA located upstream of the start codon.', 
+                context: 'Helps recruit the ribosome to initiate translation, contrasting with the eukaryotic 5\' cap mechanism.', 
+                hint: 'Prokaryotic translation anchor.' 
+            },
+            { 
+                word: 'Kozak Sequence', 
+                translation: 'The eukaryotic mRNA sequence containing the start codon that helps initiate translation.', 
+                context: 'The ribosome scans from the 5\' cap until it finds this specific consensus framework.', 
+                hint: 'Eukaryotic start framework.' 
+            },
+            { 
+                word: 'Topoisomerase', 
+                translation: 'An enzyme that alters DNA supercoiling to relieve torsional strain ahead of the replication fork.', 
+                context: 'Cuts and rejoins the phosphodiester backbone to prevent the DNA from overwinding during replication.', 
+                hint: 'DNA untangling machine.' 
+            },
+            { 
+                word: 'Okazaki Fragments', 
+                translation: 'Short sequences of DNA nucleotides synthesized discontinuously on the lagging strand.', 
+                context: 'Synthesized in the 5\' to 3\' direction away from the fork, requiring DNA ligase to join them.', 
+                hint: 'Discontinuous lagging strand pieces.' 
+            },
+            { 
+                word: 'Mismatch Repair (MMR)', 
+                translation: 'A post-replication DNA repair mechanism that corrects errors missed by DNA polymerase proofreading.', 
+                context: 'Occurs in the G2 phase of the cell cycle and depends on identifying the newly synthesized strand.', 
+                hint: 'G2 phase proofreading net.' 
+            },
+            { 
+                word: 'Nucleotide Excision Repair (NER)', 
+                translation: 'A DNA repair pathway that removes bulky helix-distorting lesions, such as thymine dimers.', 
+                context: 'Utilizes an excision endonuclease to cut out a patch of damaged nucleotides during G1 or G2.', 
+                hint: 'Bulky lesion patch-up.' 
+            },
+            { 
+                word: 'Base Excision Repair (BER)', 
+                translation: 'A DNA repair pathway that removes non-helix-distorting modified bases, like deaminated cytosine.', 
+                context: 'Uses a glycosylase to remove the base, creating an AP site for endonuclease clearing.', 
+                hint: 'Single altered base fix.' 
+            },
+            { 
+                word: 'Pyruvate Dehydrogenase Complex (PDH)', 
+                translation: 'A multi-enzyme complex that oxidizes pyruvate into acetyl-CoA in the mitochondrial matrix.', 
+                context: 'Irreversible link between glycolysis and the citric acid cycle, inhibited by high levels of ATP and NADH.', 
+                hint: 'Aerobic gateway checkpoint.' 
+            },
+            { 
+                word: 'Rate-Limiting Step of Glycolysis', 
+                translation: 'The phosphorylation of fructose-6-phosphate to fructose-1,6-bisphosphate by Phosphofructokinase-1 (PFK-1).', 
+                context: 'Allosterically activated by AMP and fructose-2,6-bisphosphate, and strongly inhibited by ATP and citrate.', 
+                hint: 'PFK-1 energy sensor.' 
+            },
+            { 
+                word: 'Rate-Limiting Step of Citric Acid Cycle', 
+                translation: 'The oxidative deamination of isocitrate to alpha-ketoglutarate by Isocitrate Dehydrogenase.', 
+                context: 'Inhibited by ATP and NADH; stimulated by ADP and calcium ions.', 
+                hint: 'Isocitrate conversion throttle.' 
+            },
+            { 
+                word: 'Rate-Limiting Step of Gluconeogenesis', 
+                translation: 'The hydrolysis of fructose-1,6-bisphosphate to fructose-6-phosphate by Fructose-1,6-Bisphosphatase.', 
+                context: 'Activated by ATP; inhibited by AMP and fructose-2,6-bisphosphate.', 
+                hint: 'Reversing PFK-1.' 
+            },
+            { 
+                word: 'Rate-Limiting Step of Glycogenesis', 
+                translation: 'The elongation of glycogen chains catalyzed by Glycogen Synthase.', 
+                context: 'Stimulated by glucose-6-phosphate and insulin; inactivated by glucagon and epinephrine phosphorylation.', 
+                hint: 'Glycogen builder bottleneck.' 
+            },
+            { 
+                word: 'Rate-Limiting Step of Glycogenolysis', 
+                translation: 'The cleavage of glycogen to produce glucose-1-phosphate by Glycogen Phosphorylase.', 
+                context: 'Activated by AMP and epinephrine/glucagon signaling cascades to elevate blood sugar levels.', 
+                hint: 'Glygogen tear-down throttle.' 
+            },
+            { 
+                word: 'Rate-Limiting Step of Pentose Phosphate Pathway', 
+                translation: 'The oxidation of glucose-6-phosphate by Glucose-6-Phosphate Dehydrogenase (G6PD).', 
+                context: 'Induced by insulin and NADP+; strongly inhibited by its product, NADPH.', 
+                hint: 'NADPH factory regulator.' 
+            },
+            { 
+                word: 'Complex I (ETC)', 
+                translation: 'NADH-coenzyme Q oxidoreductase; transfers electrons from NADH to ubiquinone (CoQ).', 
+                context: 'Pumps four protons into the intermembrane space per NADH oxidized.', 
+                hint: 'Electron entry point one.' 
+            },
+            { 
+                word: 'Complex II (ETC)', 
+                translation: 'Succinate-coenzyme Q oxidoreductase; transfers electrons from succinate to ubiquinone (CoQ).', 
+                context: 'Contains succinate dehydrogenase from the Krebs cycle; does not pump any protons across the membrane.', 
+                hint: 'Protonless electron pathway.' 
+            },
+            { 
+                word: 'Complex III (ETC)', 
+                translation: 'Coenzyme Q-cytochrome c oxidoreductase; transfers electrons from ubiquinone to cytochrome c via the Q cycle.', 
+                context: 'Pumps four protons into the intermembrane space per pair of electrons.', 
+                hint: 'Cytochrome c loading dock.' 
+            },
+            { 
+                word: 'Complex IV (ETC)', 
+                translation: 'Cytochrome c oxidase; transfers electrons from cytochrome c to the final electron acceptor, oxygen.', 
+                context: 'Reduces oxygen to form water while pumping two protons into the intermembrane space.', 
+                hint: 'Oxygen endpoint reduction.' 
+            },
+            { 
+                word: 'Proton-Motive Force', 
+                translation: 'The electrochemical gradient generated by the electron transport chain across the inner mitochondrial membrane.', 
+                context: 'Combines a concentration gradient (pH) and an electrical gradient to drive ATP synthesis via ATP synthase.', 
+                hint: 'Mitochondrial battery power.' 
+            },
+            { 
+                word: 'Glycerol 3-Phosphate Shuttle', 
+                translation: 'An electron shuttle that transfers cytosolic NADH equivalents to FADH2 in Complex II.', 
+                context: 'Results in a lower yield of ATP (1.5 ATP per NADH) compared to the malate-aspartate shuttle.', 
+                hint: 'Less efficient electron bypass.' 
+            },
+            { 
+                word: 'Malate-Aspartate Shuttle', 
+                translation: 'An electron shuttle system that transfers cytosolic NADH equivalents into mitochondrial NADH.', 
+                context: 'Highly active in the heart and liver, maintaining a high ATP yield of 2.5 ATP per NADH.', 
+                hint: 'Maximum efficiency electron shuttle.' 
+            },
+            { 
+                word: 'Ketogenesis', 
+                translation: 'The synthesis of ketone bodies from acetyl-CoA during prolonged starvation or low-carbohydrate conditions.', 
+                context: 'Occurs in liver mitochondria; produces acetoacetate and beta-hydroxybutyrate for brain energy.', 
+                hint: 'Alternative starvation fuel synthesis.' 
+            },
+            { 
+                word: 'Apparent Volume of Distribution ($V_d$)', 
+                translation: 'The theoretical volume factor reflecting how extensively a drug distributes into tissue versus plasma.', 
+                context: 'Highly lipophilic drugs that bind tissue proteins display massive distribution values far exceeding true plasma limits.', 
+                hint: 'Fluid partitioning tracking factor.' 
+            },
+            { 
+                word: 'Bohr Effect', 
+                translation: 'The decrease in hemoglobin-oxygen affinity caused by increased carbon dioxide and decreased pH.', 
+                context: 'Shifts the oxygen-hemoglobin dissociation curve to the right, promoting oxygen unloading in metabolically active tissues.', 
+                hint: 'Acidity-driven oxygen unloading.' 
+            },
+            { 
+                word: '2,3-Bisphosphoglycerate (2,3-BPG)', 
+                translation: 'An allosteric modulator in red blood cells that stabilizes the T-state of hemoglobin, lowering oxygen affinity.', 
+                context: 'Upregulated during chronic hypoxia or high-altitude adaptation to assist tissue oxygenation.', 
+                hint: 'Right-shifting altitude adapter.' 
+            },
+            { 
+                word: 'Juxtaglomerular Cells', 
+                translation: 'Baroreceptor cells in the afferent arteriole of the kidney that secrete renin in response to low blood pressure.', 
+                context: 'Initiates the Renin-Angiotensin-Aldosterone System (RAAS) to defend systemic fluid volume.', 
+                hint: 'Renin-secreting pressure gauges.' 
+            },
+            { 
+                word: 'Macula Densa', 
+                translation: 'Chemoreceptor cells in the distal convoluted tubule that monitor sodium chloride concentration.', 
+                context: 'Triggers afferent arteriole dilation or renin release when filtrate flow/sodium drop too low.', 
+                hint: 'Distal sodium monitors.' 
+            },
+            { 
+                word: 'Proximal Convoluted Tubule (PCT)', 
+                translation: 'The primary site of reabsorption in the nephron, reclaiming glucose, amino acids, and the majority of salts.', 
+                context: 'Operates as an iso-osmotic reabsorption engine; waste products like uric acid and organic acids are secreted here.', 
+                hint: 'Mass-reabsorption zone.' 
+            },
+            { 
+                word: 'Descending Loop of Henle', 
+                translation: 'The segment of the nephron highly permeable to water but completely impermeable to solutes.', 
+                context: 'Funnels water out into the hypertonic renal medulla, concentrating the urine filtrate.', 
+                hint: 'Water-only exit track.' 
+            },
+            { 
+                word: 'Ascending Loop of Henle', 
+                translation: 'The segment of the nephron impermeable to water that actively and passively reabsorbs solutes.', 
+                context: 'Dilutes the filtrate as it moves upward by pumping out sodium, potassium, and chloride.', 
+                hint: 'Salt-only exit track.' 
+            },
+            { 
+                word: 'Osteoblasts', 
+                translation: 'Bone-forming cells that secrete collagen and organic matrix components to build bone structure.', 
+                context: 'Stimulated by calcitonin to extract calcium from the blood and lock it away into bone.', 
+                hint: 'Bone architecture builders.' 
+            },
+            { 
+                word: 'Osteoclasts', 
+                translation: 'Large multinucleated cells that resorb bone matrix to release calcium back into circulation.', 
+                context: 'Stimulated by Parathyroid Hormone (PTH) and inhibited by calcitonin to maintain serum calcium homeostasis.', 
+                hint: 'Bone deconstruction crews.' 
+            },
+            { 
+                word: 'Skeletal Muscle Contraction Cycle', 
+                translation: 'The cross-bridge cycling process driven by actin-myosin interactions and ATP hydrolysis.', 
+                context: 'ATP binding causes myosin release from actin; ATP hydrolysis cocks the myosin head for the power stroke.', 
+                hint: 'ATP-fueled cross-bridge walk.' 
+            },
+            { 
+                word: 'Tropomyosin', 
+                translation: 'A regulatory protein that wraps around actin filaments to block myosin-binding sites at rest.', 
+                context: 'Remains in the blocking position until shifting via a calcium-induced troponin conformational change.', 
+                hint: 'Myosin access barrier.' 
+            },
+            { 
+                word: 'Troponin', 
+                translation: 'A three-subunit protein complex that binds calcium to regulate muscle contraction.', 
+                context: 'Calcium binding causes a shift that pulls tropomyosin off the actin active sites.', 
+                hint: 'Calcium-activated shift switch.' 
+            },
+            { 
+                word: 'Astrocytes', 
+                translation: 'Star-shaped glial cells in the CNS that maintain the blood-brain barrier and regulate local ion levels.', 
+                context: 'Provide structural support and nourishment to neurons while clearing out excess synaptic neurotransmitters.', 
+                hint: 'CNS barrier defenders.' 
+            },
+            { 
+                word: 'Ependymal Cells', 
+                translation: 'Glial cells lining the ventricles of the brain and the central canal of the spinal cord.', 
+                context: 'Utilize cilia to circulate and help produce cerebrospinal fluid (CSF).', 
+                hint: 'CSF production and circulation.' 
+            },
+            { 
+                word: 'Microglia', 
+                translation: 'Specialized macrophage-like immune cells within the central nervous system.', 
+                context: 'Phagocytose cellular debris, damaged neurons, and foreign pathogens to protect nervous tissue.', 
+                hint: 'CNS waste scavengers.' 
+            },
+            { 
+                word: 'Absolute Refractory Period', 
+                translation: 'The timeframe during which a neuron cannot fire a second action potential, regardless of stimulus strength.', 
+                context: 'Caused by the structural inactivation gates of voltage-gated sodium channels closing tightly.', 
+                hint: 'Sodium gate lock-out phase.' 
+            },
+            { 
+                word: 'Relative Refractory Period', 
+                translation: 'The interval following an action potential when a second impulse can fire only if triggered by an abnormally large hyper-stimulus.', 
+                context: 'Occurs when voltage-gated potassium channels are still open, causing a temporary hyperpolarization dip.', 
+                hint: 'Hyperpolarization climb window.' 
+            },
+            { 
+                word: 'Gastrin', 
+                translation: 'A peptide hormone secreted by G cells in the stomach that stimulates parietal cells to release hydrochloric acid.', 
+                context: 'Triggered by stomach distension and protein presence, lowering gastric pH to optimize pepsin activity.', 
+                hint: 'Acid production starter.' 
+            },
+            { 
+                word: 'Parietal Cells', 
+                translation: 'Stomach epithelial cells responsible for secreting hydrochloric acid (HCl) and intrinsic factor.', 
+                context: 'Use proton pumps to export hydrogen ions against a massive gradient into the stomach lumen.', 
+                hint: 'Hydrochloric acid factories.' 
+            },
+            { 
+                word: 'Chief Cells', 
+                translation: 'Stomach zymogen-secreting cells that synthesize and release pepsinogen.', 
+                context: 'Pepsinogen is cleaved autocatalytically into active pepsin under highly acidic conditions.', 
+                hint: 'Pepsinogen release source.' 
+            },
+            { 
+                word: 'Secretin', 
+                translation: 'A duodenal hormone that stimulates the pancreas to release bicarbonate-rich fluids.', 
+                context: 'Released in response to acidic chyme entering from the stomach, neutralizing the duodenum.', 
+                hint: 'Bicarbonate trigger hormone.' 
+            },
+            { 
+                word: 'Humoral Immunity', 
+                translation: 'The branch of adaptive immunity driven by B cells and circulating antibody production.', 
+                context: 'Targets extracellular pathogens floating freely within bodily fluids or plasma matrices.', 
+                hint: 'Antibody fluid defense.' 
+            },
+            { 
+                word: 'Cell-Mediated Immunity', 
+                translation: 'The adaptive immune branch driven by T cells targeting infected or cancerous host cells.', 
+                context: 'Depends on MHC presentation to destroy compromised cells directly without relying on free antibodies.', 
+                hint: 'T-cell killer squads.' 
+            },
+            { 
+                word: 'MHC Class I', 
+                translation: 'Surface proteins found on all nucleated cells that present endogenous antigens to cytotoxic T cells (CD8+).', 
+                context: 'Allows the immune system to sample internal cellular protein health and identify viral infections.', 
+                hint: 'Internal cellular health flag.' 
+            },
+            { 
+                word: 'MHC Class II', 
+                translation: 'Surface proteins on professional antigen-presenting cells (APCs) that present exogenous antigens to helper T cells (CD4+).', 
+                context: 'Found on macrophages, dendritic cells, and B cells to coordinate broad immune responses.', 
+                hint: 'External pathogen warning flag.' 
+            },
+            { 
+                word: 'Anomer', 
+                translation: 'A specific type of epimer that differs in configuration exclusively at the hemiacetal or hemiketal (anomeric) carbon.', 
+                context: 'Alpha and beta glucose configurations represent distinct anomers turning in solution.', 
+                hint: 'Ring-closure carbon orientation.' 
+            },
+            { 
+                word: 'Epimer', 
+                translation: 'Diastereomers that differ in structural configuration at exactly one chiral center.', 
+                context: 'D-glucose and D-galactose are C-4 epimers, meaning their shapes match everywhere except carbon 4.', 
+                hint: 'Single chiral center variance.' 
+            },
+            { 
+                word: 'Mutarotation', 
+                translation: 'The spontaneous interconversion between alpha and beta anomers of a cyclic sugar via an open-chain intermediate.', 
+                context: 'Results in an equilibrium mixture of cyclic structures when a pure anomer dissolves in water.', 
+                hint: 'Spontaneous ring-flip equilibrium.' 
+            },
+            { 
+                word: 'Inductive Effect', 
+                translation: 'The shifting of electron density through sigma bonds due to electronegativity differences across a molecule.', 
+                context: 'Stabilizes or destabilizes nearby charges, pulling electron density to make carboxylic acids more acidic.', 
+                hint: 'Sigma-bond electron pull.' 
+            },
+            { 
+                word: 'Steric Hindrance', 
+                translation: 'The prevention or slowing of a chemical reaction due to the bulkiness of neighboring groups.', 
+                context: 'Blocks backside attack in SN2 reactions, making tertiary alkyl halides inert to this pathway.', 
+                hint: 'Spatial molecular crowding.' 
+            },
+            { 
+                word: 'Nucleophile', 
+                translation: 'An electron-rich species that donates an electron pair to form a chemical bond with an electron-deficient site.', 
+                context: 'Strength correlates with high negative charge, low electronegativity, and low steric bulk.', 
+                hint: 'Electron pair donor.' 
+            },
+            { 
+                word: 'Electrophile', 
+                translation: 'An electron-deficient species that accepts an electron pair from a nucleophile.', 
+                context: 'Often features partial or full positive charges, or accessible empty atomic orbitals.', 
+                hint: 'Electron pair acceptor.' 
+            },
+            { 
+                word: 'Infrared (IR) Carbonyl Stretch', 
+                translation: 'A sharp, intense absorption band appearing between 1700 and 1750 $cm^{-1}$ on an IR spectrum.', 
+                context: 'The signature diagnostic signal indicating the presence of a carbon-oxygen double bond.', 
+                hint: '1700 sharp diagnostic spike.' 
+            },
+            { 
+                word: 'Infrared (IR) Hydroxyl Stretch', 
+                translation: 'A broad, strong absorption band appearing between 3200 and 3600 $cm^{-1}$ on an IR spectrum.', 
+                context: 'Broadness is caused by extensive hydrogen bonding interactions shifting the single bond strength.', 
+                hint: '3300 broad smooth hill.' 
+            },
+            { 
+                word: 'Proton NMR Downfield Shift', 
+                translation: 'The movement of a proton signal to the left (higher ppm) on an NMR spectrum due to deshielding.', 
+                context: 'Electronegative atoms pull electron density away, exposing the proton nucleus to the external magnetic field.', 
+                hint: 'Deshielded leftward shift.' 
+            },
+            { 
+                word: 'Proton NMR Upfield Shift', 
+                translation: 'The movement of a proton signal to the right (lower ppm) on an NMR spectrum due to shielding.', 
+                context: 'High electron density insulates the nucleus, dampening the impact of the external magnetic field.', 
+                hint: 'Shielded rightward shift.' 
+            },
+            { 
+                word: 'Shielding (NMR)', 
+                translation: 'The effect of circulating electrons opposing the external magnetic field around a nucleus.', 
+                context: 'Keeps proton signals localized upfield, requiring less energy adjustment to flip spin.', 
+                hint: 'Electronic magnetic insulation.' 
+            },
+            { 
+                word: 'Tollens\' Test', 
+                translation: 'A diagnostic chemical test used to detect aldehydes by reducing silver ions to form a reflective silver mirror.', 
+                context: 'Differentiates reducing sugars from non-reducing sugars based on oxidation potential.', 
+                hint: 'Silver mirror aldehyde check.' 
+            },
+            { 
+                word: 'Benedict\'s Test', 
+                translation: 'A chemical assay that uses a copper sulfate solution to detect the presence of reducing sugars.', 
+                context: 'A positive result forms a brick-red precipitate as copper(II) is reduced to copper(I).', 
+                hint: 'Copper-red reducing sugar test.' 
+            },
+            { 
+                word: 'Saponification', 
+                translation: 'The base-catalyzed hydrolysis of an ester link, typically breaking triacylglycerols into glycerol and fatty acid salts.', 
+                context: 'Uses strong bases like NaOH to convert nonpolar fats into amphipathic soap molecules.', 
+                hint: 'Base-catalyzed soap creation.' 
+            },
+            { 
+                word: 'Faraday\'s Constant ($F$)', 
+                translation: 'The total electric charge carried by one mole of electrons, roughly equal to 96,500 coulombs.', 
+                context: 'Used in electrochemistry calculations to link total current and time directly to molar redox shifts.', 
+                hint: '96,500 Coulombs per mole.' 
+            },
+            { 
+                word: 'Nernst Equation', 
+                translation: 'An equation relating the reduction potential of an electrochemical cell to the concentrations of the reactants.', 
+                context: 'Allows calculation of non-standard cell potentials and the electrical equilibrium across semipermeable membranes.', 
+                hint: 'Concentration-dependent voltage calculation.' 
+            },
+            { 
+                word: 'Chemiosmosis', 
+                translation: 'The movement of ions across a semipermeable membrane down their electrochemical gradient, driving work.', 
+                context: 'Specifically references protons flowing through ATP synthase to catalyze ADP phosphorylation.', 
+                hint: 'Gradient-driven work migration.' 
+            },
+            { 
+                word: 'Allosteric Site', 
+                translation: 'A specific regulatory binding pocket on an enzyme distinct from the catalytic active site.', 
+                context: 'Effector binding induces shape changes that either increase or decrease active site substrate processing.', 
+                hint: 'Remote control docking site.' 
+            },
+            { 
+                word: 'Isoelectric Focusing', 
+                translation: 'A laboratory technique that separates proteins based on their relative isoelectric points ($pI$).', 
+                context: 'Proteins migrate through a stable pH gradient gel under an electric field until they reach a net-neutral pH.', 
+                hint: 'pH gradient isolation track.' 
+            },
+            { 
+                word: 'SDS-PAGE', 
+                translation: 'Sodium Dodecyl Sulfate Polyacrylamide Gel Electrophoresis; separates proteins purely by molecular mass.', 
+                context: 'SDS denatures proteins and imparts a uniform negative charge, neutralizing native charge variations.', 
+                hint: 'Mass-only protein run.' 
+            },
+            { 
+                word: 'Western Blot', 
+                translation: 'An analytical technique used to detect specific proteins within a tissue sample using labeled antibodies.', 
+                context: 'Combines gel electrophoresis separation with targeted antibody binding probes for identification.', 
+                hint: 'Antibody-probed protein detection.' 
+            },
+            { 
+                word: 'Northern Blot', 
+                translation: 'A laboratory technique used to detect specific RNA sequences within a complex mixture.', 
+                context: 'Uses gel electrophoresis to separate RNA by size, followed by hybridization with a labeled nucleic acid probe.', 
+                hint: 'RNA probe sequence tracking.' 
+            },
+            { 
+                word: 'Southern Blot', 
+                translation: 'An analytical method used to isolate and detect specific DNA sequences within a genomic sample.', 
+                context: 'Cleaves DNA with restriction enzymes, separates fragments by electrophoresis, and probes with complementary strands.', 
+                hint: 'DNA fragment probe search.' 
+            },
+            { 
+                word: 'Venturi Effect', 
+                translation: 'The reduction in fluid pressure that occurs when a fluid flows through a constricted section of a pipe.', 
+                context: 'As velocity increases through the constriction, static pressure drops to satisfy continuity and Bernoulli principles.', 
+                hint: 'Constriction speed-up, pressure drop.' 
+            },
+            { 
+                word: 'Viscosity', 
+                translation: 'A measure of a fluid\'s resistance to gradual deformation by shear or tensile stress.', 
+                context: 'Represents internal fluid friction; ideal fluids assume zero viscosity to simplify hydrodynamics.', 
+                hint: 'Internal fluid friction measure.' 
+            },
+            { 
+                word: 'Poiseuille\'s Law', 
+                translation: 'An equation governing laminar fluid flow through a cylindrical pipe, showing flow rate is proportional to radius to the fourth power.', 
+                context: 'Slight narrowings in blood vessel radius cause dramatic increases in flow resistance.', 
+                hint: 'Radius-to-the-fourth flow rule.' 
+            },
+            { 
+                word: 'Total Internal Reflection', 
+                translation: 'The complete reflection of a light ray back into its original medium at a boundary interface.', 
+                context: 'Occurs only when light travels from a high-index to a low-index medium at an angle past the critical angle.', 
+                hint: 'Trapped light boundary reflection.' 
+            },
+            { 
+                word: 'Spherical Aberration', 
+                translation: 'An optical blurring defect seen in spherical lenses where parallel rays strike edges and focus improperly.', 
+                context: 'Caused by spherical geometry variations failing to focus all incoming parallel rays to a single point.', 
+                hint: 'Edge-focus lens blur.' 
+            },
+            { 
+                word: 'Chromatic Aberration', 
+                translation: 'An optical distortion where a lens fails to focus all colors of light to the same convergence point.', 
+                context: 'Caused by dispersion variations, as different wavelengths of light refract at slightly different angles.', 
+                hint: 'Wavelength refraction focal split.' 
+            },
+            { 
+                word: 'Heisenberg Uncertainty Principle', 
+                translation: 'A fundamental quantum rule stating that the position and momentum of a particle cannot be simultaneously known with absolute precision.', 
+                context: 'Measuring one variable accurately introduces unavoidable probabilistic spread into the other parameter.', 
+                hint: 'Position versus momentum tradeoff.' 
+            },
+            { 
+                word: 'Photoelectric Effect', 
+                translation: 'The emission of electrons from a metal surface when light of a sufficient frequency shines on it.', 
+                context: 'Demonstrates the particle nature of light, where photon energy depends on frequency, not intensity.', 
+                hint: 'Light-frequency electron ejection.' 
+            },
+            { 
+                word: 'Work Function ($W$)', 
+                translation: 'The minimum thermodynamic energy required to dislodge an electron from a metal surface.', 
+                context: 'Incoming photon energy must exceed this baseline value to eject a photoelectron.', 
+                hint: 'Metal electron ejection tax.' 
+            },
+            { 
+                word: 'Linguistic Relativity (Sapir-Whorf)', 
+                translation: 'The psychological hypothesis that the structure of a language shapes its speakers\' worldview and cognition.', 
+                context: 'Argues that people cannot easily conceptualize ideas or color distinctions if their language lacks words for them.', 
+                hint: 'Language defines thought scope.' 
+            },
+            { 
+                word: 'Nativist Theory of Language', 
+                translation: 'Chomsky\'s theory that humans possess an innate, genetically determined capacity to acquire language.', 
+                context: 'Centered on the Language Acquisition Device (LAD) and a critical development window in childhood.', 
+                hint: 'Innate language hardware.' 
+            },
+            { 
+                word: 'Yerkes-Dodson Law', 
+                translation: 'An empirical relationship stating that performance is optimal at intermediate levels of physiological arousal.', 
+                context: 'Simple tasks tolerate higher anxiety levels, whereas complex tasks require low-stress focus to prevent errors.', 
+                hint: 'Inverted-U optimal performance curve.' 
+            },
+            { 
+                word: 'Seligman\'s Learned Helplessness', 
+                translation: 'A psychological state where an organism stops trying to escape an aversive stimulus after repeated failures.', 
+                context: 'An important model for clinical depression, demonstrating a perceived external loss of control.', 
+                hint: 'Passive surrender after failure.' 
+            },
+            { 
+                word: 'Looking-Glass Self', 
+                translation: 'Cooley\'s sociological concept stating that an individual\'s self-concept is built on how they believe others perceive them.', 
+                context: 'Internalizing imagined social judgments to construct personal identity standards.', 
+                hint: 'Identity mirrored through peer views.' 
+            },
+            { 
+                word: 'Anomie', 
+                translation: 'Durkheim\'s concept describing a state of social instability resulting from a breakdown of norms and values.', 
+                context: 'Occurs during rapid economic shifts where individuals feel disconnected or lacks clear societal guidance.', 
+                hint: 'Normless social isolation breakdown.' 
+            },
+            { 
+                word: 'Social Capital', 
+                translation: 'The economic and social benefits derived from networks of relationships and community connections.', 
+                context: 'Leveraging professional connections or country club memberships to secure career advancements.', 
+                hint: 'Relationship network value equity.' 
+            },
+            { 
+                word: 'Cultural Capital', 
+                translation: 'Non-financial social assets, such as education, style of speech, and dress, that promote social mobility.', 
+                context: 'Using knowledge of classical art or elite mannerisms to navigate high-status corporate environments.', 
+                hint: 'Non-monetary prestige assets.' 
+            },
+            { 
+                word: 'Meritocracy', 
+                translation: 'A social system where political or economic advancement is based entirely on individual talent and effort.', 
+                context: 'An idealized model that often overlooks structural inequalities, social capital, and inheritance.', 
+                hint: 'Status earned by skill alone.' 
+            },
+            { 
+                word: 'Intersectionality', 
+                translation: 'A sociological framework analyzing how multiple social identities overlap to create systemic privilege or discrimination.', 
+                context: 'Evaluating how race, gender, and socioeconomic class interact simultaneously rather than isolation.', 
+                hint: 'Overlapping systems of disadvantage.' 
+            }
+            // ─── ADD YOUR NEW FLASHCARDS DIRECTLY BELOW THIS LINE ────────────────
+            
+        ];
+
+        /**
+         * =========================================================================
+         *  CORE SYSTEM ENGINE (DO NOT EDIT PATHWAYS BELOW)
+         * =========================================================================
+         */
+        let lexemes = JSON.parse(localStorage.getItem('aura_lexemes')) || [];
+        let activeSessionQueue = [];
+        let totalQueueLength = 0;
+        let currentActiveIndex = 0;
+        let hintRequestedForCurrentCard = false;
+
+        const views = {
+            dashboard: document.getElementById('dashboard-view'),
+            stage: document.getElementById('stage-view'),
+            progressWrapper: document.getElementById('session-progress-wrapper')
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            synchronizeHardcodedDeck();
+            lucide.createIcons();
+            calculateAndRenderDashboard();
+            setupEventListeners();
+        });
+
+        function saveToStorage() {
+            localStorage.setItem('aura_lexemes', JSON.stringify(lexemes));
+        }
+
+        /**
+         * Syncs new file insertions into the active tracking engine securely 
+         * without altering pre-existing memory progress scores.
+         */
+        function synchronizeHardcodedDeck() {
+            let changesMade = false;
+            
+            HARDCODED_DECK.forEach(card => {
+                const normalizedWord = (card.word || '').trim();
+                const exists = lexemes.some(l => l.word.toLowerCase() === normalizedWord.toLowerCase());
+                
+                if (!exists && normalizedWord !== '') {
+                    const trackingId = 'l_' + Math.random().toString(36).substr(2, 5) + '_' + Date.now().toString().slice(-4);
+                    lexemes.push({
+                        id: trackingId,
+                        word: normalizedWord,
+                        translation: (card.translation || '').trim(),
+                        context: (card.context || '').trim() || 'No application context provided.',
+                        hint: (card.hint || '').trim() || 'No specialized hints setup.',
+                        halfLifeHours: 4, 
+                        lastTested: Date.now() - (6 * 60 * 60 * 1000) // Places it instantly into initial test rotation
+                    });
+                    changesMade = true;
+                }
+            });
+
+            if (changesMade) {
+                saveToStorage();
+            }
+        }
+
+        /**
+         * Standardized programmatic factory invocation layer
+         */
+        function addLexeme(word, translation, context = '', hint = '') {
+            const trackingId = 'l_' + Math.random().toString(36).substr(2, 5) + '_' + Date.now().toString().slice(-4);
+            const newCard = {
+                id: trackingId,
+                word: (word || '').trim(),
+                translation: (translation || '').trim(),
+                context: (context || '').trim() || 'No application context provided.',
+                hint: (hint || '').trim() || 'No specialized hints setup.',
+                halfLifeHours: 4, 
+                lastTested: Date.now() - (6 * 60 * 60 * 1000)
+            };
+
+            lexemes.push(newCard);
+            saveToStorage();
+            calculateAndRenderDashboard();
+            return newCard;
+        }
+
+        /**
+         * Interface wrapper hooked into the HTML Creator layout block
+         */
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            const wordInput = document.getElementById('form-word');
+            const translationInput = document.getElementById('form-translation');
+            const contextInput = document.getElementById('form-context');
+            const hintInput = document.getElementById('form-hint');
+
+            addLexeme(wordInput.value, translationInput.value, contextInput.value, hintInput.value);
+            event.target.reset();
+        }
+
+        /**
+         * Core Mathematical Logic - Half-Life Regression Engine
+         * Probability of Retention: P = 2^(-t / h)
+         */
+        function calculateRetention(lexeme) {
+            const elapsedHours = (Date.now() - lexeme.lastTested) / (1000 * 60 * 60);
+            const retentionProbability = Math.pow(2, -elapsedHours / lexeme.halfLifeHours);
+            return Math.min(Math.max(retentionProbability, 0.0), 1.0);
+        }
+
+        function calculateAndRenderDashboard() {
+            const container = document.getElementById('lexeme-container');
+            container.innerHTML = '';
+            let decayedCount = 0;
+            let healthyCount = 0;
+
+            lexemes.forEach(item => {
+                const retention = calculateRetention(item);
+                const percentage = Math.round(retention * 100);
+                
+                let healthColor = varLookUp('--health-high');
+                if (retention < 0.5) {
+                    decayedCount++;
+                    healthColor = varLookUp('--health-low');
+                } else if (retention < 0.75) {
+                    healthColor = varLookUp('--health-mid');
+                } else {
+                    healthyCount++;
+                }
+
+                const row = document.createElement('div');
+                row.className = 'lexeme-row';
+                row.innerHTML = `
+                    <div class="lexeme-info">
+                        <span class="lexeme-word">${item.word}</span>
+                        <span class="lexeme-translation">${item.translation}</span>
+                    </div>
+                    <div class="lexeme-status">
+                        <span class="half-life-text">${percentage}% Recall</span>
+                        <div class="health-bar-track">
+                            <div class="health-bar-fill" style="width: ${percentage}%; background-color: ${healthColor};"></div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            const ctaParagraph = document.querySelector('#start-srs-session p');
+            if (decayedCount === 0) {
+                if (ctaParagraph) ctaParagraph.innerText = 'All matrix fields are mathematically safe and stable.';
+            } else {
+                if (ctaParagraph) ctaParagraph.innerHTML = `Our Half-Life Regression model indicates <strong><span id="decayed-count-prompt">${decayedCount}</span> concepts</strong> are approaching their memory critical dip threshold.`;
+            }
+
+            const retainedEl = document.getElementById('retained-count');
+            if (retainedEl) retainedEl.innerText = healthyCount;
+
+            views.progressWrapper.style.visibility = 'hidden';
+        }
+
+        function varLookUp(variableName) {
+            return getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+        }
+
+        function setupEventListeners() {
+            document.getElementById('start-srs-session').addEventListener('click', initiateSRSSession);
+            document.getElementById('exit-session-btn').addEventListener('click', exitSessionView);
+            document.getElementById('card-trigger').addEventListener('click', toggleCardFlip);
+            document.getElementById('request-hint-btn').addEventListener('click', revealPassiveHint);
+
+            document.getElementById('btn-eval-correct').addEventListener('click', () => handleEvaluationOutcome(true));
+            document.getElementById('btn-eval-wrong').addEventListener('click', () => handleEvaluationOutcome(false));
+        }
+
+        function initiateSRSSession() {
+            let candidates = lexemes.filter(item => calculateRetention(item) < 0.95);
+
+            if (candidates.length === 0) {
+                candidates = [...lexemes];
+            }
+
+            activeSessionQueue = candidates.sort((a, b) => calculateRetention(a) - calculateRetention(b));
+            activeSessionQueue = activeSessionQueue.slice(0, 5);
+            totalQueueLength = activeSessionQueue.length;
+            currentActiveIndex = 0;
+
+            if (totalQueueLength === 0) return;
+
+            views.dashboard.style.display = 'none';
+            views.stage.style.display = 'flex';
+            views.progressWrapper.style.visibility = 'visible';
+
+            renderCurrentSessionCard();
+            updateProgressBar();
+        }
+
+        function renderCurrentSessionCard() {
+            if (currentActiveIndex >= totalQueueLength) {
+                completeSessionView();
+                return;
+            }
+
+            hintRequestedForCurrentCard = false;
+            document.getElementById('hint-panel').style.display = 'none';
+            document.getElementById('request-hint-btn').style.display = 'inline-flex';
+            document.getElementById('eval-actions-wrapper').style.display = 'none';
+            document.getElementById('interactive-card').classList.remove('flipped');
+
+            const item = activeSessionQueue[currentActiveIndex];
+            const retention = calculateRetention(item);
+
+            document.getElementById('word-front').innerText = item.word;
+            document.getElementById('context-front').innerText = item.context;
+            document.getElementById('word-back').innerText = item.translation;
+            document.getElementById('context-back').innerText = item.context;
+            document.getElementById('hint-text').innerText = item.hint;
+
+            const healthDot = document.getElementById('health-dot');
+            if (retention < 0.5) healthDot.style.backgroundColor = varLookUp('--health-low');
+            else if (retention < 0.75) healthDot.style.backgroundColor = varLookUp('--health-mid');
+            else healthDot.style.backgroundColor = varLookUp('--health-high');
+        }
+
+        function toggleCardFlip() {
+            const card = document.getElementById('interactive-card');
+            card.classList.toggle('flipped');
+            
+            const isFlipped = card.classList.contains('flipped');
+            if (isFlipped) {
+                document.getElementById('eval-actions-wrapper').style.display = 'grid';
+                document.getElementById('request-hint-btn').style.display = 'none';
+            }
+        }
+
+        function revealPassiveHint() {
+            hintRequestedForCurrentCard = true;
+            document.getElementById('hint-panel').style.display = 'flex';
+            document.getElementById('request-hint-btn').style.display = 'none';
+        }
+
+        function handleEvaluationOutcome(isCorrect) {
+            const currentItem = activeSessionQueue[currentActiveIndex];
+            const matchedLexeme = lexemes.find(l => l.id === currentItem.id);
+
+            if (matchedLexeme) {
+                if (isCorrect) {
+                    const elapsedHours = (Date.now() - matchedLexeme.lastTested) / (1000 * 60 * 60);
+                    let adaptiveMultiplier = matchedLexeme.halfLifeHours < 48 ? 2.5 : 1.6;
+
+                    if (hintRequestedForCurrentCard) {
+                        adaptiveMultiplier *= 0.6;
+                    }
+
+                    const computedExtension = Math.max(elapsedHours, matchedLexeme.halfLifeHours) * adaptiveMultiplier;
+                    matchedLexeme.halfLifeHours = Math.min(computedExtension, 720);
+                } else {
+                    if (matchedLexeme.halfLifeHours > 72) {
+                        matchedLexeme.halfLifeHours = matchedLexeme.halfLifeHours * 0.5;
+                    } else {
+                        matchedLexeme.halfLifeHours = Math.max(matchedLexeme.halfLifeHours * 0.25, 4);
+                    }
+                }
+
+                matchedLexeme.lastTested = Date.now();
+                saveToStorage();
+            }
+
+            currentActiveIndex++;
+            updateProgressBar();
+            
+            setTimeout(() => {
+                renderCurrentSessionCard();
+            }, 300);
+        }
+
+        function updateProgressBar() {
+            const ratio = (currentActiveIndex / totalQueueLength) * 100;
+            document.getElementById('session-progress').style.width = `${ratio}%`;
+        }
+
+        function completeSessionView() {
+            exitSessionView();
+            const streakElement = document.getElementById('streak-count');
+            streakElement.innerText = parseInt(streakElement.innerText) + 1;
+        }
+
+        function exitSessionView() {
+            views.stage.style.display = 'none';
+            views.dashboard.style.display = 'flex';
+            calculateAndRenderDashboard();
+        }
+    </script>
+</body>
+</html>
