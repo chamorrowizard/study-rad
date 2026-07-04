@@ -1254,7 +1254,7 @@
          *  CORE SYSTEM ENGINE (DO NOT EDIT PATHWAYS BELOW)
          * =========================================================================
          */
-        const STORAGE_KEY = 'aura_lexemes_01';
+        const STORAGE_KEY = 'aura_lexemes_' + window.location.pathname.replace(/[^a-z0-9]/gi, '_');
         let lexemes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
         let activeSessionQueue = [];
         let totalQueueLength = 0;
