@@ -212,6 +212,13 @@
       font-size: 0.95rem;  /* Slightly increases text legibility */
       }
     }
+    /* Responsive button/container fixes to avoid overflow on small screens */
+    .btn { min-width: 0; box-sizing: border-box; }
+    .subject-button { width: 100%; }
+    @media (max-width: 720px) {
+      .subject-grid { grid-template-columns: 1fr; }
+      .subject-button, .subject-grid .btn { width: 100%; }
+    }
   </style>
 </head>
 <body>
