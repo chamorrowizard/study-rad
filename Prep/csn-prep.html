@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons for Premium UI Touch -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="text-gray-200 min-h-screen pb-12">
+
+    <!-- Premium Header -->
+    <header class="sticky top-0 z-50 glass-card border-b border-gray-800 px-4 py-4 mb-6">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-2.5 bg-blue-600/20 border border-blue-500/30 rounded-xl">
+                    <i data-lucide="graduation-cap" class="w-6 h-6 text-blue-400"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-white">CSN Student Hub</h1>
+                    <p class="text-xs text-gray-400 font-medium">Pre-Med Track & Logistics</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="flex h-2 w-2 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">Active Profile</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="max-w-5xl mx-auto px-4 space-y-6">
+
+        <!-- Due Dates, Milestones & Institutional Risk Timeline -->
+        <section class="glass-card rounded-2xl p-6 space-y-4">
+            <div class="flex items-center space-x-2 text-gray-300 border-b border-gray-800 pb-3">
+                <i data-lucide="clock" class="w-5 h-5 text-amber-400"></i>
+                <h3 class="text-md font-bold text-white">Hard Targets & Institutional Risks</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                <!-- Registration & Academic Deadlines Timeline -->
+                <div class="space-y-4 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-gray-800">
+                    <!-- Milestone Item 1 -->
+                    <div class="relative flex items-start space-x-3 pl-1 text-xs">
+                        <div class="w-2.5 h-2.5 rounded-full bg-purple-500 mt-1 z-10 outline outline-4 outline-[#0b0f19]"></div>
+                        <div>
+                            <span class="text-purple-400 font-bold block">Oct 15, 2026</span>
+                            <span class="text-white font-medium">Class Schedule Drops (View-Only)</span>
+                            <span class="text-gray-400 block mt-0.5">Sections and times go live. Begin building your blueprint and mapping labs.</span>
+                        </div>
+                    </div>
+
+                    <!-- Milestone Item 2 -->
+                    <div class="relative flex items-start space-x-3 pl-1 text-xs">
+                        <div class="w-2.5 h-2.5 rounded-full bg-blue-500 mt-1 z-10 outline outline-4 outline-[#0b0f19]"></div>
+                        <div>
+                            <span class="text-blue-400 font-bold block">Nov 1, 2026</span>
+                            <span class="text-white font-medium">Priority Registration Window Opens</span>
+                            <span class="text-gray-400 block mt-0.5">Exclusive enrollment window for veteran status students. Lock sections early.</span>
+                        </div>
+                    </div>
+
+                    <!-- Milestone Item 3 -->
+                    <div class="relative flex items-start space-x-3 pl-1 text-xs">
+                        <div class="w-2.5 h-2.5 rounded-full bg-blue-400 mt-1 z-10 outline outline-4 outline-[#0b0f19]"></div>
+                        <div>
+                            <span class="text-blue-300 font-bold block">Nov 21, 2026</span>
+                            <span class="text-white font-medium">Open Registration Launches</span>
+                            <span class="text-gray-400 block mt-0.5">General public access opens. Core foundational lab seats deplete rapidly.</span>
+                        </div>
+                    </div>
+
+                    <!-- Milestone Item 4 -->
+                    <div class="relative flex items-start space-x-3 pl-1 text-xs">
+                        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1 z-10 outline outline-4 outline-[#0b0f19]"></div>
+                        <div>
+                            <span class="text-emerald-400 font-bold block">Jan 19, 2027</span>
+                            <span class="text-white font-medium">Spring Core Instruction Begins</span>
+                            <span class="text-gray-400 block mt-0.5">Official start of the 16-week regular academic semester.</span>
+                        </div>
+                    </div>
+
+                    <!-- Milestone Item 5 -->
+                    <div class="relative flex items-start space-x-3 pl-1 text-xs">
+                        <div class="w-2.5 h-2.5 rounded-full bg-amber-500 mt-1 z-10 outline outline-4 outline-[#0b0f19]"></div>
+                        <div>
+                            <span class="text-amber-400 font-bold block">Jan 23, 2027</span>
+                            <span class="text-white font-medium">Final Add/Drop Deadline</span>
+                            <span class="text-gray-400 block mt-0.5">Strict structural cutoff to adjust section loads without financial or transcript penalties.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategic Audits & Custom Institutional Risks -->
+                <div class="space-y-4">
+                    <!-- Critical Prerequisite Risk -->
+                    <div class="relative flex items-start space-x-3 text-xs">
+                        <div class="p-2 bg-amber-500/10 border border-amber-500/20 rounded-xl shrink-0">
+                            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
+                        </div>
+                        <div>
+                            <span class="text-amber-400 font-bold block">Pima Transcript Audit</span>
+                            <span class="text-white font-medium">Vocational vs. Academic Credit Transfer</span>
+                            <span class="text-gray-400 block mt-0.5">Flag technical RAD courses. Request formal evaluation to clear general baselines (Math/English), but plan to complete core foundations (BIOL 190, CHEM 121) explicitly for AMCAS verification.</span>
+                        </div>
+                    </div>
+
+                    <!-- Critical Institutional Guardrail -->
+                    <div class="relative flex items-start space-x-3 text-xs border-t border-gray-800/60 pt-3">
+                        <div class="p-2 bg-rose-500/10 border border-rose-500/20 rounded-xl shrink-0">
+                            <i data-lucide="shield-alert" class="w-4 h-4 text-rose-400"></i>
+                        </div>
+                        <div>
+                            <span class="text-rose-400 font-bold block">NSHE Credit Surcharge Wall</span>
+                            <span class="text-white font-medium">150% Excess Credit Threshold</span>
+                            <span class="text-gray-400 block mt-0.5">Monitor total accrued transfer credits closely to guarantee total accumulated degree units do not trigger the Nevada 50% tuition excess fee penalty.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Left 2 Columns: Pipeline & VR&E Strategy -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- Academic Pipeline Card -->
+                <section class="glass-card rounded-2xl p-6 space-y-4">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="git-pull-request" class="w-5 h-5 text-blue-400"></i>
+                            <h3 class="text-lg font-bold text-white">CSN-to-UNLV Transfer Pipeline</h3>
+                        </div>
+                        <span class="text-xs text-gray-400 font-medium">B.S. Biological Sciences</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <h4 class="text-xs font-bold text-purple-400 uppercase tracking-wider">CSN Milestones</h4>
+                            <ul class="text-xs text-gray-300 space-y-2 pl-4 list-disc">
+                                <li>Complete 60 transferable credits maintaining a competitive science GPA.</li>
+                                <li>File official CSN graduation intent for the Associate of Science (A.S.) degree to unlock complete un-bracketed block-transfer protections.</li>
+                            </ul>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="text-xs font-bold text-pink-400 uppercase tracking-wider">UNLV Pre-Med Alignment</h4>
+                            <ul class="text-xs text-gray-300 space-y-2 pl-4 list-disc">
+                                <li>Target upper-division coursework (Biochemistry, Genetics, Molecular Biology) immediately upon transfer.</li>
+                                <li>Coordinate directly with the UNLV Pre-Professional Advising Center (PPAC) for early committee letter evaluation prep.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VR&E Maximization Roadmap -->
+                <section class="glass-card rounded-2xl p-6 space-y-4">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="package" class="w-5 h-5 text-purple-400"></i>
+                            <h3 class="text-lg font-bold text-white">VR&E Maximization Roadmap</h3>
+                        </div>
+                        <span class="text-xs text-gray-400 font-medium">Use for VRC Consultation</span>
+                    </div>
+
+                    <!-- Category 1 -->
+                    <div class="space-y-2">
+                        <h4 class="text-sm font-bold text-blue-400 uppercase tracking-wider flex items-center">
+                            <i data-lucide="monitor" class="w-4 h-4 mr-1.5"></i> High-Tier Tech Package
+                        </h4>
+                        <ul class="text-sm text-gray-300 space-y-1.5 pl-5 list-disc">
+                            <li><strong class="text-white">STEM Spec Laptop:</strong> i7/i9 or Apple M-Series, <span class="text-purple-400 font-semibold">32GB RAM</span>, 512GB+ SSD. Justify using advanced computational/modeling software requirements.</li>
+                            <li><strong class="text-white">The Desktop Transformation:</strong> Universal laptop docking station, dual external 24"-27" monitors, wireless mechanical keyboard, and precision mouse.</li>
+                            <li><strong class="text-white">Peripherals & Protection:</strong> All-in-One printer/scanner, recurring bookstore ink/paper allowance, heavy-duty laptop bag, and accidental damage plans.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Category 2 -->
+                    <div class="space-y-2 pt-2 border-t border-gray-800/60">
+                        <h4 class="text-sm font-bold text-emerald-400 uppercase tracking-wider flex items-center">
+                            <i data-lucide="armchair" class="w-4 h-4 mr-1.5"></i> Ergonomic Accommodations
+                        </h4>
+                        <ul class="text-sm text-gray-300 space-y-1.5 pl-5 list-disc">
+                            <li><strong class="text-white">Furniture Setup:</strong> Motorized sit-to-stand desk or fluid desk converter coupled with a fully customizable orthopedic chair.</li>
+                            <li><strong class="text-white">Physical Relief:</strong> Dual gas-spring articulating monitor mounts (eye-level alignment) and an anti-fatigue standing mat.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Category 3 -->
+                    <div class="space-y-2 pt-2 border-t border-gray-800/60">
+                        <h4 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center">
+                            <i data-lucide="accessibility" class="w-4 h-4 mr-1.5"></i> Lecture Accessibility Stack
+                        </h4>
+                        <ul class="text-sm text-gray-300 space-y-1.5 pl-5 list-disc">
+                            <li><strong class="text-white">Capture Hardware:</strong> Dedicated high-fidelity digital voice recorder.</li>
+                            <li><strong class="text-white">AI Note Synthesis Platform:</strong> Premium subscription (e.g., ChatGPT Plus) requested as an assistive study tool to ingest lecture audio/transcripts and generate structured, high-yield outlines and custom mock tests.</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Pitch Strategy & Infrastructure Details -->
+            <div class="space-y-6">
+                <!-- VRC Dialogue Strategy Card -->
+                <section class="glass-card rounded-2xl p-6 space-y-4 border border-blue-500/20 bg-gradient-to-b from-blue-950/20 to-transparent">
+                    <div class="flex items-center space-x-2 text-blue-400">
+                        <i data-lucide="message-square" class="w-5 h-5"></i>
+                        <h3 class="text-md font-bold text-white">VRC Meeting Dialogue</h3>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Frame your requests strictly around your academic major's technical needs and your physical wellness constraints:
+                    </p>
+                    <blockquote class="border-l-2 border-blue-500 pl-3 py-1 text-xs italic text-gray-300 bg-gray-900/40 rounded-r-md">
+                        "Due to focus and tracking challenges under intensive study conditions, I cannot draft complete notes manually during rapid pre-med lectures without losing contextual focus. This integrated hardware/AI package acts as my necessary learning support framework."
+                    </blockquote>
+                    <blockquote class="border-l-2 border-emerald-500 pl-3 py-1 text-xs italic text-gray-300 bg-gray-900/40 rounded-r-md">
+                        "To prevent the acceleration of chronic service-connected strains during extensive study hours, an adjustable worksite setup is a clinical requirement recommended to maintain my academic endurance."
+                    </blockquote>
+                </section>
+
+                <!-- Campus Assets & Infrastructure Notes -->
+                <section class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="flex items-center space-x-2 text-gray-300">
+                        <i data-lucide="building-2" class="w-4 h-4 text-pink-400"></i>
+                        <h4 class="text-sm font-semibold text-white">Campus Infrastructure Access</h4>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Once your GoCSN profile credentials arrive, you retain immediate access to dedicated campus physical systems (Mon-Fri, 8AM - 5PM):
+                    </p>
+                    <div class="space-y-2 pt-1">
+                        <div class="flex items-center space-x-2 text-xs text-gray-300">
+                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400 shrink-0"></i>
+                            <span>Exclusive physical VETS Center computer labs</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-xs text-gray-300">
+                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400 shrink-0"></i>
+                            <span>Full institutional software networks</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-xs text-gray-300">
+                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400 shrink-0"></i>
+                            <span>200 Free B&W prints allocation upon enrollment</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Dynamic Tracking Row -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Medical School Competitiveness Tracker Card -->
+            <div class="glass-card rounded-2xl p-6 space-y-4">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="clipboard-list" class="w-5 h-5 text-pink-400"></i>
+                        <h3 class="text-md font-bold text-white">Pre-Med Profile Milestones</h3>
+                    </div>
+                    <span class="text-xs text-amber-400 font-semibold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-500/20">Target: 2028 Cycle</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs font-medium">
+                            <span class="text-gray-300">Clinical Patient Care Hours</span>
+                            <span class="text-gray-400">Goal: 500+ hrs</span>
+                        </div>
+                        <div class="w-full bg-gray-900 rounded-full h-1.5 border border-gray-800">
+                            <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" style="width: 15%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs font-medium">
+                            <span class="text-gray-300">Physician Shadowing</span>
+                            <span class="text-gray-400">Goal: 50 hrs</span>
+                        </div>
+                        <div class="w-full bg-gray-900 rounded-full h-1.5 border border-gray-800">
+                            <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full" style="width: 5%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs font-medium">
+                            <span class="text-gray-300">Undergraduate Science Research</span>
+                            <span class="text-gray-400">Goal: Poster/Project</span>
+                        </div>
+                        <div class="w-full bg-gray-900 rounded-full h-1.5 border border-gray-800">
+                            <div class="bg-gray-800 h-1.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-blue-950/20 border border-blue-900/40 rounded-xl p-3 text-xs text-gray-400 flex items-start space-x-2">
+                    <i data-lucide="info" class="w-4 h-4 text-blue-400 shrink-0 mt-0.5"></i>
+                    <span>Pro-Tip: Keep an ongoing, detailed Excel log of every supervisor name, clinical location, and shift description for AMCAS entries.</span>
+                </div>
+            </div>
+
+            <!-- Pre-Med Core Prerequisites Card -->
+            <div class="glass-card rounded-2xl p-6 space-y-3">
+                <div class="flex items-center space-x-2 text-gray-300 border-b border-gray-800 pb-3">
+                    <i data-lucide="git-commit" class="w-5 h-5 text-blue-400"></i>
+                    <h3 class="text-md font-bold text-white">Pre-Med Core Prerequisites</h3>
+                </div>
+                <p class="text-xs text-gray-400">Track these gatekeeper sequences carefully for UNLV transfer and MCAT readiness:</p>
+                <div class="grid grid-cols-2 gap-2 pt-1 text-xs">
+                    <div class="p-2 bg-gray-900/40 rounded border border-gray-800">
+                        <span class="text-purple-400 font-bold block">BIOL 190 (4 Cr.)</span>
+                        <span class="text-gray-400">Intro Cell & Molecular (with Lab)</span>
+                    </div>
+                    <div class="p-2 bg-gray-900/40 rounded border border-gray-800">
+                        <span class="text-purple-400 font-bold block">CHEM 121 (4 Cr.)</span>
+                        <span class="text-gray-400">General Chemistry I (with Lab)</span>
+                    </div>
+                    <div class="p-2 bg-gray-900/40 rounded border border-gray-800">
+                        <span class="text-purple-400 font-bold block">CHEM 122 (4 Cr.)</span>
+                        <span class="text-gray-400">General Chemistry II (with Lab)</span>
+                    </div>
+                    <div class="p-2 bg-gray-900/40 rounded border border-gray-800">
+                        <span class="text-purple-400 font-bold block">MATH 126 / 127</span>
+                        <span class="text-gray-400">Pre-Calculus Foundations I & II</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- External Portals & Asset Log -->
+            <div class="glass-card rounded-2xl p-6 space-y-3">
+                <div class="flex items-center space-x-2 text-gray-300 border-b border-gray-800 pb-3">
+                    <i data-lucide="briefcase" class="w-5 h-5 text-amber-400"></i>
+                    <h3 class="text-md font-bold text-white">External Entity & Asset Log</h3>
+                </div>
+                <p class="text-xs text-gray-400">Quick-reference status for corporate compliance and active personal contracts:</p>
+                <div class="space-y-2 pt-1">
+                    <div class="p-2.5 bg-gray-900/50 rounded-lg border border-gray-800 flex justify-between items-center text-xs">
+                        <div>
+                            <span class="font-semibold text-white block">CAB Solutions LLC</span>
+                            <span class="text-gray-400">SilverFlume & NV Tax Portal</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Current</span>
+                    </div>
+                    <div class="p-2.5 bg-gray-900/50 rounded-lg border border-gray-800 flex justify-between items-center text-xs">
+                        <div>
+                            <span class="font-semibold text-white block">Dreams Natura Resort</span>
+                            <span class="text-gray-400">Contract DW1-004955 (VCM)</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">Auto-Bill</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Script to render premium Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
