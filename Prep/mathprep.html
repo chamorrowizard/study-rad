@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Calculus Mastery Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- MathJax for high-fidelity LaTeX rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+        }
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom scrollbar for premium feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2937;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+        /* Responsive layout helpers for mobile */
+        .app-shell { display: flex; flex: 1 1 auto; overflow: hidden; }
+        .app-shell aside { flex: 0 0 320px; }
+        .app-shell main { flex: 1 1 auto; }
+        /* Allow buttons/links to shrink and wrap on small viewports */
+        a, button, .group { min-width: 0; box-sizing: border-box; }
+        /* Hero decorative text sizing */
+        .hero-fx { font-size: 120px; opacity: 0.08; pointer-events: none; }
+
+        @media (max-width: 1024px) {
+            .app-shell { flex-direction: column; }
+            .app-shell aside { width: 100%; order: 2; max-height: 240px; overflow-y: auto; }
+            .app-shell main { order: 1; }
+        }
+
+        @media (max-width: 640px) {
+            header { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .hero-fx { font-size: 44px; opacity: 0.06; }
+            .app-shell aside { padding-left: 1rem; padding-right: 1rem; }
+            .app-shell main { padding-left: 1rem; padding-right: 1rem; }
+            .grid.md\:grid-cols-2 { grid-template-columns: 1fr; }
+            .grid.md\:grid-cols-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col antialiased">
+
+    <!-- Premium Navigation Bar -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-[#0B0F19]/80 border-b border-slate-800/60 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                <span class="font-bold text-white text-lg">∫</span>
+            </div>
+            <div>
+                <span class="font-semibold tracking-tight text-white block">Math 181 Blueprint</span>
+                <span class="text-xs text-indigo-400 font-medium tracking-wide uppercase">Placement Exam Core Mastery</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4 text-sm text-slate-400">
+            <span class="flex items-center"><span class="h-2 w-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></span> Ready to Study</span>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden app-shell">
+        <!-- Sidebar Navigation -->
+        <aside class="w-80 border-r border-slate-800/50 p-6 hidden lg:block overflow-y-auto space-y-8">
+            <div>
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4">Exam Curriculum</h3>
+                <nav class="space-y-1">
+                    <a href="#algebra" class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl text-indigo-400 bg-indigo-500/5 border border-indigo-500/10 transition-all">
+                        <span class="w-2 h-2 rounded-full bg-indigo-400 mr-3"></span>
+                        1. Algebra & Factoring Essentials
+                    </a>
+                    <a href="#functions" class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 border border-transparent transition-all">
+                        <span class="w-2 h-2 rounded-full bg-slate-600 mr-3 group-hover:bg-slate-400"></span>
+                        2. Functions & Graphs
+                    </a>
+                    <a href="#trig" class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 border border-transparent transition-all">
+                        <span class="w-2 h-2 rounded-full bg-slate-600 mr-3 group-hover:bg-slate-400"></span>
+                        3. Trigonometry Pillars
+                    </a>
+                    <a href="#logs" class="group flex items-center px-3 py-2.5 text-sm font-medium rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 border border-transparent transition-all">
+                        <span class="w-2 h-2 rounded-full bg-slate-600 mr-3 group-hover:bg-slate-400"></span>
+                        4. Logs & Exponentials
+                    </a>
+                </nav>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800/80">
+                <h4 class="text-xs font-semibold text-white mb-1">UX Pro Tip</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">Click any formula block to view expanded geometric or algebraic proof mechanics.</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-10 space-y-12 max-w-5xl mx-auto w-full">
+            
+            <!-- Hero Section -->
+            <section class="relative rounded-3xl p-8 md:p-10 overflow-hidden border border-slate-800/80 bg-gradient-to-br from-slate-900/40 via-slate-900/80 to-indigo-950/20">
+                <div class="absolute top-0 right-0 p-8 hero-fx font-bold select-none text-indigo-500">
+                    f'(x)
+                </div>
+                <div class="max-w-2xl">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-4">Interactive Blueprint</span>
+                    <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white mb-3">Placement Target: Math 181</h1>
+                    <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+                        This interactive companion details the core structures checked on advanced placement assessments. Master these four domains to bypass remedial pathways and enter Calculus with perfect confidence.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SECTION 1: ALGEBRA & FACTORING -->
+            <section id="algebra" class="space-y-6 scroll-mt-24">
+                <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">01</span>
+                <h3 class="text-base font-semibold text-white">Deep Dive: Trinomial Factoring Mechanics</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    When simplifying rational expressions, splitting trinomials smoothly prevents errors down the line. Let's look at how signs determine your numerical choices.
+                </p>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// The Sign Matrix System</div>
+                    <div class="text-slate-300 pl-2">
+                        • Last term \(+\), Middle term \(+\) \(\longrightarrow\) Both factors are positive: \((x + ?)(x + ?)\)<br>
+                        • Last term \(+\), Middle term \(-\) \(\longrightarrow\) Both factors are negative: \((x - ?)(x - ?)\)<br>
+                        • Last term \(-\), Middle term \(\pm\) \(\longrightarrow\) Signs split; larger number takes middle sign: \((x + ?)(x - ?)\)
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Walkthrough: Factor \(x^2 - 3x - 4\)</div>
+                    <div class="text-slate-300 pl-2">
+                        1. <span class="text-white">Analyze Signs:</span> The last term is \(-4\). This means signs split: \((x + ?)(x - ?)\).<br>
+                        2. <span class="text-white">Set Target Goals:</span> Find factors of \(-4\) that add up to \(-3\).<br>
+                        3. <span class="text-white">Test Combinations:</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;• \((+2) \times (-2) = -4\) &nbsp;&nbsp;\(\longrightarrow\) \(2 + (-2) = 0\) <span class="text-slate-500">(Incorrect)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;• \((+1) \times (-4) = -4\) &nbsp;&nbsp;\(\longrightarrow\) \(1 + (-4) = -3\) <span class="text-emerald-400">(Perfect Match)</span><br>
+                        4. <span class="text-white">Final Structural Assembly:</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-emerald-400">\(x^2 - 3x - 4 = (x + 1)(x - 4)\)</span>
+                    </div>
+                </div>
+            </div>
+            </section>
+
+            <!-- SECTION 2: FUNCTIONS & GRAPHS -->
+            <section id="functions" class="space-y-6 scroll-mt-24">
+                <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">02</span>
+                <h3 class="text-base font-semibold text-white">Deep Dive: Domain Bounds Calculation</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Finding the domain means hunting for mathematical impossibilities. You must check for dividing by zero and taking even roots of negative numbers simultaneously.
+                </p>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// Walkthrough: Find Domain of \(f(x) = \frac{\sqrt{x-2}}{x-5}\)</div>
+                    <div class="text-slate-300 pl-2">
+                        1. <span class="text-white">Isolate Radical Constraints (Top):</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;The radicand must be non-negative: \(x - 2 \ge 0 \longrightarrow x \ge 2\)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-slate-400">Current allowed zone: \([2, \infty)\)</span><br><br>
+                        
+                        2. <span class="text-white">Isolate Rational Constraints (Bottom):</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;The denominator cannot equal zero: \(x - 5 \neq 0 \longrightarrow x \neq 5\)<br><br>
+                        
+                        3. <span class="text-white">Intersect the Conditions:</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Start at \(2\) and go forward forever, but chop a hole out exactly at \(5\).
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Mathematical Notation Output</div>
+                    <div class="text-slate-300 pl-2">
+                        • Inequalities: \(2 \le x < 5\) or \(x > 5\)<br>
+                        • Interval Format: <span class="text-emerald-400">\([2, 5) \cup (5, \infty)\)</span>
+                    </div>
+                </div>
+            </div>
+            </section>
+
+            <!-- SECTION 3: TRIGONOMETRY PILLARS -->
+            <section id="trig" class="space-y-6 scroll-mt-24">
+            <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">03</span>
+                <h3 class="text-base font-semibold text-white">Deep Dive: Radian Mechanics & Reference Triangles</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Calculus treats trigonometric functions as geometric ratios mapped over an infinite loop. You must instantly extract the reference triangle from any radiant unit.
+                </p>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// The ASTC Rule (All Students Take Calculus)</div>
+                    <div class="text-slate-300 pl-2">
+                        • Q1 (All Positive): All ratios are \(+\)<br>
+                        • Q2 (Sine Positive): Only \(\sin(\theta)\) is \(+\); \(\cos(\theta)\) and \(\tan(\theta)\) are \(-\)<br>
+                        • Q3 (Tangent Positive): Only \(\tan(\theta)\) is \(+\); \(\sin(\theta)\) and \(\cos(\theta)\) are \(-\)<br>
+                        • Q4 (Cosine Positive): Only \(\cos(\theta)\) is \(+\); \(\sin(\theta)\) and \(\tan(\theta)\) are \(-\)
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Walkthrough: Evaluate \(\cos\left(\frac{5\pi}{6}\right)\)</div>
+                    <div class="text-slate-300 pl-2">
+                        1. <span class="text-white">Locate the Quadrant:</span> \(\frac{5\pi}{6}\) is just short of \(\pi\) (\(\frac{6\pi}{6}\)), placing it in **Quadrant 2**.<br>
+                        2. <span class="text-white">Apply Sign Rule:</span> In Q2, Cosine is <span class="text-amber-400">negative</span>.<br>
+                        3. <span class="text-white">Find Reference Angle:</span> \(\pi - \frac{5\pi}{6} = \frac{\pi}{6}\) (30°).<br>
+                        4. <span class="text-white">Extract Core Coordinate:</span> \(\cos\left(\frac{\pi}{6}\right) = \frac{\sqrt{3}}{2}\).<br>
+                        <span class="text-emerald-400">Result: \(\cos\left(\frac{5\pi}{6}\right) = -\frac{\sqrt{3}}{2}\)</span>
+                    </div>
+                </div>
+            </div>
+            </section>
+
+            <!-- SECTION 4: LOGS & EXPONENTIALS -->
+            <section id="logs" class="space-y-6 scroll-mt-24">
+                <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">04</span>
+                <h3 class="text-base font-semibold text-white">Deep Dive: Logarithmic Manipulation & Base-e Mechanics</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Logarithms aren't just arbitrary rules—they are the exact inverses of exponential functions. In Calculus, you must condense or expand them seamlessly to solve complex algebraic relationships.
+                </p>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// Core Structural Inversion</div>
+                    <div class="text-slate-300 pl-2">
+                        $$\ln(x) = y \iff e^y = x$$
+                        Key Constants: \(\ln(e) = 1\), \(\ln(1) = 0\)
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Walkthrough: Solve \(e^{2x - 1} = 5\)</div>
+                    <div class="text-slate-300 pl-2">
+                        1. <span class="text-white">Apply Natural Log to both sides:</span> \(\ln(e^{2x - 1}) = \ln(5)\)<br>
+                        2. <span class="text-white">Cancel Inverse Bases:</span> The \(\ln\) and \(e\) neutralize, leaving: \(2x - 1 = \ln(5)\)<br>
+                        3. <span class="text-white">Isolate the variable:</span> \(2x = \ln(5) + 1\)<br>
+                        <span class="text-emerald-400">Exact Solution: \(x = \frac{\ln(5) + 1}{2}\)</span>
+                    </div>
+                </div>
+            </div>
+            </section>
+            <!-- SECTION 5: ADVANCED FACTORING & ROOTS -->
+            <section id="advanced-factoring" class="space-y-6 scroll-mt-24">
+                <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">05</span>
+                <h3 class="text-base font-semibold text-white">Deep Dive: Conjugate Multiplication Mechanics</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    When you run into an expression like \(\sqrt{x} - 3\) that cannot be factored, multiplying by its conjugate twin eliminates the radical wrapper by creating a perfect difference of squares.
+                </p>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// The Conjugate Rule Template</div>
+                    <div class="text-slate-300 pl-2">
+                        The conjugate of \((A - B)\) is always \((A + B)\).<br>
+                        Multiplying them yields: \((A - B)(A + B) = A^2 - B^2\)
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Walkthrough: Rationalize the numerator of \(\frac{\sqrt{x} - 3}{x - 9}\)</div>
+                    <div class="text-slate-300 pl-2">
+                        1. <span class="text-white">Multiply top/bottom by conjugate:</span> \(\frac{(\sqrt{x} - 3)(\sqrt{x} + 3)}{(x - 9)(\sqrt{x} + 3)}\)<br>
+                        2. <span class="text-white">Expand Top Layer:</span> \((\sqrt{x})^2 - (3)^2 = x - 9\)<br>
+                        3. <span class="text-white">Assemble and Cancel structural terms:</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;$$\frac{x - 9}{(x - 9)(\sqrt{x} + 3)}$$<br>
+                        <span class="text-emerald-400">Final Simplified Form: \(\frac{1}{\sqrt{x} + 3}\)</span>
+                    </div>
+                </div>
+            </div>
+            </section>
+
+            <!-- SECTION 6: PIECEWISE FUNCTIONS -->
+            <section id="piecewise" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">06</span>
+                    <h2 class="text-xl font-semibold text-white">Piecewise Functions & Continuity Essentials</h2>
+                </div>
+                <p class="text-sm text-slate-400">You must be able to evaluate functions that change formulas depending on the input boundary.</p>
+
+                <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-semibold text-white">Boundary Checking Template</h3>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 text-sm font-mono">
+                        $$f(x) = \begin{cases} 
+                        x^2 - 1 & x < 2 \\ 
+                        2x - 1 & x \ge 2 
+                        \end{cases}$$
+                    </div>
+                    <div class="text-xs text-slate-400 leading-relaxed bg-slate-900/40 p-4 rounded-xl border border-slate-800/30">
+                        <span class="text-white font-medium block mb-1">Testing Step at the seam ($x = 2$):</span>
+                        * Left-side equation: \((2)^2 - 1 = 3\)<br>
+                        * Right-side equation: \(2(2) - 1 = 3\)<br>
+                        Since both pieces hit the exact same value (\(3\)), the graph connects seamlessly. This is the foundation of **Continuity** in Calculus!
+                    </div>
+                </div>
+            </section>
+            <!-- SECTION 7: RADIAN BASELINES & TRIG EQUATIONS -->
+            <section id="trig-equations" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">07</span>
+                    <h2 class="text-xl font-semibold text-white">Trigonometric Analytic Solutions</h2>
+                </div>
+                <p class="text-sm text-slate-400">Calculus optimization routines frequently require isolating specific angle sets without a digital interface.</p>
+                
+                <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-semibold text-white">Interval Reduction Engine</h3>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 text-sm font-mono flex flex-col items-center justify-center">
+                        <div>Isolate \(\theta\) on the interval \([0, 2\pi)\):</div>
+                        <div class="mt-2 text-base text-indigo-400">$$2\sin(\theta) + \sqrt{3} = 0 \longrightarrow \sin(\theta) = -\frac{\sqrt{3}}{2}$$</div>
+                    </div>
+                    <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30 grid grid-cols-2 gap-4">
+                        <div>
+                            <span class="text-white font-medium block">Quadrant Analysis:</span>
+                            Sine is negative in Q3 and Q4. Reference angle is \(\frac{\pi}{3}\).
+                        </div>
+                        <div>
+                            <span class="text-white font-medium block">Exact Vector Outputs:</span>
+                            $$\theta = \frac{4\pi}{3}, \quad \theta = \frac{5\pi}{3}$$
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 8: POLYNOMIAL BEHAVIOR & ASYMPTOTES -->
+            <section id="asymptotes" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">08</span>
+                    <h2 class="text-xl font-semibold text-white">End Behavior & Rational Asymptotes</h2>
+                </div>
+                <p class="text-sm text-slate-400">The gateway to evaluating limits at infinity is instantly identifying the dominant degrees of polynomials.</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Horizontal Bounds</span>
+                            <h3 class="text-base font-semibold text-white mt-1 mb-3">The Leading Degree Rule</h3>
+                            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 text-xs font-mono space-y-1">
+                                <div>• Top Degree &lt; Bottom: Asymptote is \(y = 0\)</div>
+                                <div>• Top Degree = Bottom: Ratio of coefficients</div>
+                                <div>• Top Degree &gt; Bottom: No horizontal bound (\(\pm\infty\))</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30 mt-3">
+                            <span class="text-slate-200 font-medium">Quick Target:</span> \(\frac{3x^2 - 5}{2x^2 + 7} \implies y = \frac{3}{2}\)
+                        </div>
+                    </div>
+
+                    <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Vertical Infinity</span>
+                            <h3 class="text-base font-semibold text-white mt-1 mb-3">Non-Zero Over Zero Rule</h3>
+                            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 flex items-center justify-center my-2 text-sm font-mono">
+                                $$\frac{k}{0} \text{ where } k \neq 0 \implies \text{Vertical Asymptote}$$
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30">
+                            <span class="text-slate-200 font-medium">Difference from holes:</span> If it cancels out, it's a hole. If it stays in the denominator, it's a vertical asymptote.
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- SECTION 9: INVERSE FUNCTIONS & COMPOSITION GRAPHICS -->
+            <section id="inverse-functions" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">09</span>
+                    <h2 class="text-xl font-semibold text-white">Inverse Algebra & Reflections</h2>
+                </div>
+                <p class="text-sm text-slate-400">Calculus derivatives of inverse functions rely heavily on understanding how domains swap and reflect across the identity line.</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Algebraic Swap</span>
+                            <h3 class="text-base font-semibold text-white mt-1 mb-3">Isolating the Inverse</h3>
+                            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 text-xs font-mono space-y-1">
+                                <div>1. Replace \(f(x)\) with \(y\).</div>
+                                <div>2. Swap all \(x\) and \(y\) variables.</div>
+                                <div>3. Solve completely for the new \(y\).</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30 mt-3">
+                            <span class="text-slate-200 font-medium">Target Template:</span> \(y = \sqrt[3]{x + 1} \implies f^{-1}(x) = x^3 - 1\)
+                        </div>
+                    </div>
+
+                    <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Geometric Property</span>
+                            <h3 class="text-base font-semibold text-white mt-1 mb-3">Symmetry Mapping</h3>
+                            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 flex items-center justify-center my-2 text-sm font-mono">
+                                $$\text{Reflected across the line: } y = x$$
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30">
+                            <span class="text-slate-200 font-medium">Coordinate Check:</span> If original function holds point \((a, b)\), the inverse must map exactly to \((b, a)\).
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 10: COMPLEX FRACTIONS & RE-WRITING -->
+            <section id="complex-fractions" class="space-y-6 scroll-mt-24">
+            <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">10</span>
+                <h3 class="text-base font-semibold text-white">Deep Dive: Clearing Complex Rational Fractions</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Instead of finding common denominators for separate pieces and dividing long-form, the most efficient UI/UX processing layout is to clear denominators in a single pass using the Lowest Common Denominator (LCD).
+                </p>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// Core Target Expression</div>
+                    <div class="text-slate-300 pl-2">
+                        $$\text{Simplify: } \frac{\frac{3}{x+2} - \frac{3}{2}}{x}$$
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Step 1: Identify Internal LCD</div>
+                    <div class="text-slate-400 pl-2">
+                        The interior denominators are \((x+2)\) and \(2\). Your master multiplier is <span class="text-white">\(2(x+2)\)</span>.
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Step 2: Multiply Top & Bottom Completely</div>
+                    <div class="text-slate-300 pl-2">
+                        \(\frac{2(x+2) \cdot \left[ \frac{3}{x+2} \right] - 2(x+2) \cdot \left[ \frac{3}{2} \right]}{2(x+2) \cdot x}\)<br><br>
+                        • Term 1 simplifies to: \(2 \cdot 3 = 6\)<br>
+                        • Term 2 simplifies to: \(3 \cdot (x+2) = 3x + 6\)
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Step 3: Combine and Reduce</div>
+                    <div class="text-slate-300 pl-2">
+                        $$\frac{6 - (3x + 6)}{2x(x+2)} \longrightarrow \frac{6 - 3x - 6}{2x(x+2)} \longrightarrow \frac{-3x}{2x(x+2)}$$
+                    </div>
+
+                    <div class="text-emerald-400 pl-2">// Step 4: Cancel Variable Constraints</div>
+                    <div class="text-slate-300 pl-2">
+                        Cancel the \(x\) variable from numerator and denominator:<br>
+                        <span class="text-emerald-400">Final Expression: \(\frac{-3}{2(x+2)}\)</span>
+                    </div>
+                </div>
+            </div>
+            </section>
+  <!-- SECTION 11: LINEAR FUNCTIONS (EXPANDED UPDATE) -->
+            <!-- Replace the old Section 11 card area with this detailed breakdown -->
+            <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">11</span>
+                <h3 class="text-base font-semibold text-white">Deep Dive: Linear Vector Space & Slopes</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    In Calculus, a line is not just a static shape—it represents a constant **Rate of Change**. To find the tangent line to a curve, you must know how to build linear models instantly.
+                </p>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// 1. Calculating Slope from 2 Points: (x1, y1) and (x2, y2)</div>
+                    <div class="text-slate-300 pl-2">
+                        Given points: \((2, 5)\) and \((4, 11)\)<br>
+                        \(m = \frac{y_2 - y_1}{x_2 - x_1} = \frac{11 - 5}{4 - 2} = \frac{6}{2} = 3\)
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// 2. Building the Equation (Point-Slope Form)</div>
+                    <div class="text-slate-300 pl-2">
+                        Formula: \(y - y_1 = m(x - x_1)\)<br>
+                        Using point \((2, 5)\) and slope \(m = 3\):<br>
+                        <span class="text-emerald-400">\(y - 5 = 3(x - 2)\)</span>
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// 3. Converting to Slope-Intercept (To check your work)</div>
+                    <div class="text-slate-300 pl-2">
+                        Distribute the 3: \(y - 5 = 3x - 6\)<br>
+                        Add 5 to both sides: <span class="text-amber-400">\(y = 3x - 1\)</span>
+                    </div>
+                </div>
+                <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30">
+                    <span class="text-white font-medium">Calculus Connection:</span> Week 3 of Math 181 will ask you to "Find the equation of the tangent line." You will use derivatives to get \(m\), and then use this exact sequence to finish the problem.
+                </div>
+            </div>
+
+            <!-- SECTION 12: QUADRATIC ROOTS (EXPANDED UPDATE) -->
+            <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">12</span>
+                <h3 class="text-base font-semibold text-white">Deep Dive: Quadratic Roots Breakdown</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    When an expression like \(ax^2 + bx + c = 0\) cannot be factored easily by eye, the Quadratic Formula guarantees a solution.
+                </p>
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// Example Problem: Solve 2x² - 5x - 3 = 0</div>
+                    <div class="text-slate-400 pl-2">
+                        Identify parameters: <span class="text-white">a = 2, b = -5, c = -3</span>
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Step 1: Compute the Discriminant (b² - 4ac)</div>
+                    <div class="text-slate-300 pl-2">
+                        \((-5)^2 - 4(2)(-3) = 25 - (-24) = 25 + 24 = 49\)<br>
+                        <span class="text-emerald-400">Note: 49 is positive, so we have 2 real solutions!</span>
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Step 2: Substitute into the full formula</div>
+                    <div class="text-slate-300 pl-2">
+                        \(x = \frac{-(-5) \pm \sqrt{49}}{2(2)}\)<br>
+                        \(x = \frac{5 \pm 7}{4}\)
+                    </div>
+
+                    <div class="text-indigo-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Step 3: Split into Plus and Minus tracks</div>
+                    <div class="text-slate-300 pl-2">
+                        Track (+): \(\frac{5 + 7}{4} = \frac{12}{4} = 3\)<br>
+                        Track (-): \(\frac{5 - 7}{4} = \frac{-2}{4} = -\frac{1}{2}\)
+                    </div>
+                    
+                    <div class="text-emerald-400 pl-2">// Final Roots: x = 3, x = -1/2</div>
+                </div>
+            </div>
+            <!-- SECTION 13: NEGATIVE & FRACTIONAL EXPONENTS -->
+            <section id="exponent-mechanics" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">13</span>
+                    <h2 class="text-xl font-semibold text-white">Negative & Fractional Exponent Rules</h2>
+                </div>
+                <p class="text-sm text-slate-400">Calculus completely ditches radical signs. You must instantly convert roots into fractional powers to apply core computational rules.</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Radical Conversion</span>
+                            <h3 class="text-base font-semibold text-white mt-1 mb-3">The Root-Power Rule</h3>
+                            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 text-base font-mono text-center text-white">
+                                $$\sqrt[n]{x^m} = x^{\frac{m}{n}}$$
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30 mt-3">
+                            <span class="text-slate-200 font-medium">Execution:</span> Think "Power over Root". Therefore, \(\sqrt[3]{x^2}\) becomes <span class="text-emerald-400">\(x^{2/3}\)</span>.
+                        </div>
+                    </div>
+
+                    <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Flipped Frameworks</span>
+                            <h3 class="text-base font-semibold text-white mt-1 mb-3">Negative Exponents</h3>
+                            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 text-base font-mono text-center text-white">
+                                $$x^{-n} = \frac{1}{x^n}$$
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30 mt-3">
+                            <span class="text-slate-200 font-medium">Double Step Example:</span> Convert \(\frac{1}{\sqrt{x}}\) into a clean, flat term: \(\frac{1}{x^{1/2}} \longrightarrow\) <span class="text-emerald-400">\(x^{-1/2}\)</span>.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 14: ABSOLUTE VALUE INEQUALITIES -->
+            <section id="absolute-bounds" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">14</span>
+                    <h2 class="text-xl font-semibold text-white">Absolute Value Intervals & Distance Bounds</h2>
+                </div>
+                <p class="text-sm text-slate-400">Absolute values represent distance on a number line. Placement exams heavily check if you know how to unfold them into compound intervals.</p>
+
+                <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-semibold text-white">The "Less Than" Sandwich Protocol</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        When an absolute inequality uses a "less than" sign (\(<\) or \(\le\)), it forms a single, contiguous interval bounded on both sides.
+                    </p>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                        <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// Core Problem: Solve \(|2x - 3| \le 5\)</div>
+                        
+                        <div class="text-slate-300 pl-2">
+                            1. <span class="text-white">Unfold into a sandwich inequality:</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;\(-5 \le 2x - 3 \le 5\)<br><br>
+                            2. <span class="text-white">Add 3 to all three sections:</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;\(-2 \le 2x \le 8\)<br><br>
+                            3. <span class="text-white">Divide all sections by 2:</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;\(-1 \le x \le 4\)
+                        </div>
+
+                        <div class="text-emerald-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Final Interval Output</div>
+                        <div class="text-slate-300 pl-2">
+                            Interval Notation: <span class="text-emerald-400">\([-1, 4]\)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- SECTION 15: BINOMIAL EXPANSION BASELINES -->
+            <section id="binomial-expansion" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">15</span>
+                    <h2 class="text-xl font-semibold text-white">Perfect Square Binomial Expansion</h2>
+                </div>
+                <p class="text-sm text-slate-400">Calculus limit proofs frequently require you to expand expressions like \((x+h)^2\) or \((x+h)^3\) instantaneously without manual distribution grids.</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">The Square Template</span>
+                            <h3 class="text-base font-semibold text-white mt-1 mb-3">The Middle Term Trap</h3>
+                            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 text-base font-mono text-center text-white">
+                                $$(a + b)^2 = a^2 + 2ab + b^2$$
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30 mt-3">
+                            <span class="text-slate-200 font-medium">Placement Warning:</span> Never write \((x+h)^2 = x^2 + h^2\). Forgetting the cross-multiplied middle term (\(2xh\)) is one of the most common ways students fail the algebra verification sections.
+                        </div>
+                    </div>
+
+                    <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">The Cubic Template</span>
+                            <h3 class="text-base font-semibold text-white mt-1 mb-3">Expanding to Degree 3</h3>
+                            <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 text-sm font-mono text-center text-white">
+                                $$(a + b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$$
+                            </div>
+                        </div>
+                        <div class="text-xs text-slate-400 bg-slate-900/40 p-3 rounded-lg border border-slate-800/30 mt-3">
+                            <span class="text-slate-200 font-medium">Calculus Reality:</span> You will use this exact pattern during week 2 of Calculus to prove the derivative of \(f(x) = x^3\) from scratch using the limit definition.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 16: ABSOLUTE VALUE EQUATIONS -->
+            <section id="absolute-equations" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">16</span>
+                    <h2 class="text-xl font-semibold text-white">Absolute Value Multi-Track Equations</h2>
+                </div>
+                <p class="text-sm text-slate-400">Before running inequalities, you must be able to branch absolute statements into separate physical coordinate solutions.</p>
+
+                <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-semibold text-white">The Dual-Track Isolation Protocol</h3>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                        <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// Walkthrough: Solve \(3|x - 1| + 4 = 13\)</div>
+                        
+                        <div class="text-slate-300 pl-2">
+                            1. <span class="text-white">Isolate the absolute value brackets completely:</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;\(3|x - 1| = 9 \implies |x - 1| = 3\)<br><br>
+                            2. <span class="text-white">Split into positive and negative branches:</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• Track (+): \(x - 1 = 3 \implies x = 4\)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;• Track (-): \(x - 1 = -3 \implies x = -2\)
+                        </div>
+
+                        <div class="text-emerald-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Coordinate Map Solution</div>
+                        <div class="text-slate-300 pl-2">
+                            Roots: <span class="text-emerald-400">x = 4, \quad x = -2</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- SECTION 17: SOLVING RATIONAL EQUATIONS -->
+            <section id="rational-equations" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">17</span>
+                    <h2 class="text-xl font-semibold text-white">Rational Equations & Extraneous Roots</h2>
+                </div>
+                <p class="text-sm text-slate-400">Before analyzing fractional curves, you must be able to solve for their intersections by clearing denominators entirely.</p>
+
+                <div class="bg-[#111625] border border-slate-800/80 rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-semibold text-white">The LCD Elimination Routine</h3>
+                    <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/50 space-y-4 text-xs font-mono">
+                        <div class="text-indigo-400 font-semibold border-b border-slate-800 pb-1">// Walkthrough: Solve \(\frac{2}{x-1} + \frac{1}{x} = \frac{5}{x(x-1)}\)</div>
+                        
+                        <div class="text-slate-300 pl-2">
+                            1. <span class="text-white">Identify the LCD:</span> The common multiplier is \(x(x-1)\).<br>
+                            2. <span class="text-white">Multiply every term to clear the fractions:</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;\(2(x) + 1(x-1) = 5\)<br><br>
+                            3. <span class="text-white">Simplify and isolate \(x\):</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;\(2x + x - 1 = 5 \implies 3x = 6 \implies x = 2\)<br><br>
+                            4. <span class="text-white">Check for Domain Constraints:</span> Our original constraints were \(x \neq 1\) and \(x \neq 0\).<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;Since \(2\) is safe, it is a valid solution!
+                        </div>
+
+                        <div class="text-emerald-400 font-semibold border-b border-slate-800 pt-2 pb-1">// Extraneous Warning</div>
+                        <div class="text-slate-300 pl-2">
+                            If your final algebraic answer matches one of your restricted domain values, you must discard it as an **extraneous root**.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 18: GEOMETRIC SHAPE FORMULAS -->
+            <section id="geometry-baselines" class="space-y-6 scroll-mt-24">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                    <span class="text-xs font-bold px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md">18</span>
+                    <h2 class="text-xl font-semibold text-white">Geometric Optimization Baselines</h2>
+                </div>
+                <p class="text-sm text-slate-400">Calculus optimization and related rates problems assume you have perfect recall of essential geometric relationships.</p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="bg-slate-950/40 border border-slate-800/60 p-4 rounded-xl text-center">
+                        <span class="block text-xs font-semibold text-slate-500 mb-1">Circle Area</span>
+                        <div class="text-sm font-mono text-white">$$A = \pi r^2$$</div>
+                    </div>
+                    <div class="bg-slate-950/40 border border-slate-800/60 p-4 rounded-xl text-center">
+                        <span class="block text-xs font-semibold text-slate-500 mb-1">Circumference</span>
+                        <div class="text-sm font-mono text-white">$$C = 2\pi r$$</div>
+                    </div>
+                    <div class="bg-slate-950/40 border border-slate-800/60 p-4 rounded-xl text-center">
+                        <span class="block text-xs font-semibold text-slate-500 mb-1">Cylinder Volume</span>
+                        <div class="text-sm font-mono text-white">$$V = \pi r^2 h$$</div>
+                    </div>
+                    <div class="bg-slate-950/40 border border-slate-800/60 p-4 rounded-xl text-center">
+                        <span class="block text-xs font-semibold text-slate-500 mb-1">Sphere Volume</span>
+                        <div class="text-sm font-mono text-white">$$V = \frac{4}{3}\pi r^3$$</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Meta Banner -->
+            <footer class="pt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 space-y-4 sm:space-y-0">
+                <p>Designed for premium academic retention & UI clear layouts.</p>
+                <div class="flex space-x-4">
+                    <span>Target: Math 181 Calculus</span>
+                    <span>Status: Assessment Active</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
