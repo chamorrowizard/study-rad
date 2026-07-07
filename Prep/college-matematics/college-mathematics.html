@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Portal - Quantitative Architecture</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-main: #0a0e17;
+            --bg-card: #121824;
+            --bg-nav: #0d131f;
+            --accent-primary: #38bdf8;
+            --accent-secondary: #818cf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+            --success: #34d399;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-bottom: 4rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-secondary);
+            margin: 1.5rem 0 0.75rem 0.25rem;
+            font-weight: 700;
+        }
+
+        /* --- Module Grid Menu Links --- */
+        .module-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .module-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .module-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .module-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .module-icon {
+            color: var(--accent-primary);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .module-text-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-id {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .module-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-top: 0.1rem;
+        }
+
+        .chevron {
+            color: var(--text-muted);
+            transition: transform 0.2s;
+        }
+
+        .module-card:hover .chevron {
+            color: var(--accent-primary);
+            transform: translateX(2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>CLEP Mathematics</h1>
+            <p>Mastery Gateway Curriculum</p>
+        </header>
+
+        <div class="section-title">Core Modules</div>
+        <div class="module-list">
+            
+            <!-- Module 1: Algebra and Functions -->
+            <a href="./module1.html" class="module-card">
+                <div class="module-info">
+                    <div class="module-icon"><i data-lucide="sliders"></i></div>
+                    <div class="module-text-group">
+                        <span class="module-id">Module 1</span>
+                        <span class="module-title">Algebra and Functions</span>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="chevron" style="width: 18px;"></i>
+            </a>
+
+            <!-- Module 2: Counting and Probability -->
+            <a href="./module2.html" class="module-card">
+                <div class="module-info">
+                    <div class="module-icon"><i data-lucide="binary"></i></div>
+                    <div class="module-text-group">
+                        <span class="module-id">Module 2</span>
+                        <span class="module-title">Counting and Probability</span>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="chevron" style="width: 18px;"></i>
+            </a>
+
+            <!-- Module 3: Statistics and Data -->
+            <a href="./module3.html" class="module-card">
+                <div class="module-info">
+                    <div class="module-icon"><i data-lucide="bar-chart-3"></i></div>
+                    <div class="module-text-group">
+                        <span class="module-id">Module 3</span>
+                        <span class="module-title">Statistics and Data</span>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="chevron" style="width: 18px;"></i>
+            </a>
+
+            <!-- Module 4: Financial Mathematics -->
+            <a href="./module4.html" class="module-card">
+                <div class="module-info">
+                    <div class="module-icon"><i data-lucide="dollar-sign"></i></div>
+                    <div class="module-text-group">
+                        <span class="module-id">Module 4</span>
+                        <span class="module-title">Financial Mathematics</span>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="chevron" style="width: 18px;"></i>
+            </a>
+
+            <!-- Module 5: Geometry -->
+            <a href="./module5.html" class="module-card">
+                <div class="module-info">
+                    <div class="module-icon"><i data-lucide="shapes"></i></div>
+                    <div class="module-text-group">
+                        <span class="module-id">Module 5</span>
+                        <span class="module-title">Geometry</span>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="chevron" style="width: 18px;"></i>
+            </a>
+
+            <!-- Module 6: Logic and Sets -->
+            <a href="./module6.html" class="module-card">
+                <div class="module-info">
+                    <div class="module-icon"><i data-lucide="git-branch"></i></div>
+                    <div class="module-text-group">
+                        <span class="module-id">Module 6</span>
+                        <span class="module-title">Logic and Sets</span>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="chevron" style="width: 18px;"></i>
+            </a>
+
+            <!-- Module 7: Numbers -->
+            <a href="./module7.html" class="module-card">
+                <div class="module-info">
+                    <div class="module-icon"><i data-lucide="hash"></i></div>
+                    <div class="module-text-group">
+                        <span class="module-id">Module 7</span>
+                        <span class="module-title">Numbers</span>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="chevron" style="width: 18px;"></i>
+            </a>
+
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
