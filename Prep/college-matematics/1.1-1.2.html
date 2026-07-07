@@ -328,48 +328,83 @@
             </header>
 
             <!-- MODULE 1.1.1: EQUATIONS AND INEQUALITIES -->
-            <section id="equations-section">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title-group">
-                            <div class="card-icon"><i data-lucide="sliders"></i></div>
-                            <div>
-                                <span class="card-meta">Module 1.1.1</span>
-                                <h2>Equations & Inequalities</h2>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-muted);">
-                        Equations pinpoint discrete coordinate intersections, while inequalities map entire continuous valid solution domains.
-                    </p>
+<section id="equations-section">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-group">
+                <div class="card-icon"><i data-lucide="sliders"></i></div>
+                <div>
+                    <span class="card-meta">Module 1.1.1</span>
+                    <h2>Equations & Inequalities</h2>
+                </div>
+            </div>
+        </div>
+        
+        <p style="font-size: 0.95rem; line-height: 1.5; color: var(--text-muted);">
+            Equations pinpoint discrete coordinate intersections, while inequalities map entire continuous valid solution domains.
+        </p>
 
-                    <div class="formula-display">
-                        ax + b = 0 &nbsp;|&nbsp; ax + b &gt; 0
-                    </div>
+        <div class="formula-display">
+            ax + b = 0 &nbsp;|&nbsp; ax + b &gt; 0
+        </div>
 
-                    <!-- Step-by-Step Breakdown matching the requested clear layout style -->
-                    <div class="walkthrough-box">
-                        <h3><i data-lucide="help-circle" style="width:18px;"></i> Walkthrough: Prime Mechanics</h3>
-                        <div class="step-container">
-                            <div class="step-row">
-                                <div class="step-number">01</div>
-                                <div class="step-content">
-                                    <h4>Isolate Variables Cleanly</h4>
-                                    <p>Shift all parameter terms containing the variable to one side using opposite algebraic operations, while maintaining absolute equivalence balance on both sides.</p>
-                                </div>
-                            </div>
-                            <div class="step-row">
-                                <div class="step-number">02</div>
-                                <div class="step-content">
-                                    <h4>The Negative Boundary Pivot Rule</h4>
-                                    <p>Crucial step for inequalities: Whenever you multiply or divide both sides by a <span class="math-code">negative number</span>, you must instantly flip the direction of the inequality sign.</p>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Comprehensive Step-by-Step Breakdown -->
+        <div class="walkthrough-box">
+            <h3><i data-lucide="help-circle" style="width:18px;"></i> Walkthrough: Core Architectural Mechanics</h3>
+            <div class="step-container">
+                <div class="step-row">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h4>Rigid vs. Flexible System Constraints</h4>
+                        <p>An equation imposes a rigid constraint. The equals sign (=) acts as a perfect balance scale where the solution set is <strong>discrete</strong>—for example, <span class="math-code">2x + 4 = 0</span> yields exactly one specific value: <span class="math-code">x = -2</span>. Conversely, an inequality establishes a relative boundary threshold using operators (&gt;, &lt;, &ge;, &le;), generating an infinite, <strong>continuous domain</strong> of numbers that satisfy the statement.</p>
                     </div>
                 </div>
-            </section>
+                <div class="step-row">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h4>Isolate Variables with Inverse Operations</h4>
+                        <p>Shift all variable terms to one side while balancing the statement. For equations, operations scale symmetrically. For inequalities, the same inverse operations apply (subtraction, addition, positive multiplication), but you are mapping an open-ended path. 
+                        <br><em>Example:</em> <span class="math-code">3x + 6 &gt; 12</span> simplifies to <span class="math-code">3x &gt; 6</span>, which isolates cleanly to the domain <span class="math-code">x &gt; 2</span>.</p>
+                    </div>
+                </div>
+                <div class="step-row">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h4>The Negative Boundary Pivot Rule</h4>
+                        <p>When multiplying or dividing an inequality by a <span class="math-code">negative number</span>, you mirror your values across the number line's zero-axis. To preserve mathematical truth, you must instantly reverse the inequality direction. 
+                        <br><em>Example:</em> If <span class="math-code">-3x &lt; 9</span>, dividing by -3 flips the operator entirely, yielding the valid domain solution <span class="math-code">x &gt; -3</span>.</p>
+                    </div>
+                </div>
+                <div class="step-row">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h4>Interval Notation Frameworks</h4>
+                        <p>While equations yield straightforward coordinate lists, inequalities require formal interval notation to define boundaries without writing infinite digits:
+                        <br>• Use <strong>parentheses ( )</strong> for strict boundaries (<span class="math-code">&lt;, &gt;</span>) or infinity, meaning the boundary point itself is excluded.
+                        <br>• Use <strong>brackets [ ]</strong> for inclusive bounds (<span class="math-code">&le;, &ge;</span>), meaning the endpoint is part of the solution domain.
+                        <br><em>Example:</em> <span class="math-code">x &gt; 2</span> translates to the interval <span class="math-code">(2, &infin;)</span>, while <span class="math-code">x &le; 5</span> translates to <span class="math-code">(-&infin;, 5]</span>.</p>
+                    </div>
+                </div>
+                <div class="step-row">
+                    <div class="step-number">05</div>
+                    <div class="step-content">
+                        <h4>Compound Bounds & Boolean Logic</h4>
+                        <p>Inequalities can combine to restrict regions via two structural pathways:
+                        <br>• <strong>Intersection (AND / Intersection Symbol &cap;):</strong> The solution must satisfy both conditions simultaneously. Represents a finite bounded segment. Example: <span class="math-code">x &gt; 1</span> AND <span class="math-code">x &le; 5</span> resolves to <span class="math-code">(1, 5]</span>.
+                        <br>• <strong>Union (OR / Union Symbol &cup;):</strong> The solution satisfies at least one condition. Represents divergent paths split outwards. Example: <span class="math-code">x &lt; -2</span> OR <span class="math-code">x &gt; 3</span> resolves to <span class="math-code">(-&infin;, -2) &cup; (3, &infin;)</span>.</p>
+                    </div>
+                </div>
+                <div class="step-row">
+                    <div class="step-number">06</div>
+                    <div class="step-content">
+                        <h4>Geometric Disparity (Line vs. Half-Plane)</h4>
+                        <p>Graphically, an equation like <span class="math-code">y = 2x + 1</span> forms a strict, solid line representing only coordinate points meeting exact balance. An inequality like <span class="math-code">y &gt; 2x + 1</span> treats that line as a boundary threshold—rendering it <strong>dashed</strong> for strict inequalities (&gt;, &lt;) or <strong>solid</strong> for inclusive ones (&ge;, &le;)—and <strong>shades the entire continuous region</strong> above or below it to map out the valid solution domain.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
             <!-- MODULE 1.1.2: THE QUADRATIC FORMULA -->
             <section id="quadratic-section">
