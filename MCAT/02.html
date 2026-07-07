@@ -1367,6 +1367,8 @@
 
                 const row = document.createElement('div');
                 row.className = 'lexeme-row';
+                row.setAttribute('tabindex', '0');
+                row.style.cursor = 'pointer';
                 row.innerHTML = `
                     <div class="lexeme-info">
                         <span class="lexeme-word">${item.word}</span>
@@ -1379,6 +1381,11 @@
                         </div>
                     </div>
                 `;
+                // Start a study session focused on this lexeme when clicked or activated
+                row.addEventListener('click', () => startSessionWithLexeme(item.id));
+                row.addEventListener('keydown', (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startSessionWithLexeme(item.id); }
+                });
                 container.appendChild(row);
             });
 
@@ -1393,6 +1400,25 @@
             if (retainedEl) retainedEl.innerText = healthyCount;
 
             views.progressWrapper.style.visibility = 'hidden';
+        }
+
+        // Start a session that prioritizes a single lexeme (and fills remaining queue)
+        function startSessionWithLexeme(lexemeId) {
+          const primary = lexemes.find(l => l.id === lexemeId);
+          if (!primary) return;
+          let candidates = lexemes.filter(item => calculateRetention(item) < 0.95);
+          if (candidates.length === 0) candidates = [...lexemes];
+          candidates = candidates.filter(c => c.id !== primary.id);
+          activeSessionQueue = [primary].concat(candidates.slice(0, 4));
+          totalQueueLength = activeSessionQueue.length;
+          currentActiveIndex = 0;
+
+          views.dashboard.style.display = 'none';
+          views.stage.style.display = 'flex';
+          views.progressWrapper.style.visibility = 'visible';
+
+          renderCurrentSessionCard();
+          updateProgressBar();
         }
 
         function varLookUp(variableName) {
