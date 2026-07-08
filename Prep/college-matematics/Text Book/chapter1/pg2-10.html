@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Mathematics: Foundations</title>
+    <!-- Tailwind CSS for clean, modern utility styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure MathJax to accept single dollar signs for inline math formulas -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    
+    <!-- MathJax for rendering LaTeX mathematical symbols -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+        }
+        .serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar for premium feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+    
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Premium Header -->
+    <header class="sticky top-0 z-40 bg-[#0b0f19]/80 backdrop-blur-md border-b border-slate-800/80 px-4 py-4 md:px-8 flex justify-between items-center">
+        <div>
+            <span class="text-xs font-semibold tracking-widest text-indigo-400 uppercase">Chapter 1 Prerequisites</span>
+            <h1 class="text-xl font-bold text-white tracking-tight">College Mathematics</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <!-- Progress Tracker -->
+            <div class="hidden sm:block text-right">
+                <span class="text-xs text-slate-400">Course Progress</span>
+                <div class="w-32 bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden">
+                    <div id="progress-bar" class="bg-indigo-500 h-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+            <!-- Mobile Menu Toggle -->
+            <button id="menu-toggle" class="md:hidden p-2 text-slate-400 hover:text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Layout Container -->
+    <div class="flex-1 flex flex-col md:flex-row relative">
+        
+        <!-- Sidebar Navigation (Responsive) -->
+        <nav id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 md:sticky md:top-[73px] md:h-[calc(100vh-73px)] w-72 bg-[#0d1321] border-r border-slate-800/60 p-6 overflow-y-auto transition-transform duration-200 ease-in-out z-50 md:z-30">
+            <div class="flex justify-between items-center mb-6 md:hidden">
+                <span class="font-semibold text-slate-300">Modules</span>
+                <button id="menu-close" class="text-slate-400 hover:text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="nav-links" class="space-y-1">
+                <!-- Links injected dynamically via JS -->
+            </div>
+        </nav>
+
+        <!-- Backdrop overlay for mobile menu -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 hidden z-40 md:hidden"></div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 px-4 py-8 md:p-12 max-w-4xl mx-auto w-full transition-all duration-300">
+            <article id="content-card" class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 md:p-10 shadow-xl backdrop-blur-sm min-h-[500px] flex flex-col justify-between">
+                <!-- Content injected dynamically via JS -->
+                <div id="module-body"></div>
+                
+                <!-- Bottom Navigation Buttons -->
+                <div class="flex justify-between items-center pt-8 mt-12 border-t border-slate-800/80">
+                    <button id="prev-btn" class="px-5 py-2.5 rounded-xl border border-slate-700 text-sm font-medium hover:bg-slate-800 hover:text-white transition-all disabled:opacity-30 disabled:pointer-events-none flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Previous
+                    </button>
+                    <button id="next-btn" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-sm font-medium text-white hover:bg-indigo-500 transition-all flex items-center gap-2">
+                        Next <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <!-- Application Engine Data and Logic -->
+   <!-- Application Engine Data and Logic -->
+    <script>
+        /**
+         * SCALABILITY ARCHITECTURE
+         * To add more detail, pages, sections, or intermediate steps later, 
+         * simply append a new object entry to the 'modules' array below.
+         */
+        const modules = [
+            {
+                id: "intro",
+                title: "1.1 Introduction & History",
+                subtitle: "The Evolution of Numbers",
+                content: `
+                    <p class="text-slate-300 leading-relaxed mb-6 text-lg">Mathematics is the language of science, and its primary alphabet is numbers. The evolution of our modern number system spans thousands of years, driven by the practical demands of human civilization, commerce, and exploration.</p>
+                    <div class="grid gap-4 sm:grid-cols-2 mt-6">
+                        <div class="p-5 rounded-xl bg-slate-800/40 border border-slate-800">
+                            <h4 class="text-indigo-400 font-semibold mb-2">Early Beginnings</h4>
+                            <p class="text-sm text-slate-400">100 centuries ago, tokens and stones were used in the Middle East to track single quantities of crops and livestock, layout out the groundwork for foundational commerce.</p>
+                        </div>
+                        <div class="p-5 rounded-xl bg-slate-800/40 border border-slate-800">
+                            <h4 class="text-indigo-400 font-semibold mb-2">Fractions & Ratios</h4>
+                            <p class="text-sm text-slate-400">Around 3,000–4,000 years ago, ancient Egyptians introduced fractions to represent reciprocals and divide physical resources into exact, equal portions.</p>
+                        </div>
+                        <div class="p-5 rounded-xl bg-slate-800/40 border border-slate-800">
+                            <h4 class="text-indigo-400 font-semibold mb-2">The Concept of Zero</h4>
+                            <p class="text-sm text-slate-400">Introduced as a formal numeral system around the 5th Century A.D. in India to signify null conditions and serve as a reliable placeholder in math computation.</p>
+                        </div>
+                        <div class="p-5 rounded-xl bg-slate-800/40 border border-slate-800">
+                            <h4 class="text-indigo-400 font-semibold mb-2">Negative Values</h4>
+                            <p class="text-sm text-slate-400">Emerging in India by the 7th Century A.D., negative integers were developed to mathematically resolve commercial debt and abstract mathematical equations.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "classifying-real",
+                title: "Classifying Real Numbers",
+                subtitle: "The Structural Hierarchy of Sets",
+                content: `
+                    <p class="text-slate-300 leading-relaxed mb-6">Real numbers are layered in distinct categories based on structural properties. Understanding these subsets prevents critical calculation errors in higher-order algebra.</p>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="border-l-2 border-indigo-500 pl-4 py-1">
+                            <strong class="text-white block">Natural Numbers ($\\{\\mathbb{N}\\}$)</strong>
+                            <span class="text-slate-400 text-sm">Counting or enumerating numbers starting from 1 to infinity. Used for tallying discrete items. <code class="text-indigo-300">\\{1, 2, 3, 4, 5, ...\\}</code></span>
+                        </div>
+                        <div class="border-l-2 border-indigo-500 pl-4 py-1">
+                            <strong class="text-white block">Whole Numbers ($\\{\\mathbb{W}\\}$)</strong>
+                            <span class="text-slate-400 text-sm">The set of natural numbers combined with zero. Represents a null base state. <code class="text-indigo-300">\\{0, 1, 2, 3, ...\\}</code></span>
+                        </div>
+                        <div class="border-l-2 border-indigo-500 pl-4 py-1">
+                            <strong class="text-white block">Integers ($\\{\\mathbb{I}\\}$)</strong>
+                            <span class="text-slate-400 text-sm">Consists of negative integers, zero, and positive integers (natural numbers). Useful for tracking direct opposites like loss or debt. <code class="text-indigo-300">\\{..., -3, -2, -1, 0, 1, 2, 3, ...\\}</code></span>
+                        </div>
+                        <div class="border-l-2 border-indigo-500 pl-4 py-1">
+                            <strong class="text-white block">Rational Numbers ($\\{\\mathbb{Q}\\}$)</strong>
+                            <span class="text-slate-400 text-sm">Any number written as a fraction $\\frac{m}{n}$ where $m$ and $n$ are integers and $n \\neq 0$. Every integer is a rational number with a denominator of 1. In decimal form, they manifest as:</span>
+                            <ul class="list-disc list-inside text-xs text-slate-400 mt-1 pl-2 space-y-1">
+                                <li><span class="text-slate-300 font-semibold">Terminating decimals:</span> e.g., $\\frac{15}{8} = 1.875$ or $\\frac{13}{25} = 0.52$</li>
+                                <li><span class="text-slate-300 font-semibold">Repeating decimals:</span> e.g., $\\frac{4}{11} = 0.363636... = 0.\\overline{36}$</li>
+                            </ul>
+                        </div>
+                        <div class="border-l-2 border-indigo-500 pl-4 py-1">
+                            <strong class="text-white block">Irrational Numbers ($\\{\\mathbb{Q}'\\}$)</strong>
+                            <span class="text-slate-400 text-sm">Numbers that cannot be expressed as a fraction of two integers. Their decimal forms are non-terminating and non-repeating (e.g., $\\sqrt{11}$, $\\pi$, or $0.30330333...$ where the group of 3s increases without a true repeating block).</span>
+                        </div>
+                    </div>
+
+                    <!-- Examples and Verification Sets -->
+                    <div class="space-y-6 border-t border-slate-800/80 pt-6">
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">Example 1: Rational Form Verification</h4>
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs space-y-1 text-slate-300">
+                                <p><span class="text-indigo-400">7</span> $\\rightarrow$ $\\frac{7}{1}$ (Rational)</p>
+                                <p><span class="text-indigo-400">0</span> $\\rightarrow$ $\\frac{0}{1}$ (Rational)</p>
+                                <p><span class="text-indigo-400">-8</span> $\\rightarrow$ $-\\frac{8}{1}$ (Rational)</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">Example 2: Differentiating Radicals and Non-Terminating Series</h4>
+                            <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800 text-sm space-y-3">
+                                <div>
+                                    <p class="text-white font-medium font-mono text-xs">a. $\\sqrt{25}$</p>
+                                    <p class="text-xs text-slate-400 pl-4">Simplifies to $5$. Because it can be written as $\\frac{5}{1}$, it is <span class="text-emerald-400 font-semibold">Rational</span>.</p>
+                                </div>
+                                <div>
+                                    <p class="text-white font-medium font-mono text-xs">b. $\\frac{33}{9}$</p>
+                                    <p class="text-xs text-slate-400 pl-4">Simplifies to $\\frac{11}{3} = 3.\\overline{6}$. Because it is a repeating decimal, it is <span class="text-emerald-400 font-semibold">Rational</span>.</p>
+                                </div>
+                                <div>
+                                    <p class="text-white font-medium font-mono text-xs">c. $\\sqrt{11}$</p>
+                                    <p class="text-xs text-slate-400 pl-4">Cannot be simplified further to an integer ratio. It is <span class="text-amber-400 font-semibold">Irrational</span>.</p>
+                                </div>
+                                <div>
+                                    <p class="text-white font-medium font-mono text-xs">d. $0.3033033303333...$</p>
+                                    <p class="text-xs text-slate-400 pl-4">Though a clear progression pattern exists, there is no fixed repeating block of digits. It is non-terminating, non-repeating, and therefore <span class="text-amber-400 font-semibold">Irrational</span>.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">The Real Number Line & Coordinates</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-3">Combining the sets of rational and irrational numbers forms the complete set of <strong class="text-white">Real Numbers</strong>. These can be visualized along a horizontal axis where every point has an absolute one-to-one correspondence with a real numerical value.</p>
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center font-mono text-xs tracking-widest text-indigo-300">
+                                -5 ... -4 ... -3 ... -2 ... -1 ... [0] ... 1 ... 2 ... 3 ... 4 ... 5
+                            </div>
+                            <div class="grid gap-3 sm:grid-cols-2 mt-3 font-mono text-xs bg-slate-800/20 p-3 rounded-xl border border-slate-800/60 text-slate-400">
+                                <div>• $-\\frac{10}{3}$: Negative, Rational (Left of 0)</div>
+                                <div>• $\\sqrt{5}$: Positive, Irrational (Right of 0)</div>
+                                <div>• $-\\sqrt{289} = -17$: Negative, Rational (Left of 0)</div>
+                                <div>• $-6\\pi$: Negative, Irrational (Left of 0)</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "order-of-ops",
+                title: "Order of Operations",
+                subtitle: "The System of Evaluation (PEMDAS)",
+                content: `
+                    <p class="text-slate-300 leading-relaxed mb-4">To evaluate complex mathematical expressions uniformly, operations must follow a strict sequential hierarchy to guarantee identical, valid outcomes.</p>
+                    <div class="bg-slate-950 rounded-xl p-5 border border-slate-800/80 font-mono text-sm space-y-2 mb-6">
+                        <div class="flex"><span class="text-indigo-400 w-8 font-bold">P</span> <span class="text-slate-300">Parentheses & Grouping Symbols (Brackets, Fraction Bars, Radicals, Absolute Value)</span></div>
+                        <div class="flex"><span class="text-indigo-400 w-8 font-bold">E</span> <span class="text-slate-300">Exponents & Root Radicals</span></div>
+                        <div class="flex"><span class="text-indigo-400 w-8 font-bold">M/D</span> <span class="text-slate-300">Multiplication & Division (Evaluated Left to Right)</span></div>
+                        <div class="flex"><span class="text-indigo-400 w-8 font-bold">A/S</span> <span class="text-slate-300">Addition & Subtraction (Evaluated Left to Right)</span></div>
+                    </div>
+
+                    <div class="space-y-6 border-t border-slate-800/80 pt-6">
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">Example 1: Basic Operational Sequence</h4>
+                            <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800 text-sm">
+                                <p class="text-slate-400 mb-2">Evaluate: <span class="text-indigo-300 font-mono">24 + 6 · (2/3) - 4²</span></p>
+                                <ol class="list-decimal list-inside space-y-1 font-mono text-xs text-slate-300">
+                                    <li>No operations inside parentheses to evaluate further: 24 + 6 · (2/3) - 4²</li>
+                                    <li>Address Exponent (<span class="text-rose-400">4² → 16</span>): 24 + 6 · (2/3) - 16</li>
+                                    <li>Multiplication/Division Left-to-Right (<span class="text-rose-400">6 · 2/3 → 4</span>): 24 + 4 - 16</li>
+                                    <li>Addition/Subtraction Left-to-Right (<span class="text-rose-400">28 - 16</span>): <span class="text-emerald-400 font-bold">12</span></li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">Example 2: Grouping via Fraction Bars</h4>
+                            <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800 text-sm">
+                                <p class="text-slate-400 mb-2">Evaluate: \\\\(\\\\frac{4 + 3 \\\\cdot 2^3}{4 - 2^2 + 8}\\\\)</p>
+                                <p class="text-slate-300 text-xs mb-2">A fraction bar acts as a grouping symbol. Completely evaluate the numerator and denominator independently before dividing.</p>
+                                <ul class="space-y-2 font-mono text-xs text-slate-300">
+                                    <li>• <span class="text-indigo-400">Numerator:</span> \\\\(4 + 3 \\\\cdot 2^3 \\\\rightarrow 4 + 3 \\\\cdot 8 \\\\rightarrow 4 + 24 = 28\\\\)</li>
+                                    <li>• <span class="text-indigo-400">Denominator:</span> \\\\(4 - 2^2 + 8 \\\\rightarrow 4 - 4 + 8 \\\\rightarrow 0 + 8 = 8\\\\)</li>
+                                    <li>• <span class="text-indigo-400">Final Division:</span> \\\\(\\\\frac{28}{8} = \\\\frac{7}{2} = 3.5\\\\)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">Example 3: Nested Grouping Symbols</h4>
+                            <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800 text-sm">
+                                <p class="text-slate-400 mb-2">Evaluate: <span class="text-indigo-300 font-mono">10 - [3 · (5 - 2)] + 4</span></p>
+                                <p class="text-slate-300 text-xs mb-2">When groupings are nested, always evaluate from the inside out.</p>
+                                <ol class="list-decimal list-inside space-y-1 font-mono text-xs text-slate-300">
+                                    <li>Innermost Parentheses (<span class="text-rose-400">5 - 2 → 3</span>): 10 - [3 · 3] + 4</li>
+                                    <li>Outer Brackets (<span class="text-rose-400">3 · 3 → 9</span>): 10 - 9 + 4</li>
+                                    <li>Addition/Subtraction Left-to-Right (<span class="text-rose-400">1 + 4</span>): <span class="text-emerald-400 font-bold">5</span></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: "properties-real",
+                title: "Properties of Real Numbers",
+                subtitle: "Operational Mechanics for Algebraic Rules",
+                content: `
+                    <p class="text-slate-300 leading-relaxed mb-6">Properties are structural foundational truths that apply to arithmetic operations. These rules allow us to manipulate expressions, combine like terms, and solve equations with algebraic certainty. Note that subtraction and division do not possess commutative or associative traits because changing their order or grouping alters the final value.</p>
+                    
+                    <div class="overflow-x-auto mb-8">
+                        <table class="w-full text-left text-sm border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
+                                    <th class="py-3 pr-4">Property</th>
+                                    <th class="py-3 px-4">Addition Rule</th>
+                                    <th class="py-3 pl-4">Multiplication Rule</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                                <tr>
+                                    <td class="py-3 pr-4 font-semibold text-white">Commutative</td>
+                                    <td class="py-3 px-4 font-mono text-indigo-300">a + b = b + a</td>
+                                    <td class="py-3 pl-4 font-mono text-indigo-300">a · b = b · a</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 pr-4 font-semibold text-white">Associative</td>
+                                    <td class="py-3 px-4 font-mono text-indigo-300">a + (b + c) = (a + b) + c</td>
+                                    <td class="py-3 pl-4 font-mono text-indigo-300">a(bc) = (ab)c</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 pr-4 font-semibold text-white">Distributive</td>
+                                    <td class="py-3 px-4 font-mono text-indigo-300" colspan="2">a · (b + c) = a · b + a · c</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 pr-4 font-semibold text-white">Identity</td>
+                                    <td class="py-3 px-4 font-mono text-slate-400">a + 0 = a <span class="text-xs text-slate-500">(0 is additive identity)</span></td>
+                                    <td class="py-3 pl-4 font-mono text-slate-400">a · 1 = a <span class="text-xs text-slate-500">(1 is mult. identity)</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 pr-4 font-semibold text-white">Inverse</td>
+                                    <td class="py-3 px-4 font-mono text-slate-400">a + (-a) = 0 <span class="text-xs text-slate-500">(-a is opposite)</span></td>
+                                    <td class="py-3 pl-4 font-mono text-slate-400">a · (1/a) = 1 <span class="text-xs text-slate-500">(1/a is reciprocal, a≠0)</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="space-y-6 border-t border-slate-800/80 pt-6">
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">1. Commutative Properties (Order Rules)</h4>
+                            <p class="text-slate-400 text-xs mb-3">The order in which you add or multiply numbers does not affect the result.</p>
+                            <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800 text-sm space-y-2">
+                                <p class="text-xs text-slate-300 font-mono">• Addition: \\\\(13 + 7 = 7 + 13 = 20\\\\)</p>
+                                <p class="text-xs text-slate-300 font-mono">• Multiplication: \\\\(4 \\\\cdot 9 = 9 \\\\cdot 4 = 36\\\\)</p>
+                                <p class="text-xs text-amber-400 italic font-sans mt-1">Counter-Examples (Why order matters): \\\\(8 - 3 \\\\neq 3 - 8\\\\) and \\\\(12 \\\\div 4 \\\\neq 4 \\\\div 12\\\\).</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">2. Associative Properties (Grouping Rules)</h4>
+                            <p class="text-slate-400 text-xs mb-3">The grouping of three or more numbers under addition or multiplication does not change their sum or product.</p>
+                            <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800 text-sm space-y-2">
+                                <p class="text-xs text-slate-300 font-mono">• Addition: \\\\((2 + 5) + 8 = 7 + 8 = 15\\\\) is identical to \\\\(2 + (5 + 8) = 2 + 13 = 15\\\\)</p>
+                                <p class="text-xs text-slate-300 font-mono">• Multiplication: \\\\((3 \\\\cdot 2) \\\\cdot 5 = 6 \\\\cdot 5 = 30\\\\) is identical to \\\\(3 \\\\cdot (2 \\\\cdot 5) = 3 \\\\cdot 10 = 30\\\\)</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">3. Distributive Property (Operational Multiplication)</h4>
+                            <p class="text-slate-400 text-xs mb-3">Multiplying a number by a sum is equal to multiplying each addend separately and then adding the products together. This property can be applied from either side: \\\\((b + c)a = ba + ca\\\\).</p>
+                            <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800 text-sm space-y-3">
+                                <div>
+                                    <p class="text-white font-medium font-mono text-xs">Example a. Numerical verification</p>
+                                    <p class="text-xs text-slate-400 pl-4 font-mono">\\\\(5 \\\\cdot (3 + 4) = 5 \\\\cdot (7) = 35\\\\)</p>
+                                    <p class="text-xs text-slate-400 pl-4 font-mono">\\\\((5 \\\\cdot 3) + (5 \\\\cdot 4) = 15 + 20 = 35\\\\)</p>
+                                </div>
+                                <div>
+                                    <p class="text-white font-medium font-mono text-xs">Example b. Algebraic expansion</p>
+                                    <p class="text-xs text-slate-400 pl-4 font-mono">\\\\(3(2x - 7) = 3(2x) + 3(-7) = 6x - 21\\\\)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">4. Identity Properties (Preservation Rules)</h4>
+                            <p class="text-slate-400 text-xs mb-3">The identity property maintains the original value of a real number when combined with a baseline constant.</p>
+                            <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800 text-sm space-y-2">
+                                <p class="text-xs text-slate-300 font-mono">• Additive Identity: Adding \\\\(0\\\\) leaves a value unchanged. \\\\(-14 + 0 = -14\\\\)</p>
+                                <p class="text-xs text-slate-300 font-mono">• Multiplicative Identity: Multiplying by \\\\(1\\\\) leaves a value unchanged. \\\\(22 \\\\cdot 1 = 22\\\\)</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">5. Inverse Properties (Neutralization Rules)</h4>
+                            <p class="text-slate-400 text-xs mb-3">Using an inverse operation cancels out a number, dropping it back to its respective baseline identity value.</p>
+                            <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-800 text-sm space-y-3">
+                                <div>
+                                    <p class="text-white font-medium font-mono text-xs">Additive Inverse (Opposites)</p>
+                                    <p class="text-xs text-slate-400 pl-4">A number and its negative counterpart combine to produce the additive identity \\\\(0\\\\).</p>
+                                    <p class="text-xs text-slate-300 font-mono pl-4">\\\\(8 + (-8) = 0\\\\)</p>
+                                </div>
+                                <div>
+                                    <p class="text-white font-medium font-mono text-xs">Multiplicative Inverse (Reciprocals)</p>
+                                    <p class="text-xs text-slate-400 pl-4">Any non-zero real number multiplied by its reciprocal \\\\(\\frac{1}{a}\\\\) results in the multiplicative identity \\\\(1\\\\).</p>
+                                    <p class="text-xs text-slate-300 font-mono pl-4">\\\\(6 \\\\cdot \\\\frac{1}{6} = 1\\\\)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // Core Application State
+        let currentModuleIndex = 0;
+
+        // DOM Element Cache
+        const navLinksContainer = document.getElementById('nav-links');
+        const moduleBody = document.getElementById('module-body');
+        const progressBar = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        // Navigation Builder Engine
+        function initNavigation() {
+            navLinksContainer.innerHTML = '';
+            modules.forEach((mod, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between group ${
+                    idx === currentModuleIndex 
+                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/10' 
+                    : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                }`;
+                btn.innerHTML = `
+                    <span>${mod.title}</span>
+                    <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                `;
+                btn.onclick = () => {
+                    currentModuleIndex = idx;
+                    renderModule();
+                    closeMobileMenu();
+                };
+                navLinksContainer.appendChild(btn);
+            });
+        }
+
+        // Module Render Engine
+        function renderModule() {
+            const module = modules[currentModuleIndex];
+            
+            // Render structured HTML view dynamically
+            moduleBody.innerHTML = `
+                <span class="text-xs font-bold tracking-widest text-indigo-400 uppercase block mb-2">Step ${currentModuleIndex + 1} of ${modules.length}</span>
+                <h2 class="text-3xl font-bold text-white serif-title tracking-tight mb-1">${module.title}</h2>
+                <p class="text-slate-400 text-sm mb-8 italic">${module.subtitle}</p>
+                <div class="prose prose-invert max-w-none text-slate-300">
+                    ${module.content}
+                </div>
+            `;
+
+            // Update Global UI Elements
+            initNavigation();
+            updateProgress();
+
+            // Handle Action Button States
+            prevBtn.disabled = currentModuleIndex === 0;
+            if (currentModuleIndex === modules.length - 1) {
+                nextBtn.innerHTML = `Finish Module <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+            } else {
+                nextBtn.innerHTML = `Next <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+            }
+            
+            // Auto scroll main layout to top on load transitions
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Tell MathJax to scan the newly injected HTML for math symbols
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function updateProgress() {
+            const percentage = ((currentModuleIndex + 1) / modules.length) * 100;
+            progressBar.style.width = `${percentage}%`;
+        }
+
+        // Mobile Sidebar Drawer Control Interactions
+        function openMobileMenu() {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeMobileMenu() {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        // Event Registration
+        prevBtn.onclick = () => {
+            if (currentModuleIndex > 0) {
+                currentModuleIndex--;
+                renderModule();
+            }
+        };
+
+        nextBtn.onclick = () => {
+            if (currentModuleIndex < modules.length - 1) {
+                currentModuleIndex++;
+                renderModule();
+            } else {
+                alert("Congratulations! You have completed all foundational modules covering pages 2 to 10.");
+            }
+        };
+
+        menuToggle.onclick = openMobileMenu;
+        menuClose.onclick = closeMobileMenu;
+        overlay.onclick = closeMobileMenu;
+
+        // Bootstrap App Engine Execution
+        renderModule();
+    </script>
+</body>
+</html>
