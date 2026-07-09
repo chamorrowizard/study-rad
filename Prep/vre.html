@@ -361,7 +361,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
-            justify-content: center;
+            justify-content: flex-start; /* CHANGED from center to fix top-cutoff scroll bug */
             flex: 1;
             min-height: 0;
             overflow-y: auto;
@@ -636,184 +636,359 @@
          */
         const HARDCODED_DECK = [
             {
-    "word": "Frontline Clinical Chaos vs. Reading Room Structure",
-    "translation": "Moving from unpredictable ER/trauma imaging to a quiet, controlled diagnostic workstation.",
-    "context": "Justifies how a Radiologist's environment mitigates PTSD hypervigilance compared to an X-ray tech role.",
-    "hint": "Contrast the environmental stressors of the two settings."
+    "word": "What happens if my VRC claims they cannot establish an Employment Handicap because my clinical evidence is from 2020?",
+    "translation": "Per 38 CFR § 21.51, an employment handicap is determined by evaluating the vocational effects of a service-connected condition, not by requiring immediate medical re-evaluation. My 100% P&T rating legally establishes that my conditions are chronic and permanent. My firsthand testimony today regarding my inability to perform the physical duties of an X-ray tech serves as the current evidence needed to establish this handicap.",
+    "context": "Rebutting a counselor who tries to pause your application over old records.",
+    "hint": "Remind them that 38 CFR § 21.51 focuses on vocational limitations, not active medical testing."
   },
   {
-    "word": "Heavy Equipment Manipulation",
-    "translation": "Pulling overhead tubes, moving portable C-arms, and lifting lead shields.",
-    "context": "Identifies the specific physical barriers in radiography that directly aggravate shoulder DJD.",
-    "hint": "Physical demands of operating imaging machinery."
+    "word": "Since you haven't worked since 2019, how do we know your conditions are the actual reason you aren't working right now?",
+    "translation": "I have been unable to return to the workforce because my service-connected disabilities physically prevent me from performing the duties of my trained profession. An X-ray tech role requires heavy lifting, pushing imaging machinery, and patient transfers—all of which directly conflict with my left shoulder DJD. Additionally, the chaotic environment exacerbates my PTSD, making entry into a non-accommodating workspace impossible.",
+    "context": "Proving a direct link between your long work gap and your disabilities.",
+    "hint": "Connect your physical and mental limitations directly to the standard tasks of an X-ray tech."
   },
   {
-    "word": "Patient Manipulation Barriers",
-    "translation": "Physically lifting, transferring, and positioning non-ambulatory or trauma patients.",
-    "context": "Proves an Employment Handicap exists because shoulder DJD prevents safe patient handling.",
-    "hint": "The physical strain of moving people onto tables."
+    "word": "Why shouldn't we just look at a less demanding job in the medical field that doesn't require 8+ years of schooling, like medical coding?",
+    "translation": "Per 38 U.S. Code § 3100, the purpose of VR&E is to help me achieve 'suitable employment' that maximizes my independence and capabilities. Medical coding or low-level clerical work does not utilize my extensive background in medical imaging. Radiology allows me to leverage my existing technical expertise in a safe, completely cognitive, and controlled environment that protects my shoulder and accommodates my PTSD.",
+    "context": "Defending your high-level goal against a counselor trying to push you into a quick, low-level job.",
+    "hint": "Cite the legal standard of 'suitable employment' that aligns with your aptitude and background."
   },
   {
-    "word": "Severe Employment Handicap (SEH)",
-    "translation": "A significant restriction that requires extra time, services, and structural adjustments to overcome.",
-    "context": "An official VA determination that unlocks expanded funding, tracking flexibility, and extended timeline limits.",
-    "hint": "The legal status needed for long-term, high-cost academic tracks like medical school."
+    "word": "Medical school requires intense clinical rotations with long hours and high stress. How will your PTSD handle that environment?",
+    "translation": "My PTSD is highly manageable when I am operating within structured, predictable, and academically rigorous environments. I have spent significant time developing independent coping strategies and tracking my focus through structured study. Furthermore, the ultimate goal of Radiology is a highly independent field where professionals review scans in controlled reading rooms, making the long-term career entirely viable.",
+    "context": "Addressing fears about your mental health stability during training.",
+    "hint": "Highlight your current self-discipline, routine, and the calm nature of the final career objective."
   },
   {
-    "word": "The Diagnostic Workstation Paradigm",
-    "translation": "Sitting at a computer interpreting PACS images and dictating reports.",
-    "context": "Proves the physical demands of a physician drop to near zero, making it sustainable for shoulder DJD.",
-    "hint": "The core daily workspace of a Radiologist."
+    "word": "If we approve an undergraduate or post-baccalaureate program, what guarantee do we have that you will actually get into medical school?",
+    "translation": "I suggest we structure my Individual Written Rehabilitation Plan (IWRP) using a phased milestone approach under M28C guidelines. The initial phase will focus entirely on completing my pre-med prerequisites and undergraduate requirements. We can write a specific metric into the plan: once I achieve the necessary GPA and competitive MCAT scores, we will then amend the plan to fund the medical school phase.",
+    "context": "Overcoming the VRC's resistance to committing to a long-term professional degree upfront.",
+    "hint": "Propose a multi-phase IWRP to reduce the counselor's perceived risk."
   },
   {
-    "word": "Feasibility of Achievement",
-    "translation": "Proving that the academic and physical plan is realistic based on documented capability and health.",
-    "context": "Required by the counselor to ensure the veteran can realistically finish a lengthy medical track without worsening their conditions.",
-    "hint": "The counselor's assessment of whether you can actually cross the finish line."
+    "word": "Your left shoulder DJD is severe. How will you handle the physical demands of medical school anatomy labs or basic patient examinations?",
+    "translation": "Medical school accommodations under the ADA routinely provide adjustments for physical limitations during labs, such as modified positioning or assistive tools. More importantly, the core duties of a Radiologist are strictly cognitive and diagnostic. Unlike general surgery or emergency medicine, Radiology does not require manual manipulation or heavy lifting, making it perfectly suited to my physical restrictions.",
+    "context": "Rebutting concerns about the physical barriers encountered during medical training.",
+    "hint": "Differentiate temporary training hurdles from the permanent, low-impact duties of the final career."
   },
   {
-    "word": "VBA vs. VHA Boundary",
-    "translation": "The VR&E staff are benefits administrators (VBA), not treating medical doctors or clinical psychologists (VHA).",
-    "context": "Reminds you that their evaluations are strictly focused on employment logistics, functional limits, and career psychology.",
-    "hint": "Benefits side vs. healthcare side."
+    "word": "Can we look at an online health administration degree instead, since it completely removes you from a hospital environment?",
+    "translation": "While health administration is a safe environment, it does not offer a suitable match for my specialized vocational aptitudes and existing medical knowledge. VR&E guidelines emphasize finding employment that ensures long-term career stability and personal independence. Radiology provides the ideal blend of a controlled environment and high-level medical analysis that matches my background.",
+    "context": "Rebutting a VRC who tries to force you into an online desk job.",
+    "hint": "Argue that suitability involves both safety and utilizing your specialized cognitive strengths."
   },
   {
-    "word": "Environmental Workspace Control",
-    "translation": "The ability to adjust lighting, manage noise levels, and minimize unpredicted face-to-face friction.",
-    "context": "Explains how a diagnostic reading room natively fosters psychological stability for managing PTSD.",
-    "hint": "Having autonomy over your immediate surroundings."
+    "word": "What if you experience a flare-up of your PTSD symptoms during your academic program?",
+    "translation": "I have built a strong foundation of personal routines, self-directed scheduling, and structured environments that keep my symptoms stable. Should a flare-up occur, I will utilize campus disability resource centers for academic accommodations, such as testing adjustments. VR&E also provides counseling and plan adjustments under 38 CFR § 21.362 to support veterans through temporary health changes.",
+    "context": "Assuring the VRC that you have a contingency plan for managing mental health hurdles.",
+    "hint": "Show that you are aware of both academic accommodations and VR&E support regulations."
   },
   {
-    "word": "Leveraging Existing Domain Expertise",
-    "translation": "Building upward from a foundational mastery of anatomy, radiation safety, and hospital workflows.",
-    "context": "Demonstrates to the counselor that you are not starting from scratch, increasing the feasibility of the track.",
-    "hint": "Using your past X-ray tech background as an academic springboard."
+    "word": "The VA has already rated you 100% P&T, which implies you are severely disabled. Why do you think you can handle a full-time medical curriculum?",
+    "translation": "A 100% P&T rating reflects the severity of my service-connected barriers in a standard, unaccommodated work environment like X-ray technology. It does not mean I lack cognitive capacity. Under 38 U.S. Code § 3100, the program is mandated to help severely disabled veterans achieve maximum independence. My disabilities affect my physical lifting and thrive on independent, structured cognitive tasks.",
+    "context": "Correcting a counselor's misconception that a 100% rating means you cannot learn or work.",
+    "hint": "Clarify that 100% P&T measures standard workplace impairment, not your academic capability."
   },
   {
-    "word": "Vocational Rehabilitation Counselor (VRC)",
-    "translation": "The VA case manager responsible for determining entitlement and approving the rehabilitation plan.",
-    "context": "The primary official you must convince by linking your disabilities to your job barriers.",
-    "hint": "Your main point of contact and decision-maker in VR&E."
+    "word": "Why can't you just seek accommodations to remain an X-ray Technologist?",
+    "translation": "The core, essential functions of an X-ray Technologist involve the manual manipulation of overhead X-ray tubes, moving heavy portable machines across floors, and physically lifting or stabilizing patients in trauma settings. These actions cannot be accommodated away without fundamentally altering the job description, which is why that field is no longer a viable or suitable occupation for my shoulder DJD.",
+    "context": "Explaining why staying in your old career field with accommodations is impossible.",
+    "hint": "Argue that the physical demands are essential functions of the job and cannot be accommodated."
   },
   {
-    "word": "Severe Employment Handicap (SEH)",
-    "translation": "A formal VA determination that a veteran’s service-connected disabilities create significant barriers to employment, requiring specialized, long-term training.",
-    "context": "The mandatory legal gateway to secure VR&E funding for extended academic tracks like medical school.",
-    "hint": "This status removes the standard 48-month entitlement cap and 12-year basic period of eligibility."
+    "word": "Medical school is exceptionally expensive. Doesn't the high cost make this plan unfeasible for the VA?",
+    "translation": "Under 38 CFR § 21.72 and the M28C manual, cost alone cannot be used as a sole basis to deny a vocational objective if that objective is the most feasible path to achieving suitable employment. Because my physical and mental limitations eliminate the vast majority of standard healthcare roles, a highly specialized, cognitive role like Radiology is the safest and most sustainable path to long-term employment.",
+    "context": "Rebutting financial objections from a budget-conscious counselor.",
+    "hint": "Cite the regulation stating that cost cannot be the sole reason to deny a necessary career path."
   },
   {
-    "word": "SEH Environmental Justification",
-    "translation": "Proving that your current or past workspace actively compromises your psychological safety due to unpredictable, high-stress conditions.",
-    "context": "Used to demonstrate why a frontline clinical environment is no longer viable for a veteran with PTSD.",
-    "hint": "Focuses on the incompatibility of the job environment with your medical limitations."
+    "word": "How do we know that your left shoulder will tolerate the extensive computer work and dictation required of a Radiologist?",
+    "translation": "A Radiologist's workstation can be completely optimized with ergonomic adjustments, such as voice-activated dictation software (like Dragon Medical), specialized mouse devices, and adjustable desks. These tools ensure that I do not have to lift my left arm or perform heavy manual tasks, keeping my shoulder completely within its safe, stationary range of motion.",
+    "context": "Answering physical suitability concerns regarding desk-based work.",
+    "hint": "Emphasize ergonomic adjustments and voice-recognition technology that protect your shoulder."
   },
   {
-    "word": "Feasibility of Independence",
-    "translation": "An assessment of whether a vocational goal is realistic and sustainable over a 20-to-30-year career without aggravating existing physical or mental injuries.",
-    "context": "The counselor must document that becoming a physician will stabilize, rather than degrade, your long-term health.",
-    "hint": "Proving that the destination desk-based career provides a safe environment for your disabilities."
+    "word": "If you need updated information, why shouldn't we wait to open this claim until you complete a new round of medical evaluations?",
+    "translation": "Delaying the claim contradicts the VA's Duty to Assist under 38 CFR § 21.33. My current file contains my 100% P&T rating decision, which establishes my permanent medical baseline. The M28C manual specifies that the initial evaluation is a collaborative process designed to identify vocational barriers. We have sufficient documentation to establish my employment handicap today based on that permanent rating and my testimony.",
+    "context": "Rebutting a counselor's attempt to delay or defer your application process.",
+    "hint": "Use the VA's Duty to Assist and the permanent nature of your rating to push the timeline forward."
   },
   {
-    "word": "PTSD Amygdala Hyperactivation",
-    "translation": "The brain's threat-detection center remains in a permanent state of high alert, misinterpreting benign workplace stressors as immediate dangers.",
-    "context": "Explains why sudden clinical alarms, screaming patients, or unannounced operational changes trigger an involuntary fight-or-flight response.",
-    "hint": "The physiological root of hypervigilance in chaotic environments."
+    "word": "Why do you want to pursue a medical degree instead of a shorter master's degree in a scientific field?",
+    "translation": "A master's degree in laboratory science or biology frequently leads to careers requiring manual lab work, chemical handling, and repetitive physical tasks that jeopardize my shoulder. A Medical Degree specializing in Radiology leads directly to a purely diagnostic, cognitive role that perfectly matches my professional background in imaging while respecting my physical and psychological boundaries.",
+    "context": "Defending the specific selection of an MD over shorter postgraduate tracks.",
+    "hint": "Explain that shorter scientific tracks often require manual laboratory labor that your shoulder cannot handle."
   },
   {
-    "word": "Cognitive Load and PTSD",
-    "translation": "The mental energy expended on maintaining environmental scanning, which depletes working memory, executive function, and emotional regulation.",
-    "context": "Explains why a chaotic ER environment causes rapid cognitive fatigue, whereas a quiet reading room preserves mental clarity.",
-    "hint": "Why hypervigilance makes multi-tasking in high-stress settings mentally exhausting."
+    "word": "You mention studying algebra independently. How does basic math preparation show you can handle medical school prerequisites?",
+    "translation": "My independent study demonstrates a high level of self-motivation, structure, and academic discipline, which are vital traits for managing PTSD in a learning environment. I am systematically building my foundational skills to ensure top performance in higher-level prerequisites. This disciplined approach proves my readiness to excel in the initial, structured undergraduate phase of my proposed IWRP.",
+    "context": "Leveraging your current independent study tracks as proof of academic readiness.",
+    "hint": "Frame your independent study as proof of structural discipline and a strong work ethic."
   },
   {
-    "word": "Hypervigilance vs. Objective Analysis",
-    "translation": "A psychological state where focus is fragmented by defensive scanning, directly competing with the deep, uninterrupted focus required for complex data interpretation.",
-    "context": "Justifies moving from an open, public-facing hospital floor to a secluded, low-friction diagnostic workstation.",
-    "hint": "Quiet environments allow the brain to shift from defensive scanning to analytical problem-solving."
+    "word": "Since you haven't worked since 2019, how will you handle the sudden transition back into a rigid, full-time academic schedule?",
+    "translation": "I have spent months preparing for this transition by establishing a structured, self-directed daily routine at home dedicated to rigorous study and tracking metrics. This deliberate routine mimics a full-time academic schedule, allowing me to manage my time effectively and keep my PTSD stable. I am entirely prepared to transfer this established discipline into a formal classroom setting.",
+    "context": "Defending against the 'gap in activity' objection regarding your ability to handle full-time schedules.",
+    "hint": "Present your independent study routine as a deliberate bridge back to full-time academic work."
   },
   {
-    "word": "Frontline Trauma Exposure Triggers",
-    "translation": "Direct exposure to acute injuries, high-acuity medical crises, or distressed family members that mirrors or amplifies past operational trauma.",
-    "context": "Justifies removing oneself from frontline imaging duties (like trauma bays) to protect psychological stability.",
-    "hint": "Why being the first line of clinical response is psychologically high-risk."
+    "word": "Radiologists still have to complete a general medical residency, which includes emergency and internal medicine rotations. How will you get past those?",
+    "translation": "Medical residencies are strictly governed by institutional training structures that accommodate physical and psychological limitations under federal guidelines. While those rotations are mandatory, they are temporary milestones on the path to a permanent, safe career. My focus is entirely on the ultimate, suitable employment objective: a stable, cognitive diagnostic role.",
+    "context": "Answering questions about the temporary physical or mental demands of a medical residency.",
+    "hint": "Emphasize that residency rotations are temporary training milestones, whereas the final career is perfectly suitable."
   },
   {
-    "word": "Environmental Predictability",
-    "translation": "A structured workspace with controlled lighting, low ambient noise, and minimal face-to-face interpersonal friction.",
-    "context": "The exact structural attribute of a diagnostic reading room that minimizes autonomic nervous system arousal.",
-    "hint": "A primary workspace requirement for managing chronic PTSD symptoms."
+    "word": "Why should the VA fund a career goals that takes nearly a decade to finish when Chapter 31 has entitlement time limits?",
+    "translation": "Under 38 CFR § 21.78, extensions of entitlement past the standard 48 months are explicitly authorized for veterans with a Serious Employment Handicap (SEH). Given my 100% P&T status and the severe vocational limitations it places on standard careers, I qualify for an SEH determination. This allows the VRC to extend my entitlement to fully fund the path necessary to achieve true professional rehabilitation.",
+    "context": "Overcoming the standard 48-month entitlement limitation hurdle.",
+    "hint": "Reference Serious Employment Handicap (SEH) extensions allowed under 38 CFR § 21.78."
   },
   {
-    "word": "Autonomic Nervous System (ANS) Dysregulation",
-    "translation": "The body remains locked in a sympathetic (fight-or-flight) state, causing elevated heart rate, muscle tension, and anxiety in response to ambient noise.",
-    "context": "Teaches the counselor why open, un-isolated clinical bays inherently trigger structural panic or irritability.",
-    "hint": "The physical breakdown of how a loud workspace triggers an anxious body response."
+    "word": "What if you complete your bachelor's degree but fail to secure a competitive MCAT score?",
+    "translation": "By structuring the IWRP with clear, phased milestones, the VA's financial commitment is protected. If I complete my degree but require additional preparation for the MCAT, we can adjust the plan to include targeted preparatory courses. If a career shift becomes necessary at that juncture, I will still possess a highly valuable undergraduate degree that can pivot into alternative low-impact, cognitive healthcare roles.",
+    "context": "Addressing the counselor's fear of a worst-case academic scenario.",
+    "hint": "Show that a phased plan provides safety checkpoints for both you and the VA."
   },
   {
-    "word": "Left Shoulder Degenerative Joint Disease (DJD)",
-    "translation": "Progressive osteoarthritis within the glenohumeral joint, characterized by cartilage loss, bone-on-bone friction, and chronic inflammatory pain.",
-    "context": "The foundational physical impairment preventing manual labor, heavy lifting, or repetitive upper extremity manipulation.",
-    "hint": "Structural damage that worsens with repetitive physical mechanical stress."
+    "word": "Can your PTSD handle the high-stakes responsibility of making life-or-death diagnostic decisions on medical scans?",
+    "translation": "My PTSD symptoms are triggered by external chaotic environments, unpredictable physical spaces, and direct emergency patient management—not by deep, analytical, independent cognitive focus. The quiet, highly structured nature of a radiology reading room allows me to apply my clinical judgment calmly and methodically, ensuring high-quality performance without aggravating my condition.",
+    "context": "Differentiating between environmental chaos triggers and high-level analytical responsibility.",
+    "hint": "Explain that analytical responsibility does not equal environmental chaos."
   },
   {
-    "word": "Status Post Left Clavicle Fracture with ORIF",
-    "translation": "A history of a broken collarbone surgically stabilized with hardware (plates and screws), leading to altered shoulder biomechanics and localized scar tissue.",
-    "context": "Establishes structural vulnerability, reduced load-bearing capacity, and focal hardware discomfort in the left shoulder girdle.",
-    "hint": "Open Reduction Internal Fixation leaves permanent hardware that changes how the joint handles load."
+    "word": "Why can't you look into a career like Diagnostic Medical Sonography (Ultrasound) which is shorter?",
+    "translation": "Sonography is highly demanding physically; it requires continuous, forceful gripping of transducers, sustained awkward postures, and applying significant physical downward pressure with the arm and shoulder on patients. Performing ultrasound scans would directly stress and severely aggravate the Degenerative Joint Disease in my left shoulder, making it an unsuitable vocational path.",
+    "context": "Rebutting a counselor's suggestion to pivot to an ultrasound technician track.",
+    "hint": "Explain that ultrasound work involves sustained, forceful shoulder and arm pressure that aggravates your DJD."
   },
   {
-    "word": "ORIF Mechanical Imbalances",
-    "translation": "The presence of rigid surgical plating limits normal clavicular rotation and elevation, shifting compensatory stress onto an arthritic glenohumeral joint.",
-    "context": "Explains why lifting overhead tubes or pushing portable machinery causes accelerated wear and acute pain flare-ups.",
-    "hint": "Surgical hardware restricts natural flexibility, overworking the surrounding damaged joints."
+    "word": "Your rating is for a left shoulder injury, but you can use your right arm. Why can't you work in positions that only require one dominant arm?",
+    "translation": "An X-ray Technologist must utilize both arms to securely guide heavy machinery, lift patients, and maintain stable physical control in emergency situations. Attempting to overcompensate using only my right arm would lead to rapid secondary muscle strain and compromise patient safety. True vocational rehabilitation requires an objective that does not rely on bilateral physical labor.",
+    "context": "Defending against the 'one good arm' simplification objection.",
+    "hint": "Argue that clinical tech roles require bilateral physical strength and overcompensating creates safety risks."
   },
   {
-    "word": "Frontline Mechanical Restrictions",
-    "translation": "The physical inability to perform repetitive overhead reaching, heavy pushing, or manual patient transfers without risking joint degradation.",
-    "context": "Directly disqualifies the career field of an active imaging technician due to the weight of equipment and patients.",
-    "hint": "Why an X-ray tech role is physically incompatible with shoulder arthropathy."
+    "word": "How do we know your PTSD won't cause you to drop out when the academic workload peaks?",
+    "translation": "My academic preparation is built on a foundation of strict routine, measurable goals, and rigorous organization. By maintaining these structured study tracks independently, I have proven that I thrive on high-level cognitive engagement. I am fully prepared to manage heavy workloads by utilizing the structure, clear milestones, and support resources available within the academic framework.",
+    "context": "Rebutting the assumption that mental health conditions automatically cause academic failure.",
+    "hint": "Point to your current organized, independent study habits as proof of resilience."
   },
   {
-    "word": "Ergonomic Neutrality",
-    "translation": "A working posture where joints remain naturally aligned, minimizing mechanical strain on the shoulder girdle and lower extremities.",
-    "context": "A primary feature of a diagnostic reading room, utilizing customized chairs, dictation desks, and optimized monitors.",
-    "hint": "The structural solution to preventing joint strain during a full workday."
+    "word": "Since you don't have current treatment records, how can we document that your conditions are stable enough for training?",
+    "translation": "The stability of my conditions is demonstrated by my steady baseline of daily functioning and my ability to successfully manage self-directed, rigorous academic preparation over an extended period. Because my 100% P&T rating legally confirms that my conditions are chronic and unchanging, my current functional status is accurately represented by my own testimony and current structured activities.",
+    "context": "Answering demands for 'clinical stability statements' when you don't see doctors.",
+    "hint": "Argue that steady daily functioning and consistent self-study are practical evidence of stability."
   },
   {
-    "word": "Status Post Right Tibia Fracture with ORIF",
-    "translation": "A history of a broken shinbone surgically repaired with hardware, creating risks for chronic regional pain, hardware awareness, and early ankle/knee arthropathy.",
-    "context": "Establishes structural limits on prolonged weight-bearing, standing, sprinting, or carrying heavy loads over hard surfaces.",
-    "hint": "Permanent lower-extremity hardware that limits prolonged standing capacity."
+    "word": "Why shouldn't we consider a completely remote customer service role for you instead?",
+    "translation": "Remote customer service roles frequently involve high volumes of unpredictable, emotionally charged interactions with frustrated callers, which directly triggers my PTSD symptoms. Furthermore, these positions do not utilize my specialized aptitude or technical background in medical imaging. Radiology offers a stable, analytical environment that aligns with my skills and preserves my mental health.",
+    "context": "Rejecting a high-stress, low-skill remote call center alternative.",
+    "hint": "Explain that high-volume customer conflict triggers PTSD, while failing to use your technical background."
   },
   {
-    "word": "Prolonged Standing Limitations (Tibia ORIF)",
-    "translation": "Axial loading over surgical plating and scarred bone tissue leads to localized fatigue, swelling, and compensatory gait alterations over extended shifts.",
-    "context": "Justifies why a job requiring hours of standing on hard hospital floors (like an X-ray tech) causes lower extremity degradation.",
-    "hint": "Standing on concrete hospital floors strains an anchored, surgically repaired bone."
+    "word": "Are you willing to participate in a vocational assessment to see if you have other aptitudes?",
+    "translation": "I am fully willing to participate in standard vocational testing to confirm my aptitudes. I am confident that the results will show strong capabilities in analytical reasoning, science, and technical comprehension. These precise attributes directly support my proposed track toward an advanced medical degree in a diagnostic specialization like Radiology.",
+    "context": "Responding positively to a VRC's request for formal aptitude testing.",
+    "hint": "Accept the testing confidently, noting that your analytical strengths will reinforce your MD goal."
   },
   {
-    "word": "Sedentary/Desk-Based Feasibility",
-    "translation": "A career classification where physical exertion is negligible, allowing the worker to self-pace movements, sit, or stand as needed.",
-    "context": "Proves that a Radiologist role accommodates a tibia ORIF by removing mandatory, continuous on-your-feet clinical rounds.",
-    "hint": "The ultimate vocational accommodation for lower extremity and shoulder limitations."
+    "word": "The manual states we must look for the speediest path to employment. Why should we approve a path that takes this long?",
+    "translation": "The M28C manual emphasizes that while the path should be efficient, it must ultimately lead to 'suitable employment' that does not aggravate the veteran's disabilities. Because my physical limitations remove physical healthcare jobs, and my PTSD removes chaotic environments, a highly specialized cognitive role like Radiology is the most direct, sustainable path to true long-term rehabilitation.",
+    "context": "Rebutting the 'speediest path to employment' policy pressure.",
+    "hint": "Argue that a fast path to an unsuitable job is a failure of long-term rehabilitation."
   },
   {
-    "word": "Leveraging Domain Expertise for Feasibility",
-    "translation": "Utilizing an established medical baseline (anatomy, PACS systems, workflow) to reduce academic failure risk in a long-term medical track.",
-    "context": "Proves to the VR&E counselor that the transition is an optimization of existing skills rather than an erratic career pivot.",
-    "hint": "Using your clinical background to guarantee your academic capability."
+    "word": "If you are approved for a bachelor's degree first, what happens if your VRC changes and the next one refuses to approve medical school?",
+    "translation": "By establishing a clear, phased IWRP with explicit performance milestones, the plan becomes an official administrative agreement. Under M28C regulations, if a veteran successfully fulfills every required milestone within their active plan, the VA is structurally committed to supporting the subsequent agreed-upon phases of that rehabilitation track.",
+    "context": "Securing your long-term roadmap against future counselor turnover.",
+    "hint": "Emphasize that fulfilling explicit milestones in a phased IWRP protects your track's continuity."
   },
   {
-    "word": "Avoidance Symptoms vs. Vocational Withdrawal",
-    "translation": "A core PTSD symptom where a veteran withdraws from crowded or chaotic spaces, which can look like poor job performance if forced into frontline roles.",
-    "context": "Explains why moving to an autonomous, non-public-facing role prevents vocational burnout and drops absenteeism.",
-    "hint": "Controlling the environment removes the need to avoid the workplace entirely."
+    "word": "How do we know your left shoulder DJD won't worsen over the next 8 years of study?",
+    "translation": "My 100% P&T rating decision notes that my left shoulder DJD is already a chronic, permanent condition. Because a Radiologist's duties are strictly cognitive and lack heavy manual requirements, this career path completely protects my shoulder from the repetitive lifting strains that would accelerate joint degeneration, ensuring long-term career durability.",
+    "context": "Answering concerns about the long-term physical durability of your shoulder.",
+    "hint": "Explain that a purely cognitive career eliminates the physical strains that would cause degeneration."
   },
   {
-    "word": "The Radiologist Career Destination Paradigm",
-    "translation": "A diagnostic, analytical medical role focused on image interpretation, report dictation, and clinical consultation from a controlled office space.",
-    "context": "The ideal vocational rehabilitation goal that fully accommodates left shoulder DJD, clavicle ORIF, tibia ORIF, and severe PTSD.",
-    "hint": "The ultimate objective that harmonizes high-level cognitive capability with severe physical limitations."
+    "word": "What specific regulations allow us to declare a Serious Employment Handicap (SEH) for your case?",
+    "translation": "Under 38 CFR § 21.52, a veteran's service-connected disabilities can be classified as a Serious Employment Handicap if they cause significant vocational impairment. My 100% P&T status, combined with the fact that I cannot return to my primary trained profession due to severe physical and psychological barriers, provides the exact regulatory foundation required for an SEH determination.",
+    "context": "Providing the regulatory backing for an SEH classification.",
+    "hint": "Connect your 100% P&T status and complete inability to work in your old field to 38 CFR § 21.52."
+  },
+  {
+    "word": "Can you provide examples of how you manage your PTSD triggers without ongoing clinical intervention?",
+    "translation": "I manage my triggers by strictly maintaining a predictable, highly organized environment, utilizing structured study schedules, and focusing on independent, analytical tasks. Removing myself from chaotic public settings and channelizing my focus into disciplined intellectual pursuits keeps my baseline stable, proving that I can succeed in structured environments.",
+    "context": "Explaining your personal mental health management strategy to the VRC.",
+    "hint": "Frame your independent lifestyle and organized study habits as active, successful management tools."
+  },
+  {
+    "word": "What if your undergraduate prerequisites require heavy lab work that triggers your shoulder pain?",
+    "translation": "Undergraduate science labs emphasize observational analysis, chemical measurement, and digital data entry rather than heavy manual lifting. For any tasks requiring bilateral overhead reaching or heavy lifting, I will utilize standard academic accommodations through the university's disability services, ensuring my shoulder remains fully protected throughout training.",
+    "context": "Addressing potential physical hurdles within undergraduate science labs.",
+    "hint": "Explain that undergrad labs focus on observation and can be easily accommodated under the ADA."
+  },
+  {
+    "word": "Why can't you study biomedical engineering instead, which is also a cognitive field?",
+    "translation": "Biomedical engineering careers frequently require active hands-on prototyping, working with heavy laboratory machinery, and manual equipment assembly, which directly stresses my shoulder DJD. Radiology focuses entirely on clinical image interpretation at a stationary, fully customizable workstation, offering a much higher degree of physical accommodation.",
+    "context": "Defending your choice against alternative engineering or lab-based careers.",
+    "hint": "Explain that engineering involves manual prototyping and machinery work, unlike diagnostic radiology."
+  },
+  {
+    "word": "How will you handle the financial strain of being in school for so long without working?",
+    "translation": "As a 100% P&T veteran, my monthly disability compensation provides a stable financial foundation that fully covers my cost of living independently. This financial security allows me to focus 100% of my energy on my academic performance and long-term vocational rehabilitation without requiring external employment during my training.",
+    "context": "Assuring the counselor that financial stress won't disrupt your academic focus.",
+    "hint": "Point to your 100% P&T compensation as a built-in financial stabilizer for long-term study."
+  },
+  {
+    "word": "Since you haven't had a C&P exam since 2020, how can we be sure your conditions haven't improved?",
+    "translation": "The VA officially designated my rating as Permanent and Total because the medical evidence proved my conditions are chronic and not expected to improve over my lifetime. Under VA law, a P&T designation protects the veteran from routine future reviews. My ongoing physical restrictions and lifestyle adaptations show that my limitations remain entirely unchanged.",
+    "context": "Rebutting any insinuation that your lack of recent exams implies medical improvement.",
+    "hint": "Rely on the legal definition of 'Permanent and Total' to shut down assumptions of improvement."
+  },
+  {
+    "word": "Why shouldn't we consider a path toward becoming a health information manager instead?",
+    "translation": "Health information management roles frequently involve managing large medical offices, handling continuous staff conflicts, and operating within high-stress administrative environments that directly trigger my PTSD. Radiology provides a quiet, analytical workspace that allows me to utilize my medical knowledge independently and productively.",
+    "context": "Rebutting an administrative health management track suggestion.",
+    "hint": "Argue that high-stress administrative management environments trigger PTSD, unlike independent diagnostic roles."
+  },
+  {
+    "word": "If we deny this medical school track, what is your backup plan under Chapter 31?",
+    "translation": "If the medical school track is initially restricted, my objective remains finding a purely cognitive, independent career within medical imaging that utilizes my expertise. The immediate step must still be completing my undergraduate prerequisites to establish my academic baseline. From there, we can evaluate suitable, non-manual diagnostic specialties that fit my safety restrictions.",
+    "context": "Handling a defensive question about your flexibility without giving up your core path.",
+    "hint": "Keep the immediate focus on the undergraduate prerequisites as the necessary first step for any suitable track."
+  },
+  {
+    "word": "How do we know you won't struggle with the interpersonal stress of dealing with patients during your medical school rotations?",
+    "translation": "My PTSD symptoms are triggered by chaotic, unpredictable environments like emergency rooms, not structured, one-on-one professional interactions. Medical rotations are highly structured, supervised, and protocol-driven environments. This professional framework allows me to focus on clinical analysis and patient interaction calmly and effectively.",
+    "context": "Answering concerns about your ability to handle patient facing rotations during medical training.",
+    "hint": "Distinguish between structured professional patient care and unpredictable environmental chaos."
+  },
+  {
+    "word": "Why can't you just use your Post-9/11 GI Bill to fund this medical track instead of VR&E?",
+    "translation": "The Post-9/11 GI Bill is a standard educational benefit with strict time limits that cannot cover a comprehensive pre-med and medical school path. VR&E is a dedicated federal rehabilitation program under Title 38 designed specifically to assist veterans with serious employment handicaps. This program provides the structured oversight, counselor support, and extended entitlement required to achieve full career rehabilitation.",
+    "context": "Rebutting a counselor who tries to pass your educational funding off to the GI Bill.",
+    "hint": "Explain that VR&E is a rehabilitation program designed for disabled veterans, whereas the GI Bill is a basic benefit."
+  },
+  {
+    "word": "What specific documentation do you have today to prove your current academic capability?",
+    "translation": "I am presenting my current independent study logs and structured curriculum tracking sheets today. These records document my consistent daily study schedule, showing my discipline, retention, and capacity to master complex technical concepts independently. This established routine serves as practical proof of my readiness for a formal academic schedule.",
+    "context": "Using your self-study habits as formal evidence of academic capability.",
+    "hint": "Present your independent tracking logs as active proof of your current academic work ethic."
+  },
+  {
+    "word": "Medical school requires long hours of standing during certain rotations. How will your shoulder handle that?",
+    "translation": "Standing does not strain my left shoulder; my limitation is strictly tied to bilateral heavy lifting, pushing, and overhead reaching. During rotations that require prolonged standing or specific posture, standard ergonomic adjustments can be utilized. Once I complete training, a Radiologist's permanent career is entirely sitting or standing at a fully customized reading workstation.",
+    "context": "Addressing questions regarding standing or posture requirements during medical school.",
+    "hint": "Clarify that your restriction is tied to upper extremity manual labor, not static standing."
+  },
+  {
+    "word": "Why shouldn't we focus on a shorter certificate program in cybersecurity instead?",
+    "translation": "While cybersecurity is a cognitive field, it completely ignores my extensive professional training, vocabulary, and expertise in medical imaging. True vocational rehabilitation is most successful when it builds upon a veteran's existing foundational skills. Moving into Radiology allows me to fully utilize my background while safely accommodating my disabilities.",
+    "context": "Defending your medical track against a generic push toward information technology fields.",
+    "hint": "Argue that switching to IT wastes your valuable medical imaging background, whereas Radiology maximizes it."
+  },
+  {
+    "word": "How will you handle the high-volume workload during the first two years of medical school?",
+    "translation": "I thrive in structured environments where success depends on independent study and deep analytical focus. By maintaining a disciplined, self-directed learning schedule at home, I have already adapted my routine to handle high volumes of information methodically. I will apply these exact time-management strategies to manage the medical curriculum successfully.",
+    "context": "Proving you can manage the intense workload of the early medical school years.",
+    "hint": "Tie your ability to handle high workloads to your current organized, independent study habits."
+  },
+  {
+    "word": "What if your VRC determines that your goal is too ambitious for a veteran with a 100% PTSD rating?",
+    "translation": "Under VA regulations and the M28C manual, an objective cannot be denied based on assumptions regarding a disability rating level. The evaluation must focus on the specific functional interaction between the disability and the job duties. Because Radiology eliminates the environmental chaos that triggers my PTSD, it is a highly realistic and suitable goal.",
+    "context": "Rebutting implicit bias regarding the severity of a 100% mental health rating.",
+    "hint": "Cite the M28C requirement that goals must be evaluated on functional compatibility, not generalized rating assumptions."
+  },
+  {
+    "word": "Why shouldn't we place you in an independent job placement track immediately instead of education?",
+    "translation": "An immediate job placement track is unfeasible because my physical and psychological limitations prevent me from returning to my trained field as an X-ray Tech. I currently lack the qualifications for a low-impact, purely cognitive role within the medical field. Under 38 CFR § 21.72, training must be provided to achieve entry into a suitable career, making education a mandatory prerequisite.",
+    "context": "Rebutting a counselor trying to push you into an immediate job search track (Employment First).",
+    "hint": "Explain that immediate placement is impossible because you currently lack qualifications for a physically suitable career."
+  },
+  {
+    "word": "How do we know that your PTSD won't interfere with your attendance in a traditional classroom setting?",
+    "translation": "I manage my PTSD effectively by operating within highly structured, predictable environments. A formal academic environment provides a clear schedule, defined expectations, and independent study options that keep my symptoms stable. I am fully prepared to maintain consistent attendance by leveraging this predictable academic framework.",
+    "context": "Answering concerns about attendance and reliability in a traditional school setting.",
+    "hint": "Frame the traditional classroom as a predictable, structured environment that supports stability."
+  },
+  {
+    "word": "What if the medical school you get into requires you to relocate, causing disruption to your stability?",
+    "translation": "My stability is rooted in my internal routines, structured study habits, and personal discipline rather than a specific geographic location. Should relocation be required, I will apply my established organizational strategies to set up a controlled environment immediately, ensuring my training and health remain perfectly aligned.",
+    "context": "Addressing potential concerns regarding relocation stress and stability.",
+    "hint": "Emphasize that your coping strategies are portable and based on personal discipline and routine."
+  },
+  {
+    "word": "Why can't you work as a medical receptionist, which requires no heavy lifting and is a quiet office environment?",
+    "translation": "A medical receptionist position involves high-volume, unpredictable public contact, constant interruptions, and handling stressful front-desk situations, which directly triggers my PTSD symptoms. Furthermore, it does not utilize my technical aptitudes or medical imaging background. True rehabilitation requires an independent, analytical role like Radiology.",
+    "context": "Rebutting a push toward low-level medical front desk clerical roles.",
+    "hint": "Explain that front desk roles involve high-volume public interruptions that trigger PTSD while underutilizing your skills."
+  },
+  {
+    "word": "Are you prepared to provide a detailed written breakdown of the prerequisites you need before applying to medical school?",
+    "translation": "Yes, I am prepared to provide a complete, structured timeline detailing every prerequisite course, credit hour, and milestone required for medical school admission. Presenting this clear roadmap allows us to build a highly organized, phased IWRP that ensures accountability and academic success from day one.",
+    "context": "Responding to requests for an educational roadmap or course list.",
+    "hint": "Confirm your readiness to provide a clear, structured course timeline to show thorough preparation."
+  },
+  {
+    "word": "How does the M28C manual define 'Suitable Employment' for a veteran with your specific disabilities?",
+    "translation": "The M28C manual defines suitable employment as work that matches a veteran's aptitudes and interests while ensuring it does not aggravate their service-connected disabilities. For my case, this means a career that completely avoids heavy bilateral upper-body labor to protect my shoulder, and avoids chaotic environments to accommodate my PTSD—criteria that perfectly describe the role of a Radiologist.",
+    "context": "Using the M28C definition of suitability to anchor your final career objective.",
+    "hint": "Define suitability as the perfect intersection of your skills, physical protection, and psychological safety."
+  },
+  {
+    "word": "How do you manage daily chores like grocery shopping and errands with your service-connected conditions?",
+    "translation": "I only manage basic errands by executing them during off-peak hours to avoid crowds, as my PTSD triggers severe hypervigilance and anxiety in busy environments. While I can self-accommodate at home by timing my outings, a standard work environment with rigid schedules or public-facing demands would trigger severe panic, cognitive overload, and performance failure.",
+    "context": "VR&E Day-to-Day Living Question: Establishes an Employment Handicap under 38 CFR § 21.51 by showing that routine tasks are only possible through strict, unsustainable self-accommodation.",
+    "hint": "Focus on the 'cost' of the chore and explain why a standard employer cannot accommodate the timing or environment you require to function."
+  },
+  {
+    "word": "Are you able to keep up with routine household cleaning and maintenance independently?",
+    "translation": "I can only handle light housework in short intervals. Due to my left shoulder DJD and physical limitations, I cannot engage in repetitive bending, reaching, or lifting for more than 15-20 minutes without aggravating severe pain that incapacitates me for the rest of the day. A traditional job requiring sustained physical tasks or static postures would rapidly trigger a total functional breakdown.",
+    "context": "VR&E Day-to-Day Living Question: Connects routine household physical limits directly to an inability to tolerate standard, uninterrupted occupational physical demands.",
+    "hint": "Highlight your strict physical time limits (15-20 mins) and emphasize that forcing past them causes a total functional collapse."
+  },
+  {
+    "word": "How does your condition affect your ability to maintain a consistent daily schedule and routine?",
+    "translation": "My daily functioning is highly unpredictable due to fluctuating symptom flare-ups. On bad days, severe depressive/anxiety episodes or chronic pain make it incredibly difficult to focus or leave my room. At home, I can adjust my schedule to rest, but a standard employer will not tolerate the level of unplanned absenteeism and sudden productivity drops my condition demands.",
+    "context": "VR&E Day-to-Day Living Question: Demonstrates that the lack of reliability and predictability caused by your condition is a direct barrier to traditional employment.",
+    "hint": "Contrast the flexibility you have at home to survive bad days with a traditional boss's intolerance for short-notice absenteeism."
+  },
+  {
+    "word": "What strategies or tools do you use to stay organized and manage your day-to-day responsibilities?",
+    "translation": "I rely entirely on a rigid system of structured checklists, digital alarms, and constant reminders just to maintain a baseline of daily living. In a fast-paced work environment characterized by shifting priorities, frequent interruptions, or multi-tasking, this compensation system breaks down completely, leading to extreme stress, confusion, and task failure.",
+    "context": "VR&E Day-to-Day Living Question: Illustrates cognitive or executive functioning limitations and shows that your coping mechanisms fail under standard workplace stress.",
+    "hint": "Explain that your reminders work for a predictable home baseline, but crumble under the fast-paced interruptions of a regular job."
+  },
+  {
+    "word": "How do you handle cooking and preparing meals for yourself on a regular basis?",
+    "translation": "I rely mostly on simple, low-effort meal preparation because prolonged standing or lifting heavy cookware severely aggravates my chronic physical pain. This functional toll exhausts my physical endurance for hours afterward, demonstrating that I lack the physical tolerance required to sustain standard, uninterrupted full-time work shifts.",
+    "context": "VR&E Day-to-Day Living Question: Uses a basic necessity (eating) to prove a lack of physical stamina and endurance for full-time occupational environments.",
+    "hint": "Frame meal prep as a high-effort physical chore that drains your physical battery, leaving no stamina left for standard work shifts."
+  },
+  {
+    "word": "Describe your ability to drive or use public transportation to get around for daily needs.",
+    "translation": "I limit my driving to short, essential trips in familiar areas. Prolonged driving aggravates my physical discomfort, and navigating heavy, unpredictable traffic triggers severe anxiety and hypervigilance. The cognitive and physical toll of a standard daily commute would leave me completely depleted before a workday even began.",
+    "context": "VR&E Day-to-Day Living Question: Establishes that the foundational barrier of commuting alone makes traditional, physical attendance unviable.",
+    "hint": "Show that the toll of just getting to a job would leave you physically and mentally exhausted before the workday even starts."
+  },
+  {
+    "word": "How do your service-connected disabilities impact your social interactions with family, friends, or neighbors?",
+    "translation": "My conditions cause me to isolate, as I have a very low threshold for social stress and struggle with irritability and anxiety. While I can withdraw to a quiet space at home to de-escalate, traditional workplaces require constant, unpredictable interpersonal interaction with supervisors, co-workers, or customers, which would directly trigger my symptoms.",
+    "context": "VR&E Day-to-Day Living Question: Identifies severe interpersonal functional limitations that conflict with standard workplace social environments.",
+    "hint": "Emphasize your need to isolate to de-escalate, and point out that you can't just hide in a room when an angry boss or customer is present."
+  },
+  {
+    "word": "Do you require assistance from others to manage your personal care, finances, or household?",
+    "translation": "While I strive for independence, I rely heavily on a support system and self-imposed constraints to get by. The sheer amount of energy required to manage my health and daily baseline means I have zero remaining functional capacity to withstand the demands of a standard job without immediate regression.",
+    "context": "VR&E Day-to-Day Living Question: Protects your claim by showing that 'managing' does not equal 'thriving,' and that your capacity is entirely maxed out just surviving.",
+    "hint": "Explain that your baseline survival takes 100% of your energy, leaving zero 'functional surplus' to give to a traditional job."
+  },
+  
+  {
+    "word": "If you can manage your day-to-day living activities at home, why can't you work a standard job right now?",
+    "translation": "Managing a highly controlled home environment where I can freely rest, self-accommodate, and isolate during flare-ups is entirely different from meeting the rigid, high-stakes demands of a standard workplace. My disabilities prevent me from maintaining the reliable, predictable, and sustained performance a traditional employer requires, creating a definitive employment handicap under 38 CFR § 21.51.",
+    "context": "VR&E Day-to-Day Living Question: The ultimate closing argument separating home survival from workplace performance to secure a track approval.",
+    "hint": "Conclude by drawing a hard line between a controlled home sanctuary and an uncontrolled, high-stakes workplace environment."
   }
             // ─── ADD YOUR NEW FLASHCARDS DIRECTLY BELOW THIS LINE ────────────────
             
