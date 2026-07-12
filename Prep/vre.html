@@ -1028,12 +1028,31 @@
          * without altering pre-existing memory progress scores.
          */
         function synchronizeHardcodedDeck() {
+            // Purge any stored lexemes that are NOT present in the HARDCODED_DECK.
+            // This ensures old/legacy data won't continue to populate the UI.
+            const hardcodedSet = new Set(HARDCODED_DECK.map(c => (c.word || '').trim().toLowerCase()).filter(Boolean));
+
+            // If we have existing lexemes, remove those whose normalized word is not in the hardcoded set
+            if (Array.isArray(lexemes) && lexemes.length) {
+                const originalLength = lexemes.length;
+                lexemes = lexemes.filter(l => hardcodedSet.has((l.word || '').trim().toLowerCase()));
+
+                // If the filtered list ended up empty but storage previously had user data,
+                // we still want to start with an empty array here so we'll repopulate below.
+                if (lexemes.length !== originalLength) {
+                    saveToStorage();
+                }
+            } else {
+                // Ensure lexemes is an array if nothing in storage
+                lexemes = [];
+            }
+
+            // Add any missing hardcoded cards into the lexemes array (without duplicating)
             let changesMade = false;
-            
             HARDCODED_DECK.forEach(card => {
                 const normalizedWord = (card.word || '').trim();
                 const exists = lexemes.some(l => l.word.toLowerCase() === normalizedWord.toLowerCase());
-                
+
                 if (!exists && normalizedWord !== '') {
                     const trackingId = 'l_' + Math.random().toString(36).substr(2, 5) + '_' + Date.now().toString().slice(-4);
                     lexemes.push({
@@ -1042,16 +1061,14 @@
                         translation: (card.translation || '').trim(),
                         context: (card.context || '').trim() || 'No application context provided.',
                         hint: (card.hint || '').trim() || 'No specialized hints setup.',
-                        halfLifeHours: 4, 
+                        halfLifeHours: 4,
                         lastTested: Date.now() - (6 * 60 * 60 * 1000) // Places it instantly into initial test rotation
                     });
                     changesMade = true;
                 }
             });
 
-            if (changesMade) {
-                saveToStorage();
-            }
+            if (changesMade) saveToStorage();
         }
 
         /**
