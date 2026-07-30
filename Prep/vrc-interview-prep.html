@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VR&E Chapter 31 Interview Dashboard | Justin Cabrera</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-green: #34d399;
+      --accent-purple: #c084fc;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #7dd3fc;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 2rem;
+    }
+
+    .user-info h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.025em;
+    }
+
+    .user-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .badge-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .badge.green {
+      background: rgba(52, 211, 153, 0.1);
+      color: var(--accent-green);
+      border-color: rgba(52, 211, 153, 0.3);
+    }
+
+    .badge.purple {
+      background: rgba(192, 132, 252, 0.1);
+      color: var(--accent-purple);
+      border-color: rgba(192, 132, 252, 0.3);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .col-12 { grid-column: span 12; }
+    .col-8  { grid-column: span 8; }
+    .col-6  { grid-column: span 6; }
+    .col-4  { grid-column: span 4; }
+
+    @media (max-width: 1024px) {
+      .col-8, .col-6, .col-4 { grid-column: span 12; }
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-main);
+    }
+
+    .card-title span {
+      font-size: 1.25rem;
+    }
+
+    /* Key talking points list */
+    .talking-points {
+      list-style: none;
+    }
+
+    .talking-points li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.85rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .talking-points li strong {
+      color: var(--text-main);
+    }
+
+    .talking-points li::before {
+      content: "•";
+      color: var(--accent-blue);
+      font-size: 1.5rem;
+      position: absolute;
+      left: 0;
+      top: -0.2rem;
+    }
+
+    /* Comparison Table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .comparison-table th, .comparison-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .comparison-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .comparison-table td.negative {
+      color: #f87171;
+    }
+
+    .comparison-table td.positive {
+      color: var(--accent-green);
+    }
+
+    /* Metric Cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--card-border);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Pipeline Step */
+    .pipeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: rgba(15, 23, 42, 0.4);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--accent-purple);
+    }
+
+    .step-number {
+      background: var(--accent-purple);
+      color: var(--bg);
+      font-weight: 700;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+    }
+
+    .step-content p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Script Box */
+    .script-box {
+      background: rgba(56, 189, 248, 0.05);
+      border: 1px dashed var(--accent-blue);
+      padding: 1rem;
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      font-style: italic;
+    }
+
+    .link-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .link-item {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="user-info">
+      <h1>Justin Cabrera — VR&E Interview Dashboard</h1>
+      <p>Chapter 31 Initial Evaluation Command Center • August 6, 2026</p>
+    </div>
+    <div class="badge-group">
+      <span class="badge">100% P&T Schedular</span>
+      <span class="badge purple">Target: BS Computer Science</span>
+      <span class="badge green">Reno RO 354</span>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <div class="grid">
+
+    <!-- Elevate Pitch / Script -->
+    <div class="card col-12">
+      <div class="card-title">
+        <!-- <span>💬</span> 60-Second Core Pitch (Your Answer to "Why VR&E?") -->
+      </div>
+      <div class="script-box">
+        "I am seeking Chapter 31 authorization to transition from my background as an X-ray Technician into Software Engineering. My service-connected disabilities—specifically my Left Shoulder DJD and PTSD—make the physical machinery operation, patient lifting, and unpredictable high-stress clinical environments of healthcare unsustainable. A Bachelor of Science in Computer Science provides a structured, sedentary pathway where I can work in a controllable environment while leveraging my technical aptitudes. I have mapped out an efficient path starting at CSN and transferring to UNLV."
+      </div>
+    </div>
+
+    <!-- Feasibility & Disability Comparison -->
+    <div class="card col-8">
+      <div class="card-title">
+        <span>⚖️</span> Disability Barrier & Suitability Analysis
+      </div>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>Past Work: Radiologic Tech</th>
+            <th>Proposed Goal: Software Engineer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Physical Demands</strong></td>
+            <td class="negative">Lifting patients, positioning heavy machines (Aggravates Left Shoulder DJD)</td>
+            <td class="positive">100% Sedentary, ergonomic desk setup, adjustable workstation</td>
+          </tr>
+          <tr>
+            <td><strong>Environment</strong></td>
+            <td class="negative">High-stress ER/Clinical settings, noisy, chaotic (Triggers PTSD)</td>
+            <td class="positive">Predictable, structured, low-noise environment with remote/hybrid options</td>
+          </tr>
+          <tr>
+            <td><strong>LMI & Outlook</strong></td>
+            <td class="negative">Limited progression without physical clinical duty</td>
+            <td class="positive"><a href="url?id=3" target="_blank">17–25% National growth</a>; Strong local defense/gov tech presence in Las Vegas</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Career Roadmap -->
+    <div class="card col-4">
+      <div class="card-title">
+        <span>🎓</span> Academic Pathway
+      </div>
+      <div class="pipeline">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4><a href="url?id=0" target="_blank">CSN Computing & Info Tech</a></h4>
+            <p>Complete lower-division CS coursework and Math placement efficiently at lower cost.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4><a href="https://www.unlv.edu/degree/bs-computer-science" target="_blank">UNLV BS Computer Science</a></h4>
+            <p>Transfer credits directly into UNLV's ABET-accredited BS program via <a href="https://www.csn.edu/transfer2csn" target="_blank">CSN Transfer Articulation</a>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Target Outcome: Software Engineer</h4>
+            <p>Entry-level developer roles with defense contractors, local government, or private tech.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Labor Market Data (LMI) -->
+    <div class="card col-12">
+      <div class="card-title">
+        <span>📊</span> Labor Market Data & Job Outlook (Las Vegas & National)
+      </div>
+      <div class="stat-grid" style="margin-bottom: 1rem;">
+        <div class="stat-card">
+          <div class="stat-value">+17% to +25%</div>
+          <div class="stat-label"><a href="https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm" target="_blank">BLS Projected Growth Rate</a></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">$130k+</div>
+          <div class="stat-label"><a href="url?id=3" target="_blank">Median National Salary</a></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">100% Sedentary</div>
+          <div class="stat-label"><a href="https://www.onetonline.org/link/localwages/15-1252.00?st=" target="_blank">O*NET Physical Job Demand</a></div>
+        </div>
+      </div>
+      <ul class="talking-points">
+        <li><strong>Local Las Vegas Demand:</strong> High regional employer demand across government prime contractors (NNSS / Dept of Energy), gaming tech infrastructure, and regional corporate IT systems.</li>
+        <li><strong>Degree Mandate:</strong> Local entry-level software engineering and developer listings explicitly require a <strong>Bachelor of Science in Computer Science</strong> or closely related technical degree as a baseline qualification.</li>
+      </ul>
+    </div>
+
+    <!-- Direct Resources & Supporting Links -->
+    <div class="card col-12">
+      <div class="card-title">
+        <span>🔗</span> Quick Reference Supporting Links
+      </div>
+      <div class="link-list">
+        <div class="link-item">
+          📄 <a href="https://digitization.gcio.com/va/upload/documents" target="_blank">VA QuickSubmit Portal</a>
+        </div>
+        <div class="link-item">
+          📝 <a href="https://tap.careerscope.com/en/portal/dol-vets" target="_blank">CareerScope Assessment Portal</a>
+        </div>
+        <div class="link-item">
+          🎬 <a href="https://www.youtube.com/watch?v=49eWvGitLPw" target="_blank">VR&E Five Tracks Video</a>
+        </div>
+        <div class="link-item">
+          📈 <a href="https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm" target="_blank">BLS Software Developers OOH</a>
+        </div>
+        <div class="link-item">
+          📋 <a href="https://www.onetonline.org/link/localwages/15-1252.00?st=" target="_blank">O*NET OnLine Job Summary</a>
+        </div>
+        <div class="link-item">
+          🏫 <a href="https://www.csn.edu/schools/school-of-advanced-and-applied-technologies/department-of-computing-and-information-technology/computing-and-information-technology-program" target="_blank">CSN Computing Program</a>
+        </div>
+        <div class="link-item">
+          🏛️ <a href="https://www.unlv.edu/degree/bs-computer-science" target="_blank">UNLV BS Computer Science Degree</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Personal VR&E Telecounseling Dashboard • Keep open during Microsoft Teams Meeting</p>
+  </footer>
+
+</body>
+</html>
+
+```
