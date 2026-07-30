@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALEKS Math 127 Prep Workspace</title>
+  
+  <!-- Typography: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for Lightning-Fast Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       1. CSS DESIGN SYSTEM & VARIABLES
+       ========================================================================== */
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Fira Code', monospace;
+      
+      /* Dark Theme Tokens (Default) */
+      --bg-base: #0f172a;
+      --bg-surface: rgba(30, 41, 59, 0.7);
+      --bg-surface-border: rgba(255, 255, 255, 0.1);
+      --bg-glass-card: rgba(30, 41, 59, 0.4);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --accent-primary: #06b6d4;
+      --accent-primary-hover: #0891b2;
+      --accent-glow: rgba(6, 182, 212, 0.25);
+      
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg-base: #f1f5f9;
+      --bg-surface: rgba(255, 255, 255, 0.85);
+      --bg-surface-border: rgba(0, 0, 0, 0.08);
+      --bg-glass-card: rgba(255, 255, 255, 0.6);
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      
+      --accent-primary: #0284c7;
+      --accent-primary-hover: #0369a1;
+      --accent-glow: rgba(2, 132, 199, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      transition: background-color var(--transition-smooth);
+    }
+
+    /* Background Ambient Glows */
+    .bg-blobs {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+    }
+    .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #06b6d4; }
+    .blob-2 { bottom: -10%; right: -5%; width: 600px; height: 600px; background: #3b82f6; }
+
+    /* ==========================================================================
+       2. HEADER & STICKY NAVIGATION
+       ========================================================================== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--bg-surface-border);
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-glass-card);
+      border: 1px solid var(--bg-surface-border);
+      color: var(--text-main);
+      padding: 0.5rem 0.8rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all var(--transition-fast);
+    }
+    .theme-toggle-btn:hover { background: var(--accent-glow); }
+
+    /* Progress Tracker Bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #06b6d4, #10b981);
+      transition: width var(--transition-smooth);
+    }
+
+    /* ==========================================================================
+       3. LAYOUT & BENTO GRID
+       ========================================================================== */
+    main {
+      max-width: 1280px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 4rem 1.5rem;
+    }
+
+    .dashboard-header {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .stats-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--bg-surface-border);
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-md);
+      backdrop-filter: blur(12px);
+      font-size: 0.875rem;
+    }
+    .stats-card strong { color: var(--accent-primary); font-size: 1.1rem; }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+    }
+
+    /* Category Cards */
+    .category-card {
+      grid-column: span 12;
+      background: var(--bg-surface);
+      border: 1px solid var(--bg-surface-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+      transition: border-color var(--transition-fast);
+    }
+
+    .category-card:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+    }
+
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--bg-surface-border);
+    }
+
+    .category-title {
+      font-size: 1.35rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Topic Items / Accordions */
+    .topics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .topic-accordion {
+      background: var(--bg-glass-card);
+      border: 1px solid var(--bg-surface-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all var(--transition-fast);
+    }
+
+    .topic-header {
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .topic-header:hover { background: rgba(255, 255, 255, 0.03); }
+
+    .topic-title-area {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .topic-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-primary);
+      cursor: pointer;
+    }
+
+    .topic-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-smooth);
+      padding: 0 1.25rem;
+      border-top: 0px solid transparent;
+    }
+
+    .topic-accordion.open .topic-body {
+      max-height: 2000px;
+      padding: 1.25rem;
+      border-top: 1px solid var(--bg-surface-border);
+    }
+
+    .topic-accordion.open .chevron { transform: rotate(180deg); }
+
+    .chevron { transition: transform var(--transition-fast); color: var(--text-muted); }
+
+    /* ==========================================================================
+       4. CONTENT CARDS & PEDAGOGY MODULES
+       ========================================================================== */
+    .pedagogy-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media (min-width: 900px) {
+      .pedagogy-grid { grid-template-columns: 1fr 1fr; }
+      .full-width { grid-column: span 2; }
+    }
+
+    .content-box {
+      background: rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--bg-surface-border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+    }
+
+    .content-box-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .pitfall-box {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 3px solid var(--warning);
+    }
+
+    /* Step-by-step Toggleable Solutions */
+    .solution-step {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--bg-surface-border);
+      display: none;
+    }
+
+    .solution-step.visible { display: block; }
+
+    .btn {
+      background: var(--accent-primary);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color var(--transition-fast);
+      margin-top: 0.5rem;
+    }
+    .btn:hover { background: var(--accent-primary-hover); }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--bg-surface-border);
+      color: var(--text-main);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+
+    /* Interactive Practice Checker */
+    .practice-input-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .input-field {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--bg-surface-border);
+      color: var(--text-main);
+      padding: 0.4rem 0.6rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      outline: none;
+      width: 100%;
+    }
+
+    .feedback-msg {
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
+    .feedback-msg.correct { color: var(--success); }
+    .feedback-msg.incorrect { color: var(--danger); }
+  </style>
+</head>
+<body>
+
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="brand">
+        <span>MATH 127 Prep</span>
+        <span class="brand-badge">ALEKS Placement</span>
+      </div>
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="themeToggleBtn">☀️ Light Mode</button>
+      </div>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dashboard-header">
+      <div>
+        <h2>Target: CSN MATH 127 (Precalculus II)</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Target Score Required: <strong>61+</strong></p>
+      </div>
+      <div class="stats-card">
+        Mastery Progress: <strong id="progressText">0%</strong> (<span id="completedCount">0</span>/<span id="totalCount">0</span> Topics)
+      </div>
+    </div>
+
+    <!-- Bento Grid Container for Categories -->
+    <div class="bento-grid" id="appContainer">
+      <!-- Data renders dynamically via JS -->
+    </div>
+  </main>
+
+  <script>
+    /**
+     * ALEKS Math 127 Curriculum Schema
+     */
+    const curriculumData = [
+  {
+    id: "cat-algebra-foundations",
+    title: "1. Algebraic Foundations & Radicals",
+    topics: [
+      {
+        id: "top-exponent-rules",
+        title: "Negative Base Exponents & Order of Operations",
+        concept: "Distinguishing between $-x^n$ and $(-x)^n$, as well as working with fractional exponents.",
+        formula: "$$-a^n \\neq (-a)^n \\quad \\text{e.g., } -3^2 = -9, \\quad (-3)^2 = 9$$\n$$x^{m/n} = \\sqrt[n]{x^m}$$",
+        pitfall: "Without parentheses, the exponent applies ONLY to the base number, not the negative sign!",
+        example: {
+          problem: "Evaluate $-27^{2/3}$.",
+          steps: [
+            "1. Take the cube root first: $\\sqrt[3]{27} = 3$.",
+            "2. Square the result: $3^2 = 9$.",
+            "3. Apply the trailing negative sign: $-9$."
+          ]
+        },
+        practice: {
+          problem: "Evaluate $-16^{3/4}$.",
+          answer: "-8",
+          hint: "Find $(\\sqrt[4]{16})^3$ first, then attach the negative sign."
+        }
+      },
+      {
+        id: "top-radical-rationalize",
+        title: "Rationalizing Denominators using Conjugates",
+        concept: "Eliminating radicals from denominators using conjugate multiplication.",
+        formula: "$$\\text{Conjugate of } (a + \\sqrt{b}) \\text{ is } (a - \\sqrt{b})$$\n$$(a + \\sqrt{b})(a - \\sqrt{b}) = a^2 - b$$",
+        pitfall: "Always test radical equation solutions in the original equation to discard extraneous roots.",
+        example: {
+          problem: "Rationalize: $\\frac{6}{3 - \\sqrt{3}}$",
+          steps: [
+            "1. Multiply top and bottom by conjugate $(3 + \\sqrt{3})$.",
+            "2. Numerator: $6(3 + \\sqrt{3}) = 18 + 6\\sqrt{3}$.",
+            "3. Denominator: $3^2 - (\\sqrt{3})^2 = 9 - 3 = 6$.",
+            "4. Simplify: $\\frac{18 + 6\\sqrt{3}}{6} = 3 + \\sqrt{3}$."
+          ]
+        },
+        practice: {
+          problem: "Solve $\\sqrt{3x + 1} = 4$.",
+          answer: "5",
+          hint: "Square both sides: $3x + 1 = 16$."
+        }
+      },
+      {
+        id: "top-rational-inequalities",
+        title: "Polynomial & Rational Inequalities",
+        concept: "Finding intervals where a rational expression is positive or negative using key boundary points.",
+        formula: "$$\\frac{A(x)}{B(x)} \\ge 0 \\implies \\text{Find zeros of numerator AND denominator, test intervals}$$",
+        pitfall: "NEVER include values that make the denominator zero in your solution interval, even if the inequality is $\\le$ or $\\ge$!",
+        example: {
+          problem: "Solve $\\frac{x - 3}{x + 1} > 0$.",
+          steps: [
+            "1. Key boundary points: $x = 3$ (numerator zero) and $x = -1$ (undefined).",
+            "2. Test intervals $(-\\infty, -1)$, $(-1, 3)$, $(3, \\infty)$.",
+            "3. Result: Positive on $(-\\infty, -1) \\cup (3, \\infty)$."
+          ]
+        },
+        practice: {
+          problem: "What is the key boundary point where $\\frac{x - 5}{x + 2} = 0$?",
+          answer: "5",
+          hint: "Set the numerator equal to zero."
+        }
+      }
+    ]
+  },
+  {
+    id: "cat-functions-graphs",
+    title: "2. Functions & Advanced Graphs",
+    topics: [
+      {
+        id: "top-function-composition",
+        title: "Function Composition & Domain",
+        concept: "Evaluating $(f \\circ g)(x) = f(g(x))$ and checking domain restrictions on inner and outer functions.",
+        formula: "$$(f \\circ g)(x) = f(g(x))$$",
+        pitfall: "Always check domain restrictions on $g(x)$ before evaluating $f(g(x))$.",
+        example: {
+          problem: "If $f(x) = x^2 - 2$ and $g(x) = 3x + 1$, evaluate $(f \\circ g)(2)$.",
+          steps: [
+            "1. Evaluate $g(2) = 3(2) + 1 = 7$.",
+            "2. Substitute into $f(x)$: $f(7) = 7^2 - 2 = 49 - 2 = 47$."
+          ]
+        },
+        practice: {
+          problem: "If $f(x) = 2x + 3$ and $g(x) = x^2$, evaluate $(g \\circ f)(1)$.",
+          answer: "25",
+          hint: "Find $f(1)$ first, then square it."
+        }
+      },
+      {
+        id: "top-inverse-functions",
+        title: "Inverse Functions & Algebraic Switching",
+        concept: "Finding the algebraic inverse $f^{-1}(x)$ by swapping $x$ and $y$ and solving for $y$.",
+        formula: "$$y = f(x) \\implies x = f(y) \\implies y = f^{-1}(x)$$",
+        pitfall: "The domain of $f(x)$ becomes the range of $f^{-1}(x)$, and vice versa.",
+        example: {
+          problem: "Find $f^{-1}(x)$ for $f(x) = \\frac{2x + 1}{x - 3}$.",
+          steps: [
+            "1. Swap $x$ and $y$: $x = \\frac{2y + 1}{y - 3}$.",
+            "2. Multiply out: $x(y - 3) = 2y + 1 \\implies xy - 3x = 2y + 1$.",
+            "3. Group $y$ terms: $xy - 2y = 3x + 1 \\implies y(x - 2) = 3x + 1$.",
+            "4. Solve: $f^{-1}(x) = \\frac{3x + 1}{x - 2}$."
+          ]
+        },
+        practice: {
+          problem: "If $f(x) = 3x - 5$, what is $f^{-1}(4)$?",
+          answer: "3",
+          hint: "Set $3x - 5 = 4$ and solve for $x$."
+        }
+      },
+      {
+        id: "top-difference-quotient",
+        title: "The Difference Quotient",
+        concept: "Calculating the average rate of change for precalculus and calculus readiness.",
+        formula: "$$\\text{Difference Quotient} = \\frac{f(x + h) - f(x)}{h}$$",
+        pitfall: "Distribute the negative sign completely across $f(x)$ when subtracting!",
+        example: {
+          problem: "Find the difference quotient for $f(x) = x^2 + 2$.",
+          steps: [
+            "1. $f(x+h) = (x+h)^2 + 2 = x^2 + 2xh + h^2 + 2$.",
+            "2. $f(x+h) - f(x) = (x^2 + 2xh + h^2 + 2) - (x^2 + 2) = 2xh + h^2$.",
+            "3. Divide by $h$: $\\frac{h(2x + h)}{h} = 2x + h$."
+          ]
+        },
+        practice: {
+          problem: "Simplify the difference quotient for $f(x) = 4x - 1$.",
+          answer: "4",
+          hint: "Notice that for any linear function $f(x) = mx + b$, the quotient always equals $m$."
+        }
+      },
+      {
+        id: "top-line-slopes",
+        title: "Parallel & Perpendicular Lines",
+        concept: "Line relationships based on slopes: parallel lines have equal slopes; perpendicular lines have negative reciprocal slopes.",
+        formula: "$$m_{\\parallel} = m_1, \\quad m_{\\perp} = -\\frac{1}{m_1}$$",
+        pitfall: "Remember to both flip the fraction AND change the sign for perpendicular slopes.",
+        example: {
+          problem: "Find the slope of a line perpendicular to $2x - 5y = 10$.",
+          steps: [
+            "1. Solve for $y$: $-5y = -2x + 10 \\implies y = \\frac{2}{5}x - 2$. Given slope $m = \\frac{2}{5}$.",
+            "2. Perpendicular slope: $m_{\\perp} = -\\frac{5}{2}$."
+          ]
+        },
+        practice: {
+          problem: "What is the slope of a line perpendicular to $y = -3x + 4$?",
+          answer: "1/3",
+          hint: "Take the negative reciprocal of $-3$."
+        }
+      }
+    ]
+  },
+  {
+    id: "cat-trig-fundamentals",
+    title: "3. Trigonometry & Analytic Identities",
+    topics: [
+      {
+        id: "top-unit-circle",
+        title: "Unit Circle Values & Radians",
+        concept: "Evaluating sine, cosine, and tangent at fundamental angles ($0, \\frac{\\pi}{6}, \\frac{\\pi}{4}, \\frac{\\pi}{3}, \\frac{\\pi}{2}$).",
+        formula: "$$\\cos\\theta = x, \\quad \\sin\\theta = y, \\quad \\tan\\theta = \\frac{y}{x}$$\n$$180^\\circ = \\pi \\text{ radians}$$",
+        pitfall: "Keep track of signs by quadrant using ASTC (All Students Take Calculus).",
+        example: {
+          problem: "Evaluate $\\sin\\left(\\frac{5\\pi}{6}\\right)$.",
+          steps: [
+            "1. Identify quadrant: $\\frac{5\\pi}{6}$ is in Quadrant II.",
+            "2. Reference angle: $\\pi - \\frac{5\\pi}{6} = \\frac{\\pi}{6}$.",
+            "3. Since sine is positive in Quadrant II: $\\sin\\left(\\frac{5\\pi}{6}\\right) = +\\sin\\left(\\frac{\\pi}{6}\\right) = \\frac{1}{2}$."
+          ]
+        },
+        practice: {
+          problem: "Evaluate $\\cos\\left(\\frac{2\\pi}{3}\\right)$.",
+          answer: "-1/2",
+          hint: "Quadrant II angle with reference angle $\\frac{\\pi}{3}$."
+        }
+      },
+      {
+        id: "top-trig-equations",
+        title: "Solving Trigonometric Equations",
+        concept: "Solving quadratic or linear trigonometric equations on specific intervals such as $[0, 2\\pi)$.",
+        formula: "$$a\\sin^2\\theta + b\\sin\\theta + c = 0 \\implies \\text{Factor like a standard quadratic}$$",
+        pitfall: "Do not divide both sides by a trigonometric function (e.g., dividing by $\\cos\\theta$), or you will lose valid solutions!",
+        example: {
+          problem: "Solve $2\\sin\\theta - 1 = 0$ for $\\theta \\in [0, 2\\pi)$.",
+          steps: [
+            "1. Isolate $\\sin\\theta$: $\\sin\\theta = \\frac{1}{2}$.",
+            "2. Identify positive sine quadrants: Quadrants I and II.",
+            "3. Angles: $\\theta = \\frac{\\pi}{6}, \\frac{5\\pi}{6}$."
+          ]
+        },
+        practice: {
+          problem: "How many solutions exist for $\\cos\\theta = 0$ on $[0, 2\\pi)$?",
+          answer: "2",
+          hint: "Cos is zero at $\\frac{\\pi}{2}$ and $\\frac{3\\pi}{2}$."
+        }
+      },
+      {
+        id: "top-trig-transformations",
+        title: "Trigonometric Graphs & Transformations",
+        concept: "Identifying amplitude, period, phase shift, and vertical shifts of sinusoidal curves.",
+        formula: "$$y = A\\sin(Bx - C) + D$$\n$$\\text{Amplitude} = |A|, \\quad \\text{Period} = \\frac{2\\pi}{B}, \\quad \\text{Phase Shift} = \\frac{C}{B}$$",
+        pitfall: "Factor out $B$ first to get $B(x - \\frac{C}{B})$ when computing the phase shift!",
+        example: {
+          problem: "Find the period of $y = 3\\cos(4x - \\pi) + 2$.",
+          steps: [
+            "1. Identify $B = 4$.",
+            "2. Calculate Period $= \\frac{2\\pi}{B} = \\frac{2\\pi}{4} = \\frac{\\pi}{2}$."
+          ]
+        },
+        practice: {
+          problem: "What is the amplitude of $y = -5\\sin(2x) + 1$?",
+          answer: "5",
+          hint: "Amplitude is always positive: $|A| = |-5| = 5$."
+        }
+      },
+      {
+        id: "top-nonright-trig",
+        title: "Law of Sines & Law of Cosines",
+        concept: "Solving oblique (non-right) triangles using side and angle relationships.",
+        formula: "$$\\text{Law of Sines: } \\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}$$\n$$\\text{Law of Cosines: } c^2 = a^2 + b^2 - 2ab\\cos C$$",
+        pitfall: "Use Law of Cosines when given SAS or SSS. Use Law of Sines when you have a known side-angle pair (AAS or ASA).",
+        example: {
+          problem: "In $\\triangle ABC$, $a=3$, $b=4$, and $\\angle C = 90^\\circ$. Find $c$.",
+          steps: [
+            "1. Apply Law of Cosines (or Pythagorean Theorem): $c^2 = 3^2 + 4^2 - 2(3)(4)\\cos(90^\\circ)$.",
+            "2. Since $\\cos(90^\\circ) = 0$: $c^2 = 9 + 16 = 25 \\implies c = 5$."
+          ]
+        },
+        practice: {
+          problem: "If $a = 5$, $b = 5$, and angle $C = 60^\\circ$, what is side $c$?",
+          answer: "5",
+          hint: "An isosceles triangle with a $60^\\circ$ vertex angle is equilateral."
+        }
+      }
+    ]
+  },
+  {
+    id: "cat-exponentials-logs",
+    title: "4. Exponentials & Logarithmic Equations",
+    topics: [
+      {
+        id: "top-log-rules",
+        title: "Properties of Logarithms",
+        concept: "Combining and expanding logarithmic terms using product, quotient, and power rules.",
+        formula: "$$\\log_b(xy) = \\log_b x + \\log_b y$$\n$$\\log_b\\left(\\frac{x}{y}\\right) = \\log_b x - \\log_b y$$\n$$\\log_b(x^k) = k\\log_b x$$",
+        pitfall: "Remember that $\\log(x + y) \\neq \\log x + \\log y$.",
+        example: {
+          problem: "Condense: $2\\log_2 x + \\log_2 y - 3\\log_2 z$",
+          steps: [
+            "1. Apply power rule: $\\log_2(x^2) + \\log_2 y - \\log_2(z^3)$.",
+            "2. Combine product and quotient: $\\log_2\\left(\\frac{x^2 y}{z^3}\\right)$."
+          ]
+        },
+        practice: {
+          problem: "Solve for $x$: $\\log_3(x) = 4$.",
+          answer: "81",
+          hint: "Convert to exponential form: $x = 3^4$."
+        }
+      },
+      {
+        id: "top-log-equations",
+        title: "Solving Logarithmic Equations",
+        concept: "Using logarithmic properties to solve equations and checking for extraneous solutions.",
+        formula: "$$\\log_b x = y \\iff b^y = x$$",
+        pitfall: "Log arguments must be strictly positive ($x > 0$). Throw away extraneous roots!",
+        example: {
+          problem: "Solve for $x$: $\\log_2(x) + \\log_2(x - 2) = 3$",
+          steps: [
+            "1. Product rule: $\\log_2(x(x - 2)) = 3$.",
+            "2. Exponential form: $x(x - 2) = 2^3 = 8 \\implies x^2 - 2x - 8 = 0$.",
+            "3. Factor: $(x - 4)(x + 2) = 0 \\implies x = 4, x = -2$.",
+            "4. Check: $x = -2$ gives negative log argument. Valid solution: $x = 4$."
+          ]
+        },
+        practice: {
+          problem: "Solve for $x$: $3^{x + 1} = 27$.",
+          answer: "2",
+          hint: "Rewrite $27$ as $3^3$."
+        }
+      },
+      {
+        id: "top-exponential-growth",
+        title: "Exponential Growth, Decay & Compound Interest",
+        concept: "Modeling real-world growth, half-life, and continuous compounding.",
+        formula: "$$A = P\\left(1 + \\frac{r}{n}\\right)^{nt}, \\quad A = P e^{rt}$$",
+        pitfall: "Always convert percentages to decimals before plugging into $r$ (e.g., $5\\% \\implies 0.05$).",
+        example: {
+          problem: "If $\$1000$ is invested at $6\\%$ compounded continuously for $2$ years, write the expression.",
+          steps: [
+            "1. Identify $P = 1000$, $r = 0.06$, $t = 2$.",
+            "2. Plug into continuous compounding formula: $A = 1000 e^{0.06(2)} = 1000 e^{0.12}$."
+          ]
+        },
+        practice: {
+          problem: "What is $e^0$?",
+          answer: "1",
+          hint: "Any non-zero real number to the power of 0 equals 1."
+        }
+      }
+    ]
+  },
+  {
+    id: "cat-conics-geometry",
+    title: "5. Analytic Geometry & Systems",
+    topics: [
+      {
+        id: "top-circle-eq",
+        title: "Circle Equations & Completing the Square",
+        concept: "Finding center and radius by putting quadratic forms into standard circle form.",
+        formula: "$$(x - h)^2 + (y - k)^2 = r^2$$\n$$\\text{Center: } (h, k), \\quad \\text{Radius: } r$$",
+        pitfall: "Watch signs: $(x + 3)^2$ means $h = -3$.",
+        example: {
+          problem: "Find the radius of $x^2 + y^2 - 8x + 6y = 0$.",
+          steps: [
+            "1. Group terms: $(x^2 - 8x) + (y^2 + 6y) = 0$.",
+            "2. Complete squares: $(x^2 - 8x + 16) + (y^2 + 6y + 9) = 16 + 9$.",
+            "3. Standard form: $(x - 4)^2 + (y + 3)^2 = 25$.",
+            "4. Radius $r = \\sqrt{25} = 5$."
+          ]
+        },
+        practice: {
+          problem: "What is the radius of $(x - 2)^2 + (y - 5)^2 = 36$?",
+          answer: "6",
+          hint: "Take the square root of 36."
+        }
+      },
+      {
+        id: "top-nonlinear-systems",
+        title: "Non-Linear Systems of Equations",
+        concept: "Solving systems of lines and quadratics using substitution.",
+        formula: "$$\\text{Substitute } y = mx + b \\text{ into circle/parabola equation}$$",
+        pitfall: "Be sure to pair each $x$-value with its corresponding $y$-value.",
+        example: {
+          problem: "Solve: $y = x + 1$ and $x^2 + y^2 = 5$.",
+          steps: [
+            "1. Substitute $y$: $x^2 + (x + 1)^2 = 5 \\implies x^2 + x^2 + 2x + 1 = 5$.",
+            "2. Simplify: $2x^2 + 2x - 4 = 0 \\implies x^2 + x - 2 = 0$.",
+            "3. Factor: $(x + 2)(x - 1) = 0 \\implies x = -2, x = 1$.",
+            "4. Solutions: $(-2, -1)$ and $(1, 2)$."
+          ]
+        },
+        practice: {
+          problem: "How many real solutions exist for $y = x^2 + 3$ and $y = 2$?",
+          answer: "0",
+          hint: "Set $x^2 + 3 = 2 \\implies x^2 = -1$."
+        }
+      },
+    ]
+  },
+];
+// Append Category 6 to your curriculumData array
+curriculumData.push({
+  id: "cat-advanced-trig-vectors",
+  title: "6. Inverse Trig, Vectors & Polynomial Zeros",
+  topics: [
+    {
+      id: "top-inverse-trig",
+      title: "Inverse Trigonometric Functions",
+      concept: "Evaluating $\\arcsin(x)$, $\\arccos(x)$, and $\\arctan(x)$ within their restricted principal output ranges.",
+      formula: "$$\\arcsin(x) \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right], \\quad \\arccos(x) \\in [0, \\pi], \\quad \\arctan(x) \\in \\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$$",
+      pitfall: "$\\arcsin(-x)$ outputs a negative angle in Quadrant IV ($-\\frac{\\pi}{2} \\le \\theta \\le 0$), NOT a positive angle like $\\frac{11\\pi}{6}$!",
+      example: {
+        problem: "Evaluate $\\arccos\\left(-\\frac{\\sqrt{2}}{2}\\right)$.",
+        steps: [
+          "1. Recall that $\\arccos$ outputs angles in Quadrant I or Quadrant II ($[0, \\pi]$).",
+          "2. Since the argument is negative, the angle lies in Quadrant II.",
+          "3. Reference angle is $\\frac{\\pi}{4}$. Quadrant II angle: $\\pi - \\frac{\\pi}{4} = \\frac{3\\pi}{4}$."
+        ]
+      },
+      practice: {
+        problem: "Evaluate $\\arcsin\\left(-\\frac{1}{2}\\right)$ in radians.",
+        answer: "-pi/6",
+        hint: "Output must fall between $-\\frac{\\pi}{2}$ and $\\frac{\\pi}{2}$."
+      }
+    },
+    {
+      id: "top-double-angle",
+      title: "Sum, Difference & Double-Angle Identities",
+      concept: "Using angle addition and double-angle formulas to simplify or evaluate exact trig values.",
+      formula: "$$\\sin(2\\theta) = 2\\sin\\theta\\cos\\theta$$\n$$\\cos(2\\theta) = \\cos^2\\theta - \\sin^2\\theta = 2\\cos^2\\theta - 1 = 1 - 2\\sin^2\\theta$$",
+      pitfall: "$\\sin(2\\theta) \\neq 2\\sin(\\theta)$. You must use the identity $2\\sin\\theta\\cos\\theta$!",
+      example: {
+        problem: "If $\\sin\\theta = \\frac{3}{5}$ in Quadrant I, find $\\sin(2\\theta)$.",
+        steps: [
+          "1. Find $\\cos\\theta$: In Quadrant I with a 3-4-5 triangle, $\\cos\\theta = \\frac{4}{5}$.",
+          "2. Apply identity: $\\sin(2\\theta) = 2\\left(\\frac{3}{5}\\right)\\left(\\frac{4}{5}\\right) = \\frac{24}{25}$."
+        ]
+      },
+      practice: {
+        problem: "If $\\cos\\theta = \\frac{1}{2}$, what is $\\cos(2\\theta)$?",
+        answer: "-1/2",
+        hint: "Use $\\cos(2\\theta) = 2\\cos^2\\theta - 1$."
+      }
+    },
+    {
+      id: "top-polar-coords",
+      title: "Polar Coordinates & Conversion",
+      concept: "Converting points between rectangular $(x, y)$ and polar $(r, \\theta)$ representations.",
+      formula: "$$x = r\\cos\\theta, \\quad y = r\\sin\\theta$$\n$$r = \\sqrt{x^2 + y^2}, \\quad \\tan\\theta = \\frac{y}{x}$$",
+      pitfall: "When finding $\\theta = \\arctan(y/x)$, adjust for the correct quadrant based on the signs of $x$ and $y$.",
+      example: {
+        problem: "Convert rectangular point $(-3, 3)$ to polar coordinates $(r, \\theta)$ with $r > 0, 0 \\le \\theta < 2\\pi$.",
+        steps: [
+          "1. Calculate radius: $r = \\sqrt{(-3)^2 + 3^2} = \\sqrt{18} = 3\\sqrt{2}$.",
+          "2. Identify quadrant: $(-3, 3)$ is in Quadrant II.",
+          "3. Angle: $\\tan\\theta = \\frac{3}{-3} = -1 \\implies \\theta = \\frac{3\\pi}{4}$."
+        ]
+      },
+      practice: {
+        problem: "Find $r$ for the rectangular point $(3, 4)$.",
+        answer: "5",
+        hint: "$r = \\sqrt{3^2 + 4^2}$."
+      }
+    },
+    {
+      id: "top-synthetic-division",
+      title: "Synthetic Division & Remainder Theorem",
+      concept: "Dividing polynomials efficiently to evaluate functions at $x = c$ or find linear factors.",
+      formula: "$$\\text{If } P(x) \\text{ is divided by } (x - c), \\text{ the remainder is } P(c)$$",
+      pitfall: "Remember to insert a zero coefficient for any missing power of $x$ in the dividend!",
+      example: {
+        problem: "Find the remainder when $P(x) = x^3 - 4x + 6$ is divided by $x - 2$.",
+        steps: [
+          "1. Use Remainder Theorem: $P(2) = (2)^3 - 4(2) + 6$.",
+          "2. Calculate: $8 - 8 + 6 = 6$."
+        ]
+      },
+      practice: {
+        problem: "What is the remainder when $x^2 - 5x + 7$ is divided by $x - 3$?",
+        answer: "1",
+        hint: "Evaluate $P(3) = 3^2 - 5(3) + 7$."
+      }
+    }
+  ]
+});
+
+    /* State Management */
+    let appState = JSON.parse(localStorage.getItem('aleks_127_prep_state')) || {
+      completed: {},
+      theme: 'dark'
+    };
+
+    /* App Initialization */
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderCurriculum();
+      updateProgress();
+      
+      document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+    });
+
+    /* Render Application Layout */
+    function renderCurriculum() {
+      const container = document.getElementById('appContainer');
+      container.innerHTML = '';
+
+      curriculumData.forEach(cat => {
+        const catCard = document.createElement('div');
+        catCard.className = 'category-card';
+        
+        let topicsHTML = cat.topics.map(topic => {
+          const isChecked = appState.completed[topic.id] ? 'checked' : '';
+          return `
+            <div class="topic-accordion" id="accordion-${topic.id}">
+              <div class="topic-header" onclick="toggleAccordion('${topic.id}')">
+                <div class="topic-title-area">
+                  <input type="checkbox" class="topic-checkbox" ${isChecked} 
+                    onclick="event.stopPropagation(); toggleTopicComplete('${topic.id}')">
+                  <strong>${topic.title}</strong>
+                </div>
+                <span class="chevron">▼</span>
+              </div>
+              <div class="topic-body">
+                <div class="pedagogy-grid">
+                  
+                  <div class="content-box">
+                    <div class="content-box-title">Core Concept & Formulas</div>
+                    <p>${topic.concept}</p>
+                    <div style="margin-top:0.5rem;">${topic.formula}</div>
+                  </div>
+
+                  <div class="content-box pitfall-box">
+                    <div class="content-box-title" style="color:var(--warning)">ALEKS Strategy & Pitfalls</div>
+                    <p>${topic.pitfall}</p>
+                  </div>
+
+                  <div class="content-box full-width">
+                    <div class="content-box-title">Step-by-Step Example</div>
+                    <p><strong>Problem:</strong> ${topic.example.problem}</p>
+                    <button class="btn btn-secondary" onclick="toggleSolution('${topic.id}')">Toggle Solution Steps</button>
+                    <div class="solution-step" id="sol-${topic.id}">
+                      ${topic.example.steps.map(step => `<p style="margin-bottom:0.4rem;">${step}</p>`).join('')}
+                    </div>
+                  </div>
+
+                  <div class="content-box full-width">
+                    <div class="content-box-title">Interactive Practice</div>
+                    <p>${topic.practice.problem}</p>
+                    <div class="practice-input-group">
+                      <input type="text" class="input-field" id="input-${topic.id}" placeholder="Type answer (e.g. 5, -8, 1/3)">
+                      <button class="btn" onclick="checkAnswer('${topic.id}', '${topic.practice.answer}')">Check</button>
+                    </div>
+                    <div id="feedback-${topic.id}" class="feedback-msg"></div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        catCard.innerHTML = `
+          <div class="category-header">
+            <div class="category-title">${cat.title}</div>
+          </div>
+          <div class="topics-list">${topicsHTML}</div>
+        `;
+        container.appendChild(catCard);
+      });
+
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ]
+        });
+      }
+    }
+
+    function toggleAccordion(topicId) {
+      const accordion = document.getElementById(`accordion-${topicId}`);
+      accordion.classList.toggle('open');
+    }
+
+    function toggleSolution(topicId) {
+      const sol = document.getElementById(`sol-${topicId}`);
+      sol.classList.toggle('visible');
+    }
+
+    function checkAnswer(topicId, correctAnswer) {
+      const input = document.getElementById(`input-${topicId}`).value.trim().replace(/\s+/g, '').toLowerCase();
+      const target = correctAnswer.trim().replace(/\s+/g, '').toLowerCase();
+      const feedback = document.getElementById(`feedback-${topicId}`);
+
+      if (input === target) {
+        feedback.className = 'feedback-msg correct';
+        feedback.textContent = '✓ Correct! Excellent work.';
+      } else {
+        feedback.className = 'feedback-msg incorrect';
+        feedback.textContent = '✗ Keep trying. Check your syntax or formulas above.';
+      }
+    }
+
+    function toggleTopicComplete(topicId) {
+      appState.completed[topicId] = !appState.completed[topicId];
+      saveState();
+      updateProgress();
+    }
+
+    function updateProgress() {
+      let total = 0;
+      let completed = 0;
+
+      curriculumData.forEach(cat => {
+        cat.topics.forEach(top => {
+          total++;
+          if (appState.completed[top.id]) completed++;
+        });
+      });
+
+      const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+      
+      document.getElementById('progressBar').style.width = `${percentage}%`;
+      document.getElementById('progressText').textContent = `${percentage}%`;
+      document.getElementById('completedCount').textContent = completed;
+      document.getElementById('totalCount').textContent = total;
+    }
+
+    function saveState() {
+      localStorage.setItem('aleks_127_prep_state', JSON.stringify(appState));
+    }
+
+    function initTheme() {
+      document.documentElement.setAttribute('data-theme', appState.theme);
+      updateThemeBtnText();
+    }
+
+    function toggleTheme() {
+      appState.theme = appState.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', appState.theme);
+      saveState();
+      updateThemeBtnText();
+    }
+
+    function updateThemeBtnText() {
+      const btn = document.getElementById('themeToggleBtn');
+      btn.textContent = appState.theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+    }
+  </script>
+</body>
+</html>
