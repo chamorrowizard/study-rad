@@ -47,7 +47,7 @@
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 62.5m4.18 2.88l-1.15-1.15M19 12h3M5 12H2m15.65-7.65l-1.15 1.15M7.05 18.95l-1.15 1.15M12 2v3m0 14v3M6.34 6.34l1.15 1.15m10.52 10.52l1.15 1.15"></path></svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight text-white">CS Computer Science (AA)</h1>
+                    <h1 class="text-xl font-bold tracking-tight text-white">CSN Computer Science (AA)</h1>
                     <p class="text-xs text-slate-400 font-medium">College of Southern Nevada • Total Credits: 60</p>
                 </div>
             </div>
@@ -77,7 +77,7 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
                 <div class="space-y-2">
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                        Academic Pathway Tracker
+                        Official Degree Sheet Tracker (COMPS-AA)
                     </span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Your Degree Roadmap</h2>
                     <p class="text-sm text-slate-400 max-w-xl">Check off your completed courses and requirements below. Your progress updates instantly.</p>
@@ -85,7 +85,6 @@
                 
                 <div class="bg-dark-bg/60 border border-dark-border p-5 rounded-2xl flex items-center space-x-6 min-w-[240px]">
                     <div class="relative w-16 h-16 flex items-center justify-center">
-                        <!-- Simple SVG Circular Progress -->
                         <svg class="w-full h-full transform -rotate-90">
                             <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="6" class="text-slate-800 fill-none"></circle>
                             <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="6" class="text-blue-500 fill-none transition-all duration-500" :stroke-dasharray="175.9" :stroke-dashoffset="175.9 - (175.9 * progressPercentage / 100)" stroke-linecap="round"></circle>
@@ -95,7 +94,7 @@
                     <div>
                         <div class="text-xs text-slate-400 font-medium">Overall Status</div>
                         <div class="text-lg font-bold text-white" x-text="progressPercentage >= 100 ? 'Degree Completed! 🎉' : 'In Progress'"></div>
-                        <div class="text-xs text-blue-400 font-medium mt-0.5" x-text="`${completedCoursesCount} of ${totalCoursesCount} Requirements Met`"></div>
+                        <div class="text-xs text-blue-400 font-medium mt-0.5" x-text="`${completedCredits} of 60 Credits Met`"></div>
                     </div>
                 </div>
             </div>
@@ -109,7 +108,6 @@
         <!-- Sections Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-            <!-- Template Loop through sections -->
             <template x-for="section in sections" :key="section.title">
                 <div class="glass-panel rounded-2xl p-6 shadow-xl border border-dark-border flex flex-col justify-between">
                     <div>
@@ -152,7 +150,7 @@
 
     <!-- Footer -->
     <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center text-xs text-slate-500 border-t border-dark-border mt-12">
-        <p>CSN Associate of Arts in Computer Science (COMPS-AA) Degree Tracker • Built for modern student tracking.</p>
+        <p>CSN Associate of Arts in Computer Science (COMPS-AA) Official Degree Sheet Tracker</p>
     </footer>
 
     <!-- Alpine State Script -->
@@ -161,76 +159,102 @@
             return {
                 sections: [
                     {
-                        title: "Mathematics (General Ed)",
+                        title: "Mathematics",
                         creditsLabel: "3-4 Credits",
                         courses: [
-                            { id: 'math_gen', code: 'MATH 127 or higher', name: 'Precalculus II (Required for CSN/UNLV track)', credits: 3, completed: false, note: 'Targeting placement via ALEKS exam (Score 61+)' }
+                            { id: 'math_127', code: 'MATH 127', name: 'Precalculus II or above (or MATH 181 for UNLV/UNR)', credits: 3, completed: false, note: 'Required general education math' }
                         ]
                     },
                     {
-                        title: "English Composition & Literature",
-                        creditsLabel: "9 Credits",
+                        title: "English Composition",
+                        creditsLabel: "6-8 Credits",
                         courses: [
-                            { id: 'eng_101', code: 'ENG 100 / 101 / 110 / 113', name: 'Composition I', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' },
-                            { id: 'eng_102', code: 'ENG 102 / 114', name: 'Composition II', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' },
-                            { id: 'eng_lit', code: 'ENG 231 / 232', name: 'World Literature I or II (Fulfills Values & Diversity)', credits: 3, completed: true, note: 'Satisfied (Fall 2012)' }
+                            { id: 'eng_100', code: 'ENG 100', name: 'Composition Enhanced', credits: 5, completed: false, note: 'Alternative to ENG 101' },
+                            { id: 'eng_101', code: 'ENG 101', name: 'Composition I', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' },
+                            { id: 'eng_110', code: 'ENG 110', name: 'Composition I for International/Multilingual Students Expanded', credits: 3, completed: false, note: 'Alternative option' },
+                            { id: 'eng_113', code: 'ENG 113', name: 'Composition I for International Students', credits: 3, completed: false, note: 'Alternative option' },
+                            { id: 'eng_102', code: 'ENG 102', name: 'Composition II', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' },
+                            { id: 'eng_114', code: 'ENG 114', name: 'Composition II for International Students', credits: 3, completed: false, note: 'Alternative option' }
                         ]
                     },
                     {
-                        title: "Analytical Reasoning & Humanities",
-                        creditsLabel: "6 Credits",
+                        title: "Literature",
+                        creditsLabel: "3 Credits",
                         courses: [
-                            { id: 'phil_114', code: 'PHIL 114', name: 'Introduction to Symbolic Logic (Recommended for UNLV)', credits: 3, completed: false, note: 'Required general education requirement' },
-                            { id: 'com_101', code: 'COM 101', name: 'Public Speaking (Humanities)', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' }
+                            { id: 'eng_231', code: 'ENG 231', name: 'World Literature I (Fulfills Values & Diversity)', credits: 3, completed: true, note: 'Satisfied (Fall 2012)' },
+                            { id: 'eng_232', code: 'ENG 232', name: 'World Literature II (Fulfills Values & Diversity)', credits: 3, completed: false, note: 'Alternative option' }
+                        ]
+                    },
+                    {
+                        title: "Analytical Reasoning",
+                        creditsLabel: "3 Credits",
+                        courses: [
+                            { id: 'phil_102', code: 'PHIL 102', name: 'Critical Thinking and Reasoning', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' },
+                            { id: 'phil_114', code: 'PHIL 114', name: 'Introduction to Symbolic Logic (Required for UNLV)', credits: 3, completed: false, note: 'Alternative option' }
                         ]
                     },
                     {
                         title: "Natural Sciences",
                         creditsLabel: "7 Credits",
                         courses: [
-                            { id: 'sci_1', code: 'Natural Science w/ Lab', name: 'Approved Lab Science (BIOL, CHEM, PHYS, GEOL, etc.)', credits: 4, completed: true, note: 'Satisfied (Spring 2012)' },
-                            { id: 'sci_2', code: 'Natural Science Lecture', name: 'Second Natural Science Course', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' }
+                            { id: 'sci_lab_req', code: 'CHEM 105', name: 'ANTH 102/110L, any AST, BIOL 101+, CHEM 105+, any EGG/ENV, GEOG 103/104/117, any GEOL, HHP 123, any PHYS, or PSY 105', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' },
+                            { id: 'sci_lec_req', code: 'Second Science Course', name: 'Second course from approved Natural Sciences prefix list', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' }
                         ]
                     },
                     {
-                        title: "Fine Arts & Constitutions",
-                        creditsLabel: "7-9 Credits",
+                        title: "Humanities",
+                        creditsLabel: "3 Credits",
                         courses: [
-                            { id: 'fine_arts', code: 'Fine Arts Elective', name: 'Approved ART, MUS, PHO, THTR, or VID course', credits: 3, completed: true, note: 'Satisfied (Fall 2011 - MUS 125)' },
-                            { id: 'psc_101', code: 'PSC 101 / HIST', name: 'U.S. and Nevada Constitutions', credits: 4, completed: true, note: 'Satisfied' }
+                            { id: 'com_101', code: 'COM 101', name: 'Public Speaking', credits: 3, completed: true, note: 'Satisfied (Spring 2012)' }
+                        ]
+                    },
+                    {
+                        title: "Fine Arts",
+                        creditsLabel: "3 Credits",
+                        courses: [
+                            { id: 'fine_arts_req', code: 'Fine Arts Elective', name: 'Any ART, DAN 101, GRC 103, any MUS (excl. MUS 100), PHO 101, any THTR (excl. THTR 275), or VID 110', credits: 3, completed: true, note: 'Satisfied (Fall 2011 - MUS 125)' }
+                        ]
+                    },
+                    {
+                        title: "U.S. and Nevada Constitutions",
+                        creditsLabel: "4-6 Credits",
+                        courses: [
+                            { id: 'psc_101', code: 'PSC 101', name: 'Introduction to American Politics', credits: 4, completed: true, note: 'Satisfied' },
+                            { id: 'hist_100', code: 'HIST 100', name: 'Historical Issues and Contemporary Society', credits: 4, completed: false, note: '4-credit option' },
+                            { id: 'hist_comb', code: 'History Combination Pairs', name: 'HIST 101/102, HIST 101/217, HIST 102/111, or HIST 111/217 (6-credit options)', credits: 6, completed: false, note: 'Alternative 6-credit track' }
                         ]
                     },
                     {
                         title: "Major Core Requirements",
                         creditsLabel: "15 Credits",
                         courses: [
-                            { id: 'cit_129', code: 'CIT 129', name: 'Introduction to Programming', credits: 4, completed: false, note: 'In Progress (Fall 2026) - Requires MATH 116+ prerequisite' },
-                            { id: 'cit_180', code: 'CIT 180', name: 'Database Concepts and SQL', credits: 3, completed: false, note: 'Major Requirement' },
-                            { id: 'cit_260', code: 'CIT 260', name: 'Systems Analysis and Design', credits: 3, completed: false, note: 'Major Requirement' },
-                            { id: 'cs_135', code: 'CS 135', name: 'Computer Science I', credits: 3, completed: false, note: 'Major Requirement' },
-                            { id: 'cs_202', code: 'CS 202', name: 'Computer Science II', credits: 4, completed: false, note: 'Major Requirement' }
+                            { id: 'cit_129', code: 'CIT 129', name: 'Introduction to Programming', credits: 4, completed: false, note: 'Required Core' },
+                            { id: 'cit_180', code: 'CIT 180', name: 'Database Concepts and SQL', credits: 3, completed: false, note: 'Required Core' },
+                            { id: 'cit_260', code: 'CIT 260', name: 'Systems Analysis and Design', credits: 3, completed: false, note: 'Required Core' },
+                            { id: 'cs_135', code: 'CS 135', name: 'Computer Science I', credits: 3, completed: false, note: 'Required Core' },
+                            { id: 'cs_202', code: 'CS 202', name: 'Computer Science II', credits: 4, completed: false, note: 'Required Core' }
                         ]
                     },
                     {
-                        title: "Program Electives & Specialization",
+                        title: "Program Electives",
                         creditsLabel: "10 Credits",
                         courses: [
-                            { id: 'is_101', code: 'IS 101', name: 'Introduction to Information Systems', credits: 3, completed: false, note: 'In Progress (Fall 2026)' },
                             { id: 'cs_138', code: 'CS 138', name: 'Programming in Python (Recommended for UNLV BA)', credits: 3, completed: false, note: 'Elective option' },
-                            { id: 'elec_rem', code: 'Additional Electives', name: 'Remaining Math/CIT/CS Elective Credits', credits: 4, completed: false, note: 'Fulfills 10-credit elective block' }
+                            { id: 'math_adv', code: 'MATH 181 / 182 / 251 / 283', name: 'Advanced Mathematics (Recommended core/electives)', credits: 4, completed: false, note: 'Elective option' },
+                            { id: 'elec_gen', code: 'CIT / CPE / CS / EE / IS / MATH Electives', name: 'Any approved non-B CIT/IS courses, CPE, CS, EE, or MATH (excl. MATH 104B, 122, 123)', credits: 3, completed: false, note: 'Fulfills remaining elective block' }
                         ]
                     },
                     {
                         title: "Social Sciences Elective",
                         creditsLabel: "3 Credits",
                         courses: [
-                            { id: 'soc_sci', code: 'Social Sciences', name: 'Approved ANTH, ECON, PSC, PSY, or SOC course', credits: 3, completed: true, note: 'Satisfied (Fall 2011)' }
+                            { id: 'soc_sci', code: 'Social Sciences', name: 'Approved ANTH (excl. 102/110L), CRJ 104, ECON, HHP 201/213, PHIL 135/205/207/216/244/245/246/249, PSC, PSY, SOC, or WMST 113', credits: 3, completed: true, note: 'Satisfied (Fall 2011)' }
                         ]
                     }
                 ],
 
                 init() {
-                    const saved = localStorage.getItem('csn_degree_progress_v2');
+                    const saved = localStorage.getItem('csn_degree_progress_v4');
                     if (saved) {
                         try {
                             const completedIds = JSON.parse(saved);
@@ -256,10 +280,9 @@
                             }
                         });
                     });
-                    localStorage.setItem('csn_degree_progress_v2', JSON.stringify(completedIds));
+                    localStorage.setItem('csn_degree_progress_v4', JSON.stringify(completedIds));
 
-                    // Trigger confetti if complete
-                    if (this.progressPercentage === 100) {
+                    if (this.progressPercentage >= 100) {
                         confetti({
                             particleCount: 100,
                             spread: 70,
@@ -275,24 +298,8 @@
                                 course.completed = false;
                             });
                         });
-                        localStorage.removeItem('csn_degree_progress_v2');
+                        localStorage.removeItem('csn_degree_progress_v4');
                     }
-                },
-
-                get totalCoursesCount() {
-                    let count = 0;
-                    this.sections.forEach(s => count += s.courses.length);
-                    return count;
-                },
-
-                get completedCoursesCount() {
-                    let count = 0;
-                    this.sections.forEach(s => {
-                        s.courses.forEach(c => {
-                            if (c.completed) count++;
-                        });
-                    });
-                    return count;
                 },
 
                 get completedCredits() {
