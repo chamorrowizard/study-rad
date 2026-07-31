@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALEKS Math 127/181 Placement Mastery Framework</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX CSS & JS for rapid, beautiful LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        /* ==========================================================================
+           1. CSS Custom Properties & Design System
+           ========================================================================== */
+        :root {
+            /* Color Palette - Dark Theme (Default) */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-card-hover: rgba(51, 65, 85, 0.8);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --accent-primary: #38bdf8;   /* Cyan */
+            --accent-secondary: #818cf8; /* Indigo */
+            --accent-success: #34d399;   /* Emerald */
+            --accent-warning: #fbbf24;   /* Amber */
+            --accent-danger: #f87171;    /* Red */
+            
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #f1f5f9;
+            --bg-card: rgba(255, 255, 255, 0.8);
+            --bg-card-hover: rgba(241, 245, 249, 0.9);
+            
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            
+            --accent-primary: #0284c7;
+            --accent-secondary: #4f46e5;
+            --accent-success: #059669;
+            --accent-warning: #d97706;
+            --accent-danger: #dc2626;
+            
+            --border-color: rgba(0, 0, 0, 0.1);
+            --glass-border: 1px solid rgba(0, 0, 0, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        /* Base Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 60px;
+            transition: background-color var(--transition-normal), color var(--transition-normal);
+        }
+
+        /* ==========================================================================
+           2. Layout Structure & Navigation
+           ========================================================================== */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: var(--glass-border);
+            padding: 1rem 2rem;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 220px;
+        }
+
+        .progress-bar-bg {
+            flex-grow: 1;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            border: var(--glass-border);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-success));
+            transition: width 0.4s ease;
+        }
+
+        .progress-text {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .theme-toggle-btn {
+            background: var(--bg-secondary);
+            border: var(--glass-border);
+            color: var(--text-primary);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition-fast);
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-primary);
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .search-bar-container {
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.85rem 1.25rem;
+            background: var(--bg-card);
+            border: var(--glass-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            backdrop-filter: blur(8px);
+            transition: var(--transition-fast);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+        }
+
+        /* ==========================================================================
+           3. Bento-Grid Dashboard & Cards
+           ========================================================================== */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .bento-card {
+            background: var(--bg-card);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--glass-shadow);
+            transition: transform var(--transition-fast), border-color var(--transition-fast);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--card-accent, var(--accent-primary));
+        }
+
+        .bento-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .weight-badge {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            background: var(--bg-secondary);
+            color: var(--accent-primary);
+            border: var(--glass-border);
+            font-weight: 600;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* ==========================================================================
+           4. Topic Sections & Accordion Architecture
+           ========================================================================== */
+        .section-wrapper {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: var(--glass-border);
+        }
+
+        .topic-card {
+            background: var(--bg-card);
+            border: var(--glass-border);
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            transition: var(--transition-fast);
+        }
+
+        .topic-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .topic-header:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .topic-title-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .topic-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-success);
+            cursor: pointer;
+        }
+
+        .topic-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .accordion-icon {
+            transition: transform var(--transition-fast);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .topic-card.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .topic-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-normal);
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .topic-content {
+            padding: 1.25rem;
+            border-top: var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        /* Module Panels within Topic */
+        .concept-box, .pitfall-box, .example-box, .practice-box {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-sm);
+            border: var(--glass-border);
+        }
+
+        .concept-box {
+            background: rgba(56, 189, 248, 0.05);
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .pitfall-box {
+            background: rgba(251, 191, 36, 0.05);
+            border-left: 3px solid var(--accent-warning);
+        }
+
+        .example-box, .practice-box {
+            background: var(--bg-secondary);
+        }
+
+        .box-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .concept-box .box-label { color: var(--accent-primary); }
+        .pitfall-box .box-label { color: var(--accent-warning); }
+        .example-box .box-label { color: var(--accent-secondary); }
+        .practice-box .box-label { color: var(--accent-success); }
+
+        .solution-step {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed var(--border-color);
+            display: none;
+        }
+
+        .solution-step.visible {
+            display: block;
+        }
+
+        .action-btn {
+            background: var(--bg-primary);
+            border: var(--glass-border);
+            color: var(--text-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            margin-top: 0.5rem;
+            transition: var(--transition-fast);
+        }
+
+        .action-btn:hover {
+            background: var(--accent-primary);
+            color: #0f172a;
+        }
+
+        .interactive-input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .math-input {
+            background: var(--bg-primary);
+            border: var(--glass-border);
+            color: var(--text-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            outline: none;
+        }
+
+        .feedback-msg {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+        }
+
+        .feedback-correct { color: var(--accent-success); }
+        .feedback-incorrect { color: var(--accent-danger); }
+
+        /* ==========================================================================
+           5. Developer Maintenance Guide Styling
+           ========================================================================== */
+        .dev-guide {
+            background: var(--bg-secondary);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .dev-guide h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        .dev-guide code {
+            font-family: var(--font-mono);
+            background: var(--bg-primary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: var(--accent-warning);
+            font-size: 0.9rem;
+        }
+
+        .dev-guide pre {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            overflow-x: auto;
+            margin: 0.5rem 0 1rem 0;
+            border: var(--glass-border);
+        }
+
+        .dev-guide pre code {
+            padding: 0;
+            background: none;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .header-container { flex-direction: column; align-items: stretch; }
+            .progress-container { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY NAVBAR WITH PROGRESS BAR -->
+    <header class="sticky-header">
+        <div class="header-container">
+            <div class="brand-title">
+                <span>⚡</span> ALEKS Placement Exam Architecture
+            </div>
+            <div class="header-controls">
+                <div class="progress-container">
+                    <span class="progress-text" id="progress-percent">0%</span>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+                <button class="theme-toggle-btn" id="theme-toggle">🌙 Theme</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+
+        <!-- SEARCH AND FILTER -->
+        <div class="search-bar-container">
+            <input type="text" id="search-input" class="search-input" placeholder="🔍 Search topics, concepts, or formulas (e.g., 'Logarithm', 'Radicals', 'Trig')...">
+        </div>
+
+        <!-- BENTO-GRID TOPIC WEIGHT SUMMARY (Reflecting High-Yield ALEKS Pool Ratios) -->
+        <div class="bento-grid">
+            <div class="bento-card" style="--card-accent: #38bdf8;">
+                <div class="card-header">
+                    <span class="card-title">1. Exponents, Polynomials & Equations</span>
+                    <span class="weight-badge">~38% Pool Weight</span>
+                </div>
+                <p class="card-desc">Highest yield area. Foundation of test scores (0–50 range). Exponent laws, radicals, quadratic/rational equations, and inequalities.</p>
+            </div>
+
+            <div class="bento-card" style="--card-accent: #818cf8;">
+                <div class="card-header">
+                    <span class="card-title">2. Functions & Advanced Graphs</span>
+                    <span class="weight-badge">~20% Pool Weight</span>
+                </div>
+                <p class="card-desc">Crucial for reaching score 61+. Domain restrictions, composition $f(g(x))$, inverse functions $f^{-1}(x)$, and difference quotients.</p>
+            </div>
+
+            <div class="bento-card" style="--card-accent: #34d399;">
+                <div class="card-header">
+                    <span class="card-title">3. Trigonometry & Identities</span>
+                    <span class="weight-badge">~14% Pool Weight</span>
+                </div>
+                <p class="card-desc">Core Precalculus component. Unit circle evaluations, trigonometric equations, transformations, and identities.</p>
+            </div>
+
+            <div class="bento-card" style="--card-accent: #fbbf24;">
+                <div class="card-header">
+                    <span class="card-title">4. Exponentials, Logs & Conics</span>
+                    <span class="weight-badge">~16% Pool Weight</span>
+                </div>
+                <p class="card-desc">Logarithm rules, solving exponential models, circles, and systems of equations essential for MATH 127 / MATH 181 placement.</p>
+            </div>
+        </div>
+
+        <!-- DYNAMIC TOPIC CONTAINER (Rendered via JS) -->
+        <div id="topics-app"></div>
+
+        <!-- DEVELOPER MAINTENANCE INSTRUCTIONS -->
+        <section class="dev-guide">
+            <h2>🛠️ Senior Front-End Developer Maintenance Guide</h2>
+            <p>This application is architected to be 100% extensible via a single JavaScript object array (<code>TOPICS_DATA</code>). No manual HTML duplication is needed to expand the module.</p>
+            
+            <h3 style="margin-top: 1rem; color: var(--text-primary);">a) How to Add a New Category / Topic</h3>
+            <p>Open the <code>&lt;script&gt;</code> block at the bottom of this file and append a new object to <code>TOPICS_DATA</code> using this pattern:</p>
+            <pre><code>{
+    id: "unique_topic_id",
+    category: "Category Name (e.g., 1. Exponents & Polynomials)",
+    title: "Topic Name",
+    concept: "Markdown or standard text with LaTeX formulas like \\( x^2 + y^2 = r^2 \\).",
+    pitfall: "Common student traps on ALEKS.",
+    example: {
+        problem: "Step-by-step example problem statement.",
+        steps: ["Step 1 explanation", "Step 2 equation"]
+    },
+    practice: {
+        problem: "Interactive question prompt.",
+        answer: "42", // String expected for exact checking
+        hint: "Step-by-step solution to reveal if requested."
+    }
+}</code></pre>
+
+            <h3 style="margin-top: 1rem; color: var(--text-primary);">b) How LaTeX Rendering Works</h3>
+            <p>This file utilizes <strong>KaTeX</strong> auto-render. Write inline formulas using <code>\( ... \)</code> and block display equations using <code>$$ ... $$</code> inside any string field in <code>TOPICS_DATA</code>. KaTeX automatically renders them upon dynamic mounting.</p>
+
+            <h3 style="margin-top: 1rem; color: var(--text-primary);">c) State Management Architecture</h3>
+            <p>Topic completion checkboxes persist state using <code>localStorage</code> under the key <code>aleks_mastery_state</code>. Toggling any checkbox updates the state array and triggers a reactive calculation of the sticky navigation progress percentage.</p>
+        </section>
+
+    </main>
+
+    <!-- ==========================================================================
+       6. JavaScript Application Logic (ES6+)
+       ========================================================================== -->
+    <script>
+        /* ==========================================================================
+           DATA STORE: Pre-populated with High-Yield CSN / ALEKS Placement Topics
+           Ordered according to ALEKS adaptive test appearance & weight ratios
+           ========================================================================== */
+        const TOPICS_DATA = [
+            // CATEGORY 1: EXPONENTS, POLYNOMIALS & EQUATIONS (~38% Weight)
+            {
+                id: "exp_radicals_neg_base",
+                category: "1. Exponents, Polynomials & Equations (~38% Weight)",
+                title: "Negative Base Exponents & Fractional Powers",
+                concept: "Understand the strict distinction between \\(-x^n\\) and \\((-x)^n\\). Fractional exponents follow the rule \\(x^{m/n} = \\sqrt[n]{x^m}\\).",
+                pitfall: "Without parentheses, the negative sign is NOT raised to the exponent! Example: \\(-3^2 = -9\\), whereas \\((-3)^2 = 9\\).",
+                example: {
+                    problem: "Evaluate \\(-27^{2/3}\\).",
+                    steps: [
+                        "Separate the negative sign from the base: \\(-(27^{2/3})\\).",
+                        "Evaluate the fractional exponent: \\(27^{1/3} = \\sqrt[3]{27} = 3\\).",
+                        "Square the result: \\(3^2 = 9\\).",
+                        "Apply the leading negative sign: \\(-9\\)."
+                    ]
+                },
+                practice: {
+                    problem: "Evaluate \\(-16^{3/4}\\).",
+                    answer: "-8",
+                    hint: "\\(16^{1/4} = 2\\), then \\(2^3 = 8\\), and apply negative sign: \\(-8\\)."
+                }
+            },
+            {
+                id: "rational_conjugates",
+                category: "1. Exponents, Polynomials & Equations (~38% Weight)",
+                title: "Rationalizing Denominators using Conjugates",
+                concept: "Eliminate square roots from denominators using conjugate multiplication: The conjugate of \\((a + \\sqrt{b})\\) is \\((a - \\sqrt{b})\\), applying \\((a+b)(a-b) = a^2 - b\\).",
+                pitfall: "Forget to distribute the numerator completely across both terms of the conjugate.",
+                example: {
+                    problem: "Simplify \\(\\frac{6}{3 - \\sqrt{3}}\\).",
+                    steps: [
+                        "Multiply numerator and denominator by conjugate \\((3 + \\sqrt{3})\\).",
+                        "Denominator: \\((3 - \\sqrt{3})(3 + \\sqrt{3}) = 3^2 - (\\sqrt{3})^2 = 9 - 3 = 6\\).",
+                        "Numerator: \\(6(3 + \\sqrt{3})\\).",
+                        "Simplify: \\(\\frac{6(3 + \\sqrt{3})}{6} = 3 + \\sqrt{3}\\)."
+                    ]
+                },
+                practice: {
+                    problem: "Simplify \\(\\frac{4}{2 + \\sqrt{2}}\\). Type answer as a + b√c or simplified form.",
+                    answer: "4 - 2√2",
+                    hint: "Multiply by \\((2 - \\sqrt{2})\\). Denominator becomes \\(4 - 2 = 2\\). \\(\\frac{4(2 - \\sqrt{2})}{2} = 2(2 - \\sqrt{2}) = 4 - 2\\sqrt{2}\\)."
+                }
+            },
+            {
+                id: "rational_inequalities",
+                category: "1. Exponents, Polynomials & Equations (~38% Weight)",
+                title: "Rational Inequalities & Interval Analysis",
+                concept: "For \\(\\frac{A(x)}{B(x)} \\ge 0\\), find all boundary points where numerator = 0 AND denominator = 0. Test sign intervals.",
+                pitfall: "NEVER include values that make the denominator zero in closed brackets \\([\\dots]\\)! Denominator zeros MUST always be open parentheses \\((\\dots)\\).",
+                example: {
+                    problem: "Solve \\(\\frac{x - 3}{x + 1} > 0\\).",
+                    steps: [
+                        "Identify boundary points: Numerator zero at \\(x = 3\\); Denominator zero at \\(x = -1\\).",
+                        "Test interval \\((-\\infty, -1)\\): Choose \\(x = -2 \\implies \\frac{-5}{-1} > 0\\) (True).",
+                        "Test interval \\((-1, 3)\\): Choose \\(x = 0 \\implies \\frac{-3}{1} > 0\\) (False).",
+                        "Test interval \\((3, \\infty)\\): Choose \\(x = 4 \\implies \\frac{1}{5} > 0\\) (True).",
+                        "Solution: \\((-\\infty, -1) \\cup (3, \\infty)\\)."
+                    ]
+                },
+                practice: {
+                    problem: "At what boundary point is \\(\\frac{x - 5}{x + 2} = 0\\) undefined?",
+                    answer: "-2",
+                    hint: "The expression is undefined where the denominator equals zero: \\(x + 2 = 0 \\implies x = -2\\)."
+                }
+            },
+
+            // CATEGORY 2: FUNCTIONS & ADVANCED GRAPHS (~20% Weight)
+            {
+                id: "func_composition",
+                category: "2. Functions & Advanced Graphs (~20% Weight)",
+                title: "Function Composition & Domain Evaluation",
+                concept: "Evaluating \\((f \\circ g)(x) = f(g(x))\\). Substitute the entire expression of \\(g(x)\\) into every instance of \\(x\\) in \\(f(x)\\).",
+                pitfall: "Evaluating in reverse order: \\((f \\circ g)(x) \\neq (g \\circ f)(x)\\) in general.",
+                example: {
+                    problem: "If \\(f(x) = x^2 - 2\\) and \\(g(x) = 3x + 1\\), evaluate \\((f \\circ g)(2)\\).",
+                    steps: [
+                        "Evaluate inner function first: \\(g(2) = 3(2) + 1 = 7\\).",
+                        "Substitute result into outer function: \\(f(7) = 7^2 - 2\\).",
+                        "Calculate final value: \\(49 - 2 = 47\\)."
+                    ]
+                },
+                practice: {
+                    problem: "If \\(f(x) = 2x + 3\\) and \\(g(x) = x^2\\), evaluate \\((g \\circ f)(1)\\).",
+                    answer: "25",
+                    hint: "\\(f(1) = 2(1)+3 = 5\\). Then \\(g(5) = 5^2 = 25\\)."
+                }
+            },
+            {
+                id: "difference_quotient",
+                category: "2. Functions & Advanced Graphs (~20% Weight)",
+                title: "The Difference Quotient (Precalculus Readiness)",
+                concept: "The foundational limit definition rate of change: \\(\\frac{f(x+h) - f(x)}{h}\\).",
+                pitfall: "Failing to distribute the negative sign completely across \\(f(x)\\) when subtracting.",
+                example: {
+                    problem: "Find the difference quotient for \\(f(x) = x^2 + 2\\).",
+                    steps: [
+                        "Find \\(f(x+h)\\): \\((x+h)^2 + 2 = x^2 + 2xh + h^2 + 2\\).",
+                        "Subtract \\(f(x)\\): \\((x^2 + 2xh + h^2 + 2) - (x^2 + 2) = 2xh + h^2\\).",
+                        "Divide by \\(h\\): \\(\\frac{2xh + h^2}{h} = \\frac{h(2x + h)}{h} = 2x + h\\)."
+                    ]
+                },
+                practice: {
+                    problem: "Simplify the difference quotient for \\(f(x) = 4x - 1\\).",
+                    answer: "4",
+                    hint: "\\(f(x+h) = 4(x+h) - 1 = 4x + 4h - 1\\). Subtract \\(f(x)\\): \\(4h\\). Divide by \\(h\\): \\(4\\)."
+                }
+            },
+
+            // CATEGORY 3: TRIGONOMETRY & IDENTITIES (~14% Weight)
+            {
+                id: "trig_unit_circle",
+                category: "3. Trigonometry & Identities (~14% Weight)",
+                title: "Exact Unit Circle Values & Radians",
+                concept: "Coordinates on the unit circle: \\((x, y) = (\\cos\\theta, \\sin\\theta)\\). \\(\\tan\\theta = \\frac{y}{x}\\). Key reference angles: \\(\\frac{\\pi}{6}, \\frac{\\pi}{4}, \\frac{\\pi}{3}\\).",
+                pitfall: "Getting quadrant signs wrong. Remember ASTC (All Students Take Calculus): Quadrant II is Sine positive, Quadrant III is Tangent positive, Quadrant IV is Cosine positive.",
+                example: {
+                    problem: "Evaluate \\(\\sin\\left(\\frac{5\\pi}{6}\\right)\\).",
+                    steps: [
+                        "Identify reference angle: \\(\\pi - \\frac{5\\pi}{6} = \\frac{\\pi}{6}\\).",
+                        "Determine quadrant: \\(\\frac{5\\pi}{6}\\) is in Quadrant II.",
+                        "Check sign for sine in Quad II: Positive.",
+                        "Value: \\(+\\sin\\left(\\frac{\\pi}{6}\\right) = \\frac{1}{2}\\)."
+                    ]
+                },
+                practice: {
+                    problem: "Evaluate \\(\\cos\\left(\\frac{2\\pi}{3}\\right)\\). Type exact fraction.",
+                    answer: "-1/2",
+                    hint: "Reference angle \\(\\frac{\\pi}{3}\\) in Quad II where cosine is negative: \\(-\\cos(\\pi/3) = -1/2\\)."
+                }
+            },
+            {
+                id: "trig_double_angle",
+                category: "3. Trigonometry & Identities (~14% Weight)",
+                title: "Double-Angle Identities",
+                concept: "Core double-angle identity: \\(\\sin(2\\theta) = 2\\sin\\theta\\cos\\theta\\). \\(\\cos(2\\theta) = \\cos^2\\theta - \\sin^2\\theta\\).",
+                pitfall: "\\(\\sin(2\\theta) \\neq 2\\sin(\\theta)\\)! Always use identity expansion.",
+                example: {
+                    problem: "If \\(\\sin\\theta = \\frac{3}{5}\\) in Quadrant I, evaluate \\(\\sin(2\\theta)\\).",
+                    steps: [
+                        "Find \\(\\cos\\theta\\) using Pythagorean identity: \\(\\cos\\theta = \\sqrt{1 - (3/5)^2} = \\frac{4}{5}\\).",
+                        "Apply double angle formula: \\(\\sin(2\\theta) = 2\\sin\\theta\\cos\\theta\\).",
+                        "Substitute: \\(2 \\cdot \\left(\\frac{3}{5}\\right) \\cdot \\left(\\frac{4}{5}\\right) = \\frac{24}{25}\\)."
+                    ]
+                },
+                practice: {
+                    problem: "If \\(\\cos\\theta = \\frac{1}{2}\\), evaluate \\(\\cos(2\\theta)\\).",
+                    answer: "-1/2",
+                    hint: "Use \\(\\cos(2\\theta) = 2\\cos^2\\theta - 1 = 2(1/4) - 1 = 1/2 - 1 = -1/2\\)."
+                }
+            },
+
+            // CATEGORY 4: EXPONENTIALS, LOGS & CONICS (~16% Weight)
+            {
+                id: "log_properties",
+                category: "4. Exponentials, Logs & Conics (~16% Weight)",
+                title: "Properties of Logarithms & Expanding/Condensing",
+                concept: "\\(\\log_b(xy) = \\log_b x + \\log_b y\\), \\(\\log_b(x/y) = \\log_b x - \\log_b y\\), and \\(\\log_b(x^k) = k\\log_b x\\).",
+                pitfall: "\\(\\log(x + y) \\neq \\log x + \\log y\\). Addition inside a log cannot be split!",
+                example: {
+                    problem: "Condense: \\(2\\log_2 x + \\log_2 y - 3\\log_2 z\\).",
+                    steps: [
+                        "Apply power rule: \\(\\log_2(x^2) + \\log_2 y - \\log_2(z^3)\\).",
+                        "Apply product rule to addition: \\(\\log_2(x^2 y) - \\log_2(z^3)\\).",
+                        "Apply quotient rule to subtraction: \\(\\log_2\\left(\\frac{x^2 y}{z^3}\\right)\\)."
+                    ]
+                },
+                practice: {
+                    problem: "Solve for x: \\(\\log_3(x) = 4\\).",
+                    answer: "81",
+                    hint: "Convert to exponential form: \\(3^4 = x \\implies x = 81\\)."
+                }
+            },
+            {
+                id: "conics_circles",
+                category: "4. Exponentials, Logs & Conics (~16% Weight)",
+                title: "Standard Equation of a Circle & Completing the Square",
+                concept: "Standard form: \\((x - h)^2 + (y - k)^2 = r^2\\) with center \\((h, k)\\) and radius \\(r\\).",
+                pitfall: "Signs flip for the center! \\((x + 3)^2\\) means \\(h = -3\\).",
+                example: {
+                    problem: "Find radius of \\(x^2 + y^2 - 8x + 6y = 0\\).",
+                    steps: [
+                        "Group terms: \\((x^2 - 8x) + (y^2 + 6y) = 0\\).",
+                        "Complete the square: \\((x^2 - 8x + 16) + (y^2 + 6y + 9) = 16 + 9\\).",
+                        "Rewrite standard form: \\((x - 4)^2 + (y + 3)^2 = 25\\).",
+                        "Radius \\(r = \\sqrt{25} = 5\\)."
+                    ]
+                },
+                practice: {
+                    problem: "What is the radius of \\((x-2)^2 + (y-5)^2 = 36\\)?",
+                    answer: "6",
+                    hint: "\\(r^2 = 36 \\implies r = 6\\)."
+                }
+            }
+        ];
+
+        /* ==========================================================================
+           APP CONTROLLER & STATE MANAGEMENT
+           ========================================================================== */
+        class AleksApp {
+            constructor() {
+                this.stateKey = 'aleks_mastery_state';
+                this.completedTopics = new Set(JSON.parse(localStorage.getItem(this.stateKey) || '[]'));
+                
+                this.initElements();
+                this.bindEvents();
+                this.render();
+            }
+
+            initElements() {
+                this.topicsContainer = document.getElementById('topics-app');
+                this.progressFill = document.getElementById('progress-fill');
+                this.progressPercent = document.getElementById('progress-percent');
+                this.searchInput = document.getElementById('search-input');
+                this.themeToggle = document.getElementById('theme-toggle');
+            }
+
+            bindEvents() {
+                // Search Filter Event
+                this.searchInput.addEventListener('input', (e) => this.filterTopics(e.target.value));
+
+                // Theme Toggle Event
+                this.themeToggle.addEventListener('click', () => {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', nextTheme);
+                    this.themeToggle.textContent = nextTheme === 'dark' ? '🌙 Theme' : '☀️ Theme';
+                });
+            }
+
+            saveState() {
+                localStorage.setItem(this.stateKey, JSON.stringify(Array.from(this.completedTopics)));
+                this.updateProgress();
+            }
+
+            updateProgress() {
+                const total = TOPICS_DATA.length;
+                const completed = this.completedTopics.size;
+                const percent = Math.round((completed / total) * 100);
+                
+                this.progressFill.style.width = `${percent}%`;
+                this.progressPercent.textContent = `${percent}%`;
+            }
+
+            filterTopics(query) {
+                const q = query.toLowerCase();
+                document.querySelectorAll('.topic-card').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = text.includes(q) ? 'block' : 'none';
+                });
+            }
+
+            render() {
+                this.topicsContainer.innerHTML = '';
+                
+                // Group Topics by Category
+                const categories = {};
+                TOPICS_DATA.forEach(topic => {
+                    if (!categories[topic.category]) categories[topic.category] = [];
+                    categories[topic.category].push(topic);
+                });
+
+                // Render Sections
+                Object.keys(categories).forEach(catName => {
+                    const section = document.createElement('section');
+                    section.className = 'section-wrapper';
+                    
+                    const title = document.createElement('h2');
+                    title.className = 'section-header';
+                    title.innerHTML = `<span>📚</span> ${catName}`;
+                    section.appendChild(title);
+
+                    categories[catName].forEach(topic => {
+                        const isChecked = this.completedTopics.has(topic.id);
+                        
+                        const topicCard = document.createElement('div');
+                        topicCard.className = 'topic-card';
+                        topicCard.dataset.id = topic.id;
+
+                        topicCard.innerHTML = `
+                            <div class="topic-header">
+                                <div class="topic-title-group">
+                                    <input type="checkbox" class="topic-checkbox" ${isChecked ? 'checked' : ''}>
+                                    <span class="topic-title">${topic.title}</span>
+                                </div>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="topic-body">
+                                <div class="topic-content">
+                                    <div class="concept-box">
+                                        <div class="box-label">💡 Core Concept & Formulas</div>
+                                        <div>${topic.concept}</div>
+                                    </div>
+
+                                    <div class="pitfall-box">
+                                        <div class="box-label">⚠️ ALEKS Strategy & Pitfalls</div>
+                                        <div>${topic.pitfall}</div>
+                                    </div>
+
+                                    <div class="example-box">
+                                        <div class="box-label">📝 Step-by-Step Example</div>
+                                        <div><strong>Problem:</strong> ${topic.example.problem}</div>
+                                        <button class="action-btn toggle-solution-btn">Toggle Solution Steps</button>
+                                        <div class="solution-step">
+                                            <ol style="padding-left: 1.2rem; margin-top: 0.5rem;">
+                                                ${topic.example.steps.map(s => `<li style="margin-bottom:0.3rem;">${s}</li>`).join('')}
+                                            </ol>
+                                        </div>
+                                    </div>
+
+                                    <div class="practice-box">
+                                        <div class="box-label">🎯 Interactive Practice</div>
+                                        <div>${topic.practice.problem}</div>
+                                        <div class="interactive-input-group">
+                                            <input type="text" class="math-input" placeholder="Type answer...">
+                                            <button class="action-btn check-answer-btn">Check</button>
+                                            <button class="action-btn toggle-hint-btn">Hint</button>
+                                        </div>
+                                        <div class="feedback-msg"></div>
+                                        <div class="solution-step hint-step">
+                                            <strong>Solution Hint:</strong> ${topic.practice.hint}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        // Bind Interactive Logic for Card
+                        this.bindCardEvents(topicCard, topic);
+                        section.appendChild(topicCard);
+                    });
+
+                    this.topicsContainer.appendChild(section);
+                });
+
+                this.updateProgress();
+
+                // Trigger KaTeX Typesetting Across Rendered HTML
+                if (window.renderMathInElement) {
+                    renderMathInElement(document.body, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '\\(', right: '\\)', display: false}
+                        ]
+                    });
+                }
+            }
+
+            bindCardEvents(card, topic) {
+                const header = card.querySelector('.topic-header');
+                const checkbox = card.querySelector('.topic-checkbox');
+                const solutionBtn = card.querySelector('.toggle-solution-btn');
+                const solutionStep = card.querySelector('.example-box .solution-step');
+                const checkBtn = card.querySelector('.check-answer-btn');
+                const input = card.querySelector('.math-input');
+                const feedback = card.querySelector('.feedback-msg');
+                const hintBtn = card.querySelector('.toggle-hint-btn');
+                const hintStep = card.querySelector('.hint-step');
+
+                // Accordion Toggle
+                header.addEventListener('click', (e) => {
+                    if (e.target === checkbox) return; // Ignore checkbox click bubbling
+                    card.classList.toggle('open');
+                    const body = card.querySelector('.topic-body');
+                    if (card.classList.contains('open')) {
+                        body.style.maxHeight = body.scrollHeight + "px";
+                    } else {
+                        body.style.maxHeight = null;
+                    }
+                });
+
+                // Checkbox Completion Toggle
+                checkbox.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        this.completedTopics.add(topic.id);
+                    } else {
+                        this.completedTopics.delete(topic.id);
+                    }
+                    this.saveState();
+                });
+
+                // Solution Step Toggle
+                solutionBtn.addEventListener('click', () => {
+                    solutionStep.classList.toggle('visible');
+                    // Recalculate max height for parent accordion
+                    const body = card.querySelector('.topic-body');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                });
+
+                // Hint Step Toggle
+                hintBtn.addEventListener('click', () => {
+                    hintStep.classList.toggle('visible');
+                    const body = card.querySelector('.topic-body');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                });
+
+                // Interactive Practice Answer Checking
+                checkBtn.addEventListener('click', () => {
+                    const userVal = input.value.trim().replaceAll(' ', '');
+                    const expectedVal = topic.practice.answer.trim().replaceAll(' ', '');
+
+                    if (userVal === expectedVal) {
+                        feedback.textContent = "✓ Correct! Mastery recorded.";
+                        feedback.className = "feedback-msg feedback-correct";
+                        checkbox.checked = true;
+                        this.completedTopics.add(topic.id);
+                        this.saveState();
+                    } else {
+                        feedback.textContent = "✗ Incorrect. Try again or check the hint!";
+                        feedback.className = "feedback-msg feedback-incorrect";
+                    }
+                });
+            }
+        }
+
+        // Initialize App on DOM Loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.aleksApp = new AleksApp();
+        });
+    </script>
+</body>
+</html>
