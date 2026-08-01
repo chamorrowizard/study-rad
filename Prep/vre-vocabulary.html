@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" x-data="vreApp()" :class="{ 'dark': darkMode }">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VR&E Vocabulary & Interview Guide</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#f0f7ff', 500: '#0284c7', 600: '#0369a1', 900: '#0c4a6e' }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-200 pb-12">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 shadow-sm">
+    <div class="max-w-md mx-auto space-y-3">
+      
+      <!-- Top Title Bar -->
+      <div class="flex items-center justify-between">
+        <h1 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <span>🏛️</span> VR&E Prep Guide
+        </h1>
+        <button 
+          @click="darkMode = !darkMode" 
+          class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+          aria-label="Toggle Dark Mode">
+          <span x-text="darkMode ? '☀️' : '🌙'"></span>
+        </button>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="relative">
+        <input 
+          type="text" 
+          x-model="searchQuery" 
+          placeholder="Search terms, phrases, or rules..." 
+          class="w-full pl-10 pr-4 py-2 text-sm bg-slate-100 dark:bg-slate-800 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white placeholder-slate-400">
+        <svg class="w-4 h-4 absolute left-3 top-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex gap-2 overflow-x-auto pb-1 text-xs scrollbar-none">
+        <template x-for="cat in categories" :key="cat">
+          <button 
+            @click="activeCategory = cat" 
+            :class="activeCategory === cat 
+              ? 'bg-brand-600 text-white font-medium shadow-sm' 
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'"
+            class="px-3 py-1.5 rounded-full whitespace-nowrap transition-all"
+            x-text="cat">
+          </button>
+        </template>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="max-w-md mx-auto px-4 mt-4 space-y-3">
+    
+    <!-- Toast Notification for Copy -->
+    <div 
+      x-show="showToast" 
+      x-transition 
+      class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1.5">
+      <span>✅</span> Copied to clipboard!
+    </div>
+
+    <!-- Cards List -->
+    <template x-for="item in filteredTerms" :key="item.id">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700/60 transition-all">
+        
+        <!-- Card Header / Title -->
+        <div @click="toggleCard(item.id)" class="cursor-pointer flex justify-between items-start">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-md bg-brand-50 dark:bg-brand-900/40 text-brand-600 dark:text-brand-300" x-text="item.category"></span>
+            </div>
+            <h2 class="text-base font-bold text-slate-900 dark:text-white" x-text="item.term"></h2>
+          </div>
+          <button class="text-slate-400 p-1">
+            <svg class="w-5 h-5 transition-transform duration-200" :class="{ 'rotate-180': openCard === item.id }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Plain English Definition -->
+        <p class="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed" x-text="item.meaning"></p>
+
+        <!-- Expandable Details & Phrases -->
+        <div x-show="openCard === item.id" x-collapse class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700/50 space-y-2">
+          <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Top Phrases to Use</p>
+          
+          <template x-for="(phrase, idx) in item.phrases" :key="idx">
+            <div class="group relative bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-700/60 rounded-xl p-2.5 text-xs text-slate-700 dark:text-slate-200">
+              <p class="pr-6 italic" x-text="`“${phrase}”`"></p>
+              <button 
+                @click="copyToClipboard(phrase)" 
+                class="absolute right-2 top-2 p-1 text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 transition"
+                title="Copy Phrase">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+              </button>
+            </div>
+          </template>
+
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-1 mt-2 pt-1">
+            <template x-for="tag in item.tags" :key="tag">
+              <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-700/50 px-2 py-0.5 rounded-full" x-text="`#${tag}`"></span>
+            </template>
+          </div>
+        </div>
+
+      </div>
+    </template>
+
+    <!-- Empty Search State -->
+    <div x-show="filteredTerms.length === 0" class="text-center py-10">
+      <p class="text-slate-400 text-sm">No matching terms or phrases found.</p>
+    </div>
+
+  </main>
+
+  <!-- Application Logic & Data -->
+  <script>
+    function vreApp() {
+      return {
+        darkMode: false,
+        searchQuery: '',
+        activeCategory: 'All',
+        openCard: 'employment-handicap', // Default first card open
+        showToast: false,
+
+        categories: ['All', 'Eligibility', 'Feasibility', 'Strategy', 'References'],
+
+        // EASY TO EXPAND DATASET: Add new items to this array!
+        terms: [
+          {
+            id: "employment-handicap",
+            category: "Eligibility",
+            term: "Employment Handicap (EH) / SEH",
+            meaning: "Your service-connected disability hinders your ability to get or keep a job.",
+            phrases: [
+              "My service-connected disability creates a direct employment handicap in my previous role because...",
+              "The physical/mental demands of my past role directly exacerbate my service-connected conditions."
+            ],
+            tags: ["Eligibility", "DisabilityImpact"]
+          },
+          {
+            id: "suitable-employment",
+            category: "Strategy",
+            term: "Suitable Employment",
+            meaning: "A job that doesn't aggravate conditions, pays a living wage, and fits abilities.",
+            phrases: [
+              "I am seeking long-term training to achieve suitable employment that will not exacerbate my disability.",
+              "My goal isn't just any job, but suitable employment aligned with my physical limitations."
+            ],
+            tags: ["Strategy", "CareerGoal"]
+          },
+          {
+            id: "feasible",
+            category: "Feasibility",
+            term: "Feasible / Infeasible",
+            meaning: "Whether returning to work or achieving a goal without retraining is realistic.",
+            phrases: [
+              "Direct placement into a new field without credentials is not feasible due to current market requirements.",
+              "It is infeasible for me to return to my past field because duties trigger my service-connected disabilities."
+            ],
+            tags: ["Feasibility", "Retraining"]
+          },
+          {
+            id: "exacerbate",
+            category: "Eligibility",
+            term: "Exacerbate / Aggravate",
+            meaning: "How work duties worsen your disability.",
+            phrases: [
+              "The essential functions of my previous occupation exacerbate my service-connected conditions.",
+              "Prolonged physical stress in that field directly triggers my symptoms."
+            ],
+            tags: ["DisabilityImpact", "Medical"]
+          },
+          {
+            id: "skills-gap",
+            category: "Strategy",
+            term: "Transferable Skills Gap",
+            meaning: "Why past experience isn't enough to get a safe, suitable job right now.",
+            phrases: [
+              "While I have soft skills, I have a clear transferable skills gap for roles that are physically/mentally suitable.",
+              "Without formal education, my existing skills only qualify me for jobs that would worsen my condition."
+            ],
+            tags: ["Strategy", "Education"]
+          },
+          {
+            id: "lmi",
+            category: "Feasibility",
+            term: "Labor Market Information (LMI)",
+            meaning: "Data showing your target job is actually hiring where you live.",
+            phrases: [
+              "Based on Labor Market Information (LMI), this field shows strong growth and requires a minimum of a degree to enter."
+            ],
+            tags: ["Feasibility", "MarketResearch"]
+          },
+          {
+            id: "medical-feasibility",
+            category: "Feasibility",
+            term: "Medical Feasibility",
+            meaning: "Whether your service-connected conditions are stable enough for you to participate in and complete a training program.",
+            phrases: [
+              "My service-connected conditions are medically stable, making participation in a structured academic program completely feasible.",
+              "With standard classroom and ergonomic accommodations, achieving my goal is medically feasible."
+            ],
+            tags: ["Feasibility", "Medical", "Stability"]
+          },
+          {
+            id: "substantial-gainful-employment",
+            category: "Strategy",
+            term: "Substantial Gainful Employment (SGE)",
+            meaning: "Work that pays at or above the poverty line and matches your education/skill level rather than low-wage entry tasks.",
+            phrases: [
+              "My objective is to secure substantial gainful employment that matches my cognitive strengths without physical aggravation.",
+              "Entry-level manual roles do not offer substantial gainful employment given my current physical restrictions."
+            ],
+            tags: ["Strategy", "Income", "SGE"]
+          },
+          {
+            id: "vocational-rehabilitation-plan",
+            category: "Strategy",
+            term: "Individualized Written Plan of Rehabilitation (IWRP)",
+            meaning: "The official contract between you and the VA laying out the exact track, degree, and support needed to reach your career goal.",
+            phrases: [
+              "I am prepared to establish an IWRP focused on long-term degree completion to bridge my skills gap.",
+              "My target career path aligns directly with the objectives needed for a successful IWRP."
+            ],
+            tags: ["Strategy", "IWRP", "Planning"]
+          },
+          {
+            id: "maximum-feasibility",
+            category: "Eligibility",
+            term: "Serious Employment Handicap (SEH)",
+            meaning: "A significant impairment resulting from a service-connected disability that creates substantial functional limitations for employment.",
+            phrases: [
+              "My combined ratings and functional limitations create a Serious Employment Handicap that limits my job options severely.",
+              "Because of my SEH, direct job placement without retraining would lead to immediate physical relapse."
+            ],
+            tags: ["Eligibility", "SEH", "Rating"]
+          },
+          {
+            id: "retraining-necessity",
+            category: "Feasibility",
+            term: "Retraining / Educational Necessity",
+            meaning: "Demonstrating that education is the only path to suitable work, not just a personal preference.",
+            phrases: [
+              "Higher education is a core necessity to pivot into a sedentary field where my service-connected conditions won't be triggered.",
+              "Without formal retraining, I am locked into physical roles that directly exacerbate my disabilities."
+            ],
+            tags: ["Feasibility", "Education", "Necessity"]
+          },
+          {
+            id: "reasonable-accommodation",
+            category: "Eligibility",
+            term: "Reasonable Accommodation Needs",
+            meaning: "Specific adjustments required in a workplace or classroom setting to accommodate disability limits.",
+            phrases: [
+              "My target career path inherently allows for reasonable accommodations like ergonomic desk setups and flexible positioning.",
+              "In my previous occupation, reasonable accommodations were not enough to overcome the essential physical demands."
+            ],
+            tags: ["Eligibility", "Accommodations", "Workplace"]
+          },
+          {
+            id: "vocational-goal",
+            category: "Strategy",
+            term: "Vocational Goal / Suitable Occupational Objective",
+            meaning: "The exact target job title or industry that aligns with your physical limitations and market demand.",
+            phrases: [
+              "My specific vocational goal requires formal technical training to meet basic entry-level requirements.",
+              "This specific occupational objective was selected because it completely bypasses my physical limitations."
+            ],
+            tags: ["Strategy", "CareerGoal"]
+          },
+          {
+            id: "maximum-rehabilitation-gain",
+            category: "Feasibility",
+            term: "Maximum Rehabilitation Gain",
+            meaning: "Reaching the point where training and services have fully restored your employability.",
+            phrases: [
+              "Completing this degree program is necessary for me to achieve maximum rehabilitation gain.",
+              "Short-term certifications alone will not lead to maximum rehabilitation gain for long-term stability."
+            ],
+            tags: ["Feasibility", "LongTerm"]
+          },
+          {
+            id: "vrc-counseling-services",
+            category: "Eligibility",
+            term: "Vocational Counseling & Guidance",
+            meaning: "The ongoing support, aptitude testing, and plan monitoring provided by your counselor.",
+            phrases: [
+              "I welcome ongoing vocational counseling to ensure my progression aligns with my rehab plan.",
+              "I am requesting vocational guidance to evaluate how my transferable skills fit current market demand."
+            ],
+            tags: ["Eligibility", "Support"]
+          },
+          {
+            id: "38-cfr-part-21",
+            category: "References",
+            term: "38 CFR Part 21 (Subpart A)",
+            meaning: "The Code of Federal Regulations governing Vocational Rehabilitation and Employment. This is the primary legal authority for all VRC decisions.",
+            phrases: [
+              "According to 38 CFR § 21.51, my service-connected conditions establish an Employment Handicap that requires vocational services.",
+              "I am requesting long-term services under 38 CFR § 21.192 to achieve suitable employment."
+            ],
+            tags: ["Reference", "CFR", "LegalAuthority"]
+          },
+          {
+            id: "m28c-manual",
+            category: "References",
+            term: "M28C (VR&E Manual)",
+            meaning: "The VA's internal procedural manual (M28C) that counselors must follow when evaluating eligibility, entitlement, and plan development.",
+            phrases: [
+              "Per M28C guidelines on feasibility evaluations, direct job placement is not suitable given my functional limitations.",
+              "I am following M28C procedural steps by providing labor market research to support my IWRP goal."
+            ],
+            tags: ["Reference", "M28C", "VRCGuidance"]
+          },
+          {
+            id: "38-usc-chapter-31",
+            category: "References",
+            term: "38 U.S.C. Chapter 31",
+            meaning: "The overarching federal law passed by Congress establishing the VR&E program and statutory rights for disabled veterans.",
+            phrases: [
+              "I am applying for benefits under Chapter 31 to overcome the employment barrier created by my service-connected disabilities.",
+              "The statutory intent of Chapter 31 is to restore employability, which requires bridging my current technical skills gap."
+            ],
+            tags: ["Reference", "Statute", "Chapter31"]
+          },
+          {
+            id: "dbq-nexus-letters",
+            category: "References",
+            term: "Disability Benefits Questionnaire (DBQ) / Medical Nexus",
+            meaning: "Medical documentation from your treating physicians outlining specific physical/mental limitations and duty restrictions.",
+            phrases: [
+              "My DBQs and medical notes explicitly state I am restricted from prolonged [standing/lifting/bending].",
+              "My medical records confirm that returning to my prior occupation directly conflicts with my physician's restrictions."
+            ],
+            tags: ["Reference", "MedicalEvidence", "DBQ"]
+          },
+          {
+            id: "va-form-28-1900",
+            category: "References",
+            term: "VA Form 28-1900 & VAF 28-8872",
+            meaning: "Official VA forms used for applying to VR&E (28-1900) and documenting rehabilitation plan evaluations/outlines (28-8872).",
+            phrases: [
+              "My initial application on VA Form 28-1900 outlines the primary functional impacts on my former career field.",
+              "I have prepared my occupational goals and LMI research to support the completion of my VAF 28-8872 evaluation."
+            ],
+            tags: ["Reference", "VAForms", "Documentation"]
+          },
+          {
+            id: "onet-bls-data",
+            category: "References",
+            term: "O*NET Online & BLS Occupational Outlook",
+            meaning: "Federal labor department databases used as official proof for physical job demands and local job market growth.",
+            phrases: [
+              "According to O*NET, my past role requires 'Heavy Work' physical demands, which directly exceeds my medical capabilities.",
+              "Bureau of Labor Statistics (BLS) data demonstrates strong local growth and entry-level degree requirements for my target role."
+            ],
+            tags: ["Reference", "LMI", "ONET", "BLS"]
+          }
+        ],
+
+        get filteredTerms() {
+          return this.terms.filter(item => {
+            const matchesCat = this.activeCategory === 'All' || item.category === this.activeCategory;
+            const q = this.searchQuery.toLowerCase();
+            const matchesQuery = !q || 
+              item.term.toLowerCase().includes(q) || 
+              item.meaning.toLowerCase().includes(q) || 
+              item.phrases.some(p => p.toLowerCase().includes(q)) ||
+              item.tags.some(t => t.toLowerCase().includes(q));
+            return matchesCat && matchesQuery;
+          });
+        },
+
+        toggleCard(id) {
+          this.openCard = this.openCard === id ? null : id;
+        },
+
+        copyToClipboard(text) {
+          navigator.clipboard.writeText(text);
+          this.showToast = true;
+          setTimeout(() => { this.showToast = false; }, 2000);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
