@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR&E Software Engineering Strategy Guide</title>
+    
+    <!-- Google Fonts for Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons (Lightweight UI Icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & THEME SETUP
+           - Modern dark slate aesthetic with crisp neon accent colors
+           - Easy to tweak theme colors in one place
+           ========================================================================== */
+        :root {
+            --bg-base: #0f172a;       /* Dark slate background */
+            --bg-card: #1e293b;       /* Slightly lighter card background */
+            --bg-card-hover: #334155;
+            --border-color: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-primary: #38bdf8;  /* Vibrant sky blue */
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --accent-success: #34d399; /* Green accent */
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --transition-fast: 0.2s ease;
+        }
+
+        /* ==========================================================================
+           2. GLOBAL BASE STYLES
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-bottom: 80px; /* Space for mobile sticky nav */
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        /* ==========================================================================
+           3. APP HEADER & SEARCH BAR
+           ========================================================================== */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .brand-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            width: 18px;
+            height: 18px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        /* ==========================================================================
+           4. CONTAINER & NAVIGATION TABS
+           ========================================================================== */
+        .container {
+            max-width: 900px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Category pills / quick jump navigation */
+        .nav-pills {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+        .nav-pills::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+
+        .pill-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pill-btn:hover, .pill-btn.active {
+            background: var(--accent-primary);
+            color: var(--bg-base);
+            border-color: var(--accent-primary);
+        }
+
+        /* ==========================================================================
+           5. CONTENT SECTIONS & ACCORDION CARDS
+           ========================================================================== */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 2rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: var(--transition-fast);
+        }
+
+        .card-header {
+            padding: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .card-header:hover { background: var(--bg-card-hover); }
+
+        .card-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: var(--accent-glow);
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .chevron-icon {
+            color: var(--text-secondary);
+            transition: transform var(--transition-fast);
+        }
+
+        /* Expand/Collapse logic */
+        .card.active .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0, 1, 0, 1);
+            padding: 0 1.25rem;
+            border-top: 1px solid transparent;
+        }
+
+        .card.active .card-body {
+            max-height: 2000px; /* Big enough to fit long text */
+            padding: 1.25rem;
+            border-top-color: var(--border-color);
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        /* Rich text formatting inside cards */
+        .card-body p { margin-bottom: 1rem; color: var(--text-secondary); }
+        .card-body ul { margin-left: 1.2rem; margin-bottom: 1rem; color: var(--text-secondary); }
+        .card-body li { margin-bottom: 0.5rem; }
+        .card-body strong { color: var(--text-primary); }
+
+        /* Highlight Boxes */
+        .callout-box {
+            background: var(--accent-glow);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        /* Code Block Style for Scripts */
+        .code-block {
+            background: #090d16;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            position: relative;
+            margin: 1rem 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .copy-btn:hover { color: var(--text-primary); background: var(--bg-card-hover); }
+
+        /* Hide elements dynamically when searching */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================================
+       HEADER & SEARCH SECTION
+       ========================================================================== -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="brand-title">
+                <i data-lucide="shield-check"></i>
+                <span>VR&E Strategy Hub</span>
+            </div>
+            <div class="search-box">
+                <i data-lucide="search"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search benefits, scripts, specs, tips...">
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== -->
+    <main class="container">
+
+        <!-- Navigation Filter Pills -->
+        <div class="nav-pills">
+            <button class="pill-btn active" onclick="filterCategory('all')">All</button>
+            <button class="pill-btn" onclick="filterCategory('strategy')"><i data-lucide="target"></i> Pitch Strategy</button>
+            <button class="pill-btn" onclick="filterCategory('benefits')"><i data-lucide="gift"></i> Hidden Benefits</button>
+            <button class="pill-btn" onclick="filterCategory('hardware')"><i data-lucide="laptop"></i> Gear & Specs</button>
+            <button class="pill-btn" onclick="filterCategory('scripts')"><i data-lucide="mail"></i> Email Script</button>
+        </div>
+
+        <!-- SECTION 1: PITCH STRATEGY -->
+        <div class="section-group" data-category="strategy">
+            <div class="section-title">
+                <i data-lucide="compass"></i> VRC Framing & Approval Strategy
+            </div>
+
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="cpu"></i></div>
+                        <div class="card-title">How to Frame Software Engineering</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <p>VR&E is an <strong>employment program</strong>, not an education benefit. Frame software engineering as a necessary career pivot for your service-connected conditions.</p>
+                    <ul>
+                        <li><strong>❌ Avoid saying:</strong> "I want to code because it pays well and I like tech."</li>
+                        <li><strong>✅ Do say:</strong> "Software engineering provides a sustainable career track that accommodates my physical/mental limitations through flexible, ergonomic, and remote-capable work environments."</li>
+                    </ul>
+                    <div class="callout-box">
+                        <strong>Creator Pro-Tip:</strong> Always tie desk work, remote options, and self-paced focus directly to mitigating flare-ups from your service-connected disability.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="list-checks"></i></div>
+                        <div class="card-title">4-Step VRC Action Plan</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>1. Labor Market Research:</strong> Bring 3–5 local/remote job postings showing software engineering growth, salary, and requirements (like a BS in CS).</li>
+                        <li><strong>2. Medical Justification:</strong> Explain how tech work prevents flare-ups compared to prior physical employment.</li>
+                        <li><strong>3. Supply Itemization:</strong> Submit hardware/software requests early so they are included in your initial IWRP.</li>
+                        <li><strong>4. Lock in IWRP:</strong> Double-check that all tuition, fees, stipends, and gear are explicitly listed before signing.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Retroactive Induction & Post-Grad Stipends -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="history"></i></div>
+                        <div class="card-title">Retroactive Induction & Post-Grad Stipends</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>GI Bill Restoration (Retroactive Induction):</strong> If you used GI Bill entitlement for past training/degree coursework while qualifying for VR&E, request a Retroactive Induction processing. Approved requests retroactively transfer those costs to VR&E and <strong>restore your Post-9/11 GI Bill months</strong>.</li>
+                        <li><strong>Employment Adjustment Allowance (EAA):</strong> Upon completing your program, you are entitled to 2 additional months of full subsistence allowance while actively seeking software engineering employment.</li>
+                        <li><strong>Job Interview Travel Reimbursement:</strong> Ask your VRC if travel expenses for in-person job interviews or tech career fairs can be covered under job placement services.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Disability-Specific Accommodation Justifications -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="heart-pulse"></i></div>
+                        <div class="card-title">Disability Accommodation Framing Guide</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Back/Neck/Joint Issues:</strong> Justifies an electric standing desk, high-end ergonomic mesh chair, split mechanical keyboard, and dual monitor setup to reduce repetitive strain and allow frequent position changes.</li>
+                        <li><strong>PTSD / Mental Health / TBI:</strong> Justifies noise-canceling headphones (to maintain focus during study blocks), remote work setups, and asynchronous project workflows that reduce environmental triggers.</li>
+                        <li><strong>Fine Motor / Neuropathy:</strong> Justifies specialized ergonomic mice (vertical/trackball), wrist rests, and voice-to-text software tools.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Red Flags & Rejection Prevention -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="alert-triangle"></i></div>
+                        <div class="card-title">VRC Red Flags & Rejection Prevention</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Avoid "I'm already job-ready":</strong> Never tell your counselor you've already mastered coding through bootcamps or self-study if you want a 4-year degree approved. They may rule that you are already employable and deny further education.</li>
+                        <li><strong>Don't skip the Doctor's Note:</strong> Never request high-end ergonomic gear without medical documentation already attached. Unbacked requests look like "wishlists" rather than accommodations.</li>
+                        <li><strong>Never sign an incomplete IWRP:</strong> If an agreed-upon item (like a specific laptop spec, 32GB RAM, or dual monitors) isn't explicitly written in the plan, do not sign. Request that it be added first.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Labor Market Research Framework -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="bar-chart-3"></i></div>
+                        <div class="card-title">Labor Market Research (LMR) Checklist</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <p>Bring a physical or PDF packet with these 3 elements to your evaluation meeting:</p>
+                    <ul>
+                        <li><strong>3-5 Entry-Level Job Descriptions:</strong> Print listings for "Junior Software Engineer" or "Associate Developer" in your area/remote. Highlight requirements listing a <em>BS in Computer Science</em>.</li>
+                        <li><strong>BLS Growth Data:</strong> Cite Bureau of Labor Statistics data showing high projected job growth for Software Developers over the next decade.</li>
+                        <li><strong>Salary Progression:</strong> Show entry-level starting salaries vs. mid-level wages to demonstrate long-term financial independence and career stability.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Rejection Appeals & VRC Escalation Path -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="shield-alert"></i></div>
+                        <div class="card-title">VRC Pushback & Formal Appeals Strategy</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Request Written Denial (VA Form 28-1908):</strong> If your VRC orally denies a specific piece of hardware (e.g., 32GB RAM or dual monitors) or a benefit, request the denial in writing with official M28C regulation citations. VRCs often approve requests rather than write formal justifications for denials.</li>
+                        <li><strong>Escalate to VR&E Supervisory Counselor:</strong> If your counselor becomes unresponsive or unreasonably strict, contact the Vocational Rehabilitation Officer (VRO) at the local VA Regional Office (Reno/Las Vegas) to request a supervisor review.</li>
+                        <li><strong>Higher-Level Review (HLR) & Supplemental Claims:</strong> You have the right to file a Higher-Level Review (VA Form 20-0996) if your overall IWRP software engineering track is denied.</li>
+                        <li><strong>Case Transfer Rules:</strong> If you move or get reassigned counselors between CSN and UNLV, ensure your complete file and pending gear quotes are transferred electronically before the semester starts.</li>
+                    </ul>
+                </div>
+            </div>
+            
+
+        </div>
+        
+
+
+        <!-- SECTION 2: HIDDEN BENEFITS -->
+        <div class="section-group" data-category="benefits">
+            <div class="section-title">
+                <i data-lucide="sparkles"></i> Unlocked & Hidden Benefits
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="dollar-sign"></i></div>
+                        <div class="card-title">Subsistence Allowance & GI Bill Retroactive Induction</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>P911 Rate (Post-9/11 BAH):</strong> If you have at least 1 day of remaining Post-9/11 GI Bill entitlement, elect the P911 rate for higher monthly BAH payments.</li>
+                        <li><strong>Retroactive Induction:</strong> If you previously used GI Bill months for school while eligible for VR&E, request Retroactive Induction to cover those past terms under VR&E and **get your GI Bill months restored**.</li>
+                        <li><strong>Employment Adjustment Allowance (EAA):</strong> Get 2 extra months of full subsistence allowance while actively job hunting post-graduation.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="armchair"></i></div>
+                        <div class="card-title">Ergonomic Home Office & Adaptive Setup</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <p>Under Special Services/Adaptive Equipment, VR&E can furnish your home study space if medical accommodations are required:</p>
+                    <ul>
+                        <li>Electric height-adjustable standing desk.</li>
+                        <li>High-end ergonomic task chair (e.g., Herman Miller/Steelcase if medically justified).</li>
+                        <li>Vertical mice, split mechanical keyboards, and dual monitor arms.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="book-open"></i></div>
+                        <div class="card-title">Tutoring & Professional Subscriptions</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Private Tutoring:</strong> VR&E can fund 1-on-1 tutoring for difficult CS classes like Data Structures or Discrete Math.</li>
+                        <li><strong>Developer Tools:</strong> Coverage for required software, IDEs, or cloud developer platforms.</li>
+                        <li><strong>Interview & Cert Prep:</strong> Vouchers for certification exams (AWS, CompTIA) or interview prep tools (LeetCode Premium).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Max Benefits & Financial Allowances -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="coins"></i></div>
+                        <div class="card-title">Max Benefits & Financial Allowances Checklist</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Book & Supply Advance Funds:</strong> Request supply authorizations before the semester starts so you don't pay out-of-pocket for textbooks, IDE licenses, or required tech components.</li>
+                        <li><strong>High-Speed Internet Allowance:</strong> If taking online CS classes or remote development labs, request partial or full monthly internet stipend coverage under required educational tools.</li>
+                        <li><strong>Software & Cloud Subscriptions:</strong> Get approval for required professional developer subscriptions (e.g., JetBrains All Products, GitHub Copilot, AWS/GCP cloud sandbox credits) as required course materials.</li>
+                        <li><strong>Tech Conference & Networking Travel:</strong> Request funding for attendance, travel, and registration fees for major tech conferences (e.g., Student Veterans of America Tech summits, regional developer expos) under job placement prep.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Post-Graduation Financial Boosters -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="trending-up"></i></div>
+                        <div class="card-title">Post-Graduation Financial Boosters</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Employment Adjustment Allowance (EAA):</strong> Automatically qualifies you for 2 full months of P911-rate subsistence allowance payments after graduation while actively job hunting.</li>
+                        <li><strong>Interview & Professional Attire Voucher:</strong> Request a direct clothing allowance or voucher for professional interview attire before attending tech career fairs or final-round interviews.</li>
+                        <li><strong>Certification & Interview Prep Vouchers:</strong> Have VR&E pay 100% of registration fees for industry certifications (AWS Certified Developer, CompTIA, etc.) and interview prep platforms (LeetCode Premium, AlgoExpert) prior to program completion.</li>
+                        <li><strong>Relocation / Job Search Expenses:</strong> If relocating for a software engineering offer, ask your counselor about job placement assistance funds for travel to out-of-state interviews.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Specialized Medical Accommodations & Assistive Tech -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="accessibility"></i></div>
+                        <div class="card-title">Assistive Tech & Disability Software</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Speech-to-Text / Coding Extensions:</strong> Coverage for specialized developer accessibility tools (e.g., Talon Voice, Dragon NaturallySpeaking) if repetitive strain injury (RSI) or joint pain limits typing.</li>
+                        <li><strong>Screen Readers & Magnifiers:</strong> Speech/display enhancement software (e.g., JAWS, ZoomText) or specialized high-DPI monitors for service-connected vision impairments.</li>
+                        <li><strong>Blue-Light Filtering Gear:</strong> Specialized anti-glare monitor shields or blue-light blocking eyewear if service-connected migraines or eye fatigue impact study time.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Off-Campus & Lab Allowances -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="map-pin"></i></div>
+                        <div class="card-title">Travel & Parking Reimbursements</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Campus Parking Permits:</strong> Full reimbursement or direct authorization for university parking passes to attend in-person classes, labs, or exams.</li>
+                        <li><strong>Commuter Mileage Reimbursement:</strong> Mileage/transit coverage when traveling to required off-campus labs, mandatory tech workshops, or capstone presentation venues.</li>
+                        <li><strong>Disability Campus Shuttle/Transit:</strong> Authorized funding for specialized accessible transportation or priority campus transit passes if mobility issues make walking across campus difficult.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Capstone & Internship Funding -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="briefcase"></i></div>
+                        <div class="card-title">Capstone & Internship Financial Support</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Senior Capstone Hardware/Cloud Budget:</strong> Direct authorization for specialized hardware components (Raspberry Pi, microcontrollers, external SSDs) or cloud API credits (OpenAI, AWS credits) required for your final degree project.</li>
+                        <li><strong>Non-Paid Work Experience (NPWE) Program:</strong> Option to intern at a federal/local government agency while continuing to receive your full VR&E subsistence allowance if paid entry-level internships are competitive.</li>
+                        <li><strong>On-the-Job Training (OJT) Dual Stipends:</strong> Opportunity to earn a salary from an employer while simultaneously drawing a partial VR&E stipend during approved apprenticeship phases.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Family & Emergency Support -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="shield-alert"></i></div>
+                        <div class="card-title">Dependent Care & Emergency Financial Relief</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Childcare Subsidy:</strong> Coverage or assistance for childcare costs during class, lab, or required study hours if care responsibilities impact degree progression.</li>
+                        <li><strong>Emergency Financial Assistance:</strong> Access to temporary emergency funds or special advances through the VA if unexpected financial hardship threatens to derail your academic program.</li>
+                        <li><strong>Medical Interruption Protections:</strong> Ability to take authorized medical leaves of absence without losing your program status or facing immediate benefit termination during flare-ups.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Specialized Minors & Dual Tracks -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="layers"></i></div>
+                        <div class="card-title">Minors, Specializations & Extension Rule</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Related Academic Minors:</strong> Approval to add a minor (e.g., Cybersecurity, Data Science, Mathematics) if you can prove it makes you substantially more marketable for software engineering roles.</li>
+                        <li><strong>Beyond the 48-Month Limit (Extension of Entitlement):</strong> VR&E counselors can extend benefits beyond the standard 48-month cap if you have a "Serious Employment Handicap" (SEH) requiring additional coursework or accommodations.</li>
+                        <li><strong>Prerequisite / Remedial Class Coverage:</strong> 100% tuition coverage for foundational math or preparatory coding courses required before starting core Computer Science classes.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Portfolio & Job Launch Supplies -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="rocket"></i></div>
+                        <div class="card-title">Portfolio Domain, Hosting & Search Tools</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Personal Portfolio Web Hosting:</strong> Request coverage for domain registration and cloud hosting fees (e.g., Vercel, AWS, GitHub Pages) needed to host your developer portfolio for employers.</li>
+                        <li><strong>LinkedIn Premium Subscription:</strong> Request funding for professional networking tools and job search platforms during the Job Readiness phase.</li>
+                        <li><strong>Professional Resume & Branding Services:</strong> Access to specialized VA employment assistance partners to tailor your resume for tech recruiters.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Specialized Hardware & Peripheral Authorizations -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="monitor"></i></div>
+                        <div class="card-title">Specialized Hardware & Tech Peripherals</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>External Backup Drives & Cloud Storage:</strong> Dedicated external NVMe/SSD hard drives or encrypted cloud backup subscriptions (e.g., Google One, Dropbox) to protect CS course projects and code repositories.</li>
+                        <li><strong>UPS Power Backup / Surge Protection:</strong> Uninterruptible Power Supply (UPS) battery backups authorized to protect desktop developer setups from power loss during long compilation tasks or exams.</li>
+                        <li><strong>Calculators & Specialized Hardware Kits:</strong> Full reimbursement for high-end graphic/programmable calculators or required engineering breadboards, microcontrollers, and hardware toolkits.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Licensure, Certifications & Professional Exam Vouchers -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="award"></i></div>
+                        <div class="card-title">Exam Vouchers & Professional Certifications</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>100% Exam Vouchers:</strong> VR&E covers testing fees for industry-recognized developer certifications (AWS, Azure, CompTIA, Linux Foundation) without touching your GI Bill entitlement.</li>
+                        <li><strong>Retake Exam Coverage:</strong> If you do not pass a required or approved certification exam on the first attempt, counselors can authorize funding for a retake voucher.</li>
+                        <li><strong>State Professional Licenses:</strong> Full coverage of application, testing, and initial licensing fees if entering specialized engineering or government contracting roles requiring specific credentials.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: VA Medical & Mental Health Support Integration -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="stethoscope"></i></div>
+                        <div class="card-title">VHA Integration & Health Accommodations</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Direct VHA Coordination:</strong> Your VRC can coordinate directly with your VA Healthcare providers to obtain formal ergonomic/assistive technology evaluations (e.g., VA Occupational Therapy home office evaluations).</li>
+                        <li><strong>Authorized Class Absence Protection:</strong> Formal medical documentation filed with your VRC protects your enrollment status and monthly stipends during necessary VA medical appointments or temporary hospitalizations.</li>
+                        <li><strong>Independent Living Services (ILS) Pivot:</strong> If health flare-ups temporarily prevent full-time study, you can pivot to ILS tracks to secure home improvements, assistive tech, and wellness support before resuming school.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- SECTION 3: HARDWARE SPECS -->
+        <div class="section-group" data-category="hardware">
+            <div class="section-title">
+                <i data-lucide="laptop"></i> Workstation Hardware & Gear Spec Sheet
+            </div>
+
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="hard-drive"></i></div>
+                        <div class="card-title">Developer Computer Specs</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <p>Do not settle for a basic office laptop. Modern software engineering requires virtual machines, local containers, and heavy IDEs.</p>
+                    <ul>
+                        <li><strong>RAM:</strong> 32 GB minimum (16 GB absolute baseline).</li>
+                        <li><strong>Processor:</strong> Intel i7/i9, AMD Ryzen 7/9, or Apple M-Series Pro/Max.</li>
+                        <li><strong>Storage:</strong> 1TB NVMe SSD.</li>
+                        <li><strong>Displays:</strong> Dual 27-inch 4K Monitors (crucial for side-by-side code/documentation view).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: CSN & UNLV Hardware Justification -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="graduation-cap"></i></div>
+                        <div class="card-title">CSN & UNLV Official Spec Justifications</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <p>Use these official UNLV/CSN links and references to prove educational necessity to your VRC:</p>
+                    <ul>
+                        <li><strong>UNLV Tech Standards:</strong> Cites <a href="https://www.it.unlv.edu/learn-teach-work-anywhere/students/technical-recommendations" target="_blank" style="color:var(--accent-primary);text-decoration:underline;">UNLV IT Technical Recommendations</a> requiring an Intel i7/similar CPU and 32 GB RAM for heavy computing workloads.</li>
+                        <li><strong>High-Performance Hardware:</strong> Cites <a href="https://www.unlv.edu/sites/default/files/media/document/2024-01/2023-2024-SoA-Laptop-Requirements.pdf" target="_blank" style="color:var(--accent-primary);text-decoration:underline;">UNLV Technical Hardware Guidelines</a> requiring multi-core CPUs, 32GB RAM, and external backup storage.</li>
+                        <li><strong>32GB RAM Justification:</strong> Required for local containerization (Docker), virtual machines (Linux/Ubuntu WSL), and running database engines alongside modern IDEs without system failure.</li>
+                        <li><strong>Dual Monitor Justification:</strong> Essential for multi-window developer workflows (coding on display 1 while running compilers and reading technical documentation on display 2).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Bookstore Vouchers & VA Purchasing Hacks -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="receipt"></i></div>
+                        <div class="card-title">Bookstore Vouchers & Purchasing Rules</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>CSN / UNLV Bookstore Vouchers:</strong> If your VRC issues a bookstore voucher (Follett/BibliU at CSN or UNLV Bookstore), tech items must be purchased through the official campus store. Ensure your VRC specifies <em>"32GB RAM Workstation / Approved CS Tech Package"</em> on the authorization so the bookstore doesn't downgrade your order.</li>
+                        <li><strong>Special Order Request via Campus Store:</strong> If the bookstore doesn't have your specific laptop or dual monitors in stock, ask the store manager to place a custom order for the exact specs listed on your VR&E authorization.</li>
+                        <li><strong>Direct Reimbursement (VA Form 28-1905):</strong> If your counselor authorizes off-campus purchasing (e.g., Best Buy, Apple, B&H Photo), retain itemized receipts and written VRC approval prior to purchase to guarantee fast reimbursement.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Extended Warranties & Damage Protection (AD P) -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="shield-alert"></i></div>
+                        <div class="card-title">Accidental Damage Protection & Warranties</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>3-4 Year Accidental Damage Protection (ADP):</strong> Request VR&E to include AppleCare+ or Dell/Lenovo Complete Care with your laptop request. Covers accidental spills, drops, and hardware failures for the entire duration of your degree.</li>
+                        <li><strong>On-Site / Next-Business-Day Repairs:</strong> Ensure commercial-tier warranties are written into the purchase request so hardware failures don't cause you to fall behind in CS coursework while waiting for mail-in repairs.</li>
+                        <li><strong>Uninterruptible Power Supply (UPS) & Surge Protection:</strong> Justify heavy-duty surge protectors or a UPS battery backup to protect your workstation setup from sudden power outages during long code compilation sessions or online exams.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: CSN to UNLV Degree Transfer-Proofing Setup -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="arrow-right-left"></i></div>
+                        <div class="card-title">CSN to UNLV Transfer-Proofing Hardware Rules</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Future-Proofing for UNLV Upper-Division Labs:</strong> When submitting your gear request while enrolled at CSN, explicitly cite UNLV's upper-division Computer Science requirements (Machine Learning, Operating Systems, Systems Programming). This prevents your VRC from buying lower-tier hardware at CSN that needs re-approval when you transfer to UNLV.</li>
+                        <li><strong>Dual OS / Virtualization Support (WSL & Dual Boot):</strong> Windows Subsystem for Linux (WSL2) or Linux dual-boot setups require high RAM allocation (16GB+ assigned exclusively to virtual machines). Highlight this requirement so your VRC doesn't push a basic 8GB/16GB system.</li>
+                        <li><strong>Secondary External Backup Storage:</strong> Request a fast 1TB–2TB NVMe external SSD (e.g., Samsung T7) under required supplies for instant localized project backups and OS image cloning.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Off-Campus Vendor Approval & Direct Purchase Hacks -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="shopping-cart"></i></div>
+                        <div class="card-title">Off-Campus Vendor Purchasing & Quote Hacks</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>3-Quote Comparison Packet:</strong> If asking for off-campus purchasing approval (Best Buy, Apple, B&H Photo, Micro Center), attach 3 official vendor quotes for the exact same high-spec build. This makes it effortless for your VRC to process a direct VA Form 28-1905 approval.</li>
+                        <li><strong>Standardized Tech Bundling:</strong> Group all requested hardware (Laptop, Dual 4K Monitors, Standing Desk, Vertical Mouse, Ergonomic Chair) into a single "Approved CS Accommodations Package" quote to streamline VA accounting approvals.</li>
+                        <li><strong>Educational Discounts Stack:</strong> Use UNLV/CSN student portal discounts (Apple Education Pricing, Dell University, Lenovo Student) when pulling quotes—showing the VRC you are saving government funds increases rapid approval chances.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Special Software Licensing & Cloud Sandbox Credits -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="cloud"></i></div>
+                        <div class="card-title">IDE Software Licensing & Cloud Credits</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Professional IDE Coverage:</strong> Request coverage for JetBrains All Products Pack or specialized developer extensions if university-provided student tiers lack necessary plugins or advanced debugging tools.</li>
+                        <li><strong>AWS / Azure / GCP Cloud Allowance:</strong> Upper-level CS courses require hosting live applications, databases, and microservices in the cloud. Ask your counselor to authorize a cloud credit stipend under required course lab supplies.</li>
+                        <li><strong>LeetCode Premium & AlgoExpert Vouchers:</strong> Request pre-approval for technical interview preparation platforms during your junior/senior year as part of required Job Placement / Employment Services tools.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Ergonomic Mounting & Cable Management Accommodations -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="layout-grid"></i></div>
+                        <div class="card-title">Ergonomic Arms & Multi-Display Desk Hardware</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Heavy-Duty Gas-Spring Dual Monitor Arms:</strong> Justify fully adjustable gas-spring monitor arms alongside dual displays. This allows instant height, tilt, and focal-distance adjustments to prevent neck strain during multi-hour programming blocks.</li>
+                        <li><strong>Vertical Monitor Rotation (1x Portrait / 1x Landscape):</strong> Highlight the operational need to rotate one display vertically for reading long source code files/documentation while keeping the primary horizontal display for running IDEs and debuggers.</li>
+                        <li><strong>Integrated Thunderbolt / USB-C Docking Station:</strong> Request a high-wattage single-cable docking station to instantly connect your laptop to dual 4K monitors, external storage, and power without awkward cable swapping.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: AI, ML & CUDA Acceleration Requirements -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="brain-circuit"></i></div>
+                        <div class="card-title">Dedicated GPU & Local AI/ML Acceleration Specs</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Dedicated NVIDIA RTX GPU (CUDA Cores):</strong> Upper-division UNLV CS courses (Artificial Intelligence, Machine Learning, Computer Graphics) require CUDA acceleration for running local models and tensor calculations.</li>
+                        <li><strong>Thermal Management & High-Wattage Power Supply:</strong> Request laptops with dual-fan cooling architectures or dedicated workstation cooling pads to prevent thermal throttling during long algorithm execution or multi-container builds.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card: Campus Portability & Physical Security Gear -->
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="lock"></i></div>
+                        <div class="card-title">Power Efficiency & Physical Lab Protection</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>65W+ GaN Fast Charger & Secondary Power Brick:</strong> Request a compact secondary USB-C GaN charger to leave in your backpack for CSN/UNLV campus study sessions without disturbing your home desk setup.</li>
+                        <li><strong>Laptop Kensington Cable Lock:</strong> Request physical security locks authorized under required supplies to secure high-value hardware at campus library desks or computer labs during short breaks.</li>
+                        <li><strong>Ergonomic Protective Backpack / TSA Sleeve:</strong> Request a high-grade, water-resistant laptop backpack with padded lumbar support and drop protection under required transit equipment.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- SECTION 4: EMAIL SCRIPTS -->
+        <div class="section-group" data-category="scripts">
+            <div class="section-title">
+                <i data-lucide="mail"></i> VRC Email Request Script
+            </div>
+
+            <div class="card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-header-left">
+                        <div class="icon-badge"><i data-lucide="send"></i></div>
+                        <div class="card-title">Formal Equipment & Accommodation Request</div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron-icon"></i>
+                </div>
+                <div class="card-body">
+                    <p>Copy and adapt this text when emailing your counselor:</p>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" style="width:12px;height:12px;"></i> Copy</button>
+<span class="code-content">Subject: Request for Required Course Supplies & Ergonomic Accommodations – [Your Name] – VA File #[Your Number]
+
+Dear [Counselor Name],
+
+I hope you are doing well. As I prepare for my upcoming Software Engineering coursework, I am writing to request approval for necessary computer hardware and ergonomic equipment required to successfully complete my program while managing my service-connected conditions.
+
+Based on the Computer Science department's curriculum requirements and my medical accommodations, I am requesting approval for the following items under my IWRP:
+
+1. High-Performance Laptop/Workstation (32GB RAM / Modern Multi-core Processor): Required to run local development environments, virtual machines, and compilation tools without system crashes during assignments.
+2. Dual Monitor Setup: Essential for multi-window coding workflows, reducing cognitive load and neck strain.
+3. Ergonomic Workstation (Adjustable Desk / Ergonomic Chair): To accommodate my service-connected [Condition], allowing me to alternate between sitting and standing to prevent symptom flare-ups during extended study blocks.
+
+I have attached the department requirement sheet and the medical justification note for your review. Please let me know if you need any additional documentation or specific vendor quotes to process this request.
+
+Thank you for your continued support!
+
+Best regards,
+[Your Name]
+[Your Phone Number]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================================
+           TEMPLATE TEMPLATE FOR ADDING NEW CONTENT LATER
+           ========================================================================== 
+           To add a new section or card later, simply copy the block below and paste 
+           it into any of the .section-group divs above!
+           
+           <div class="card">
+               <div class="card-header" onclick="toggleCard(this)">
+                   <div class="card-header-left">
+                       <div class="icon-badge"><i data-lucide="file-text"></i></div>
+                       <div class="card-title">New Card Title</div>
+                   </div>
+                   <i data-lucide="chevron-down" class="chevron-icon"></i>
+               </div>
+               <div class="card-body">
+                   <p>Your content goes here...</p>
+               </div>
+           </div>
+        ========================================================================== -->
+
+    </main>
+
+    <!-- ==========================================================================
+       6. JAVASCRIPT FOR INTERACTIVITY
+       ========================================================================== -->
+    <script>
+        // Initialize Lucide icons on page load
+        lucide.createIcons();
+
+        /* Accordion Toggle Logic */
+        function toggleCard(headerElement) {
+            const card = headerElement.parentElement;
+            card.classList.toggle('active');
+        }
+
+        /* Search Filter Logic */
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+
+        /* Category Pill Filter Logic */
+        function filterCategory(category) {
+            // Update active state on buttons
+            document.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Show/hide section groups
+            const groups = document.querySelectorAll('.section-group');
+            groups.forEach(group => {
+                if (category === 'all' || group.getAttribute('data-category') === category) {
+                    group.classList.remove('hidden');
+                } else {
+                    group.classList.add('hidden');
+                }
+            });
+        }
+
+        /* Copy Button Logic for Code Blocks */
+        function copyCode(btn) {
+            const codeText = btn.nextElementSibling.innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                btn.innerHTML = `<i data-lucide="check" style="width:12px;height:12px;"></i> Copied!`;
+                lucide.createIcons();
+                setTimeout(() => {
+                    btn.innerHTML = `<i data-lucide="copy" style="width:12px;height:12px;"></i> Copy`;
+                    lucide.createIcons();
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
