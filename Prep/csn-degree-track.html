@@ -241,6 +241,66 @@
 
     <!-- Alpine State Script -->
     <script>
+        // Storage Key Constant
+        const STORAGE_KEY = 'csn_degree_tracker_courses';
+
+        // Helper to find the Alpine component data object
+        function _getAlpineData() {
+            const el = document.querySelector('[x-data]');
+            return el && el.__x && el.__x.$data ? el.__x.$data : null;
+        }
+
+        // Save current completion states to localStorage
+        function saveToLocalStorage(component) {
+            const data = component || _getAlpineData();
+            if (!data) return;
+            const completionState = {};
+            data.sections.forEach(section => {
+                section.courses.forEach(course => {
+                    completionState[course.id] = !!course.completed;
+                });
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(completionState));
+        }
+
+        // Load saved completion states from localStorage
+        function loadFromLocalStorage(component) {
+            const data = component || _getAlpineData();
+            if (!data) return;
+            const savedState = localStorage.getItem(STORAGE_KEY);
+            if (!savedState) return;
+
+            try {
+                const completionState = JSON.parse(savedState);
+                data.sections.forEach(section => {
+                    section.courses.forEach(course => {
+                        if (completionState[course.id] !== undefined) {
+                            course.completed = !!completionState[course.id];
+                        }
+                    });
+                });
+            } catch (e) {
+                console.error('Failed to load state from localStorage:', e);
+            }
+        }
+
+        // Global toggle helper (useful for external controls)
+        function toggleCourse(courseId) {
+            const data = _getAlpineData();
+            if (!data) return;
+            data.sections.forEach(section => {
+                const course = section.courses.find(c => c.id === courseId);
+                if (course) {
+                    course.completed = !course.completed;
+                }
+            });
+            saveToLocalStorage(data);
+        }
+
+        // Try restoring on DOMContentLoaded (no-op if Alpine not initialized yet)
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+        });
         function degreeTracker() {
             return {
                 sections: [
@@ -379,33 +439,13 @@
                 ],
 
                 init() {
-                    const saved = localStorage.getItem('csn_degree_progress_v4');
-                    if (saved) {
-                        try {
-                            const completedIds = JSON.parse(saved);
-                            this.sections.forEach(section => {
-                                section.courses.forEach(course => {
-                                    if (completedIds.includes(course.id)) {
-                                        course.completed = true;
-                                    }
-                                });
-                            });
-                        } catch (e) {
-                            console.error('Error loading saved progress', e);
-                        }
-                    }
+                    // Load saved completion states (safe to call even if no saved data)
+                    loadFromLocalStorage(this);
                 },
 
                 saveState() {
-                    const completedIds = [];
-                    this.sections.forEach(section => {
-                        section.courses.forEach(course => {
-                            if (course.completed) {
-                                completedIds.push(course.id);
-                            }
-                        });
-                    });
-                    localStorage.setItem('csn_degree_progress_v4', JSON.stringify(completedIds));
+                    // Persist current completion map using helper
+                    saveToLocalStorage(this);
 
                     if (this.progressPercentage >= 100) {
                         confetti({
