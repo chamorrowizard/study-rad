@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSN/UNLV Degree & Certification Interactive Module</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace'],
+          },
+          colors: {
+            brand: {
+              dark: '#0a0d12',
+              card: '#121826',
+              border: 'rgba(255, 255, 255, 0.1)',
+              rust: '#f97316',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              cyan: '#06b6d4'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Prism.js Tomorrow Theme CSS & Script -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+  <style>
+    body {
+      background-color: #0a0d12;
+      color: #f3f4f6;
+      font-family: 'Inter', sans-serif;
+    }
+    .bg-glass {
+      background-color: rgba(18, 24, 38, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .bg-glass-active {
+      background-color: rgba(30, 41, 59, 0.85);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080b11;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f293d;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #374151;
+    }
+    pre[class*="language-"] {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: transparent !important;
+      font-family: 'Fira Code', monospace !important;
+      font-size: 0.875rem !important;
+      line-height: 1.6 !important;
+    }
+    code[class*="language-"] {
+      font-family: 'Fira Code', monospace !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
+
+  <!-- Ambient Glowing Background Accents -->
+  <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+  <div class="fixed bottom-10 right-10 w-[600px] h-[600px] bg-orange-600/10 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+  <div class="fixed top-1/2 left-2/3 w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+
+  <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Top Navigation & Header -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-glass shadow-2xl">
+      <div class="flex items-center gap-4">
+        <div class="p-3 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 text-emerald-400">
+          <i data-lucide="award" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-bold tracking-tight text-white">CSN & UNLV Academic-to-Cert Mapper</h1>
+            <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">VR&E Optimized</span>
+          </div>
+          <p class="text-xs text-gray-400 mt-0.5">Interactive code-level alignments between Degree Requirements & Industry Certifications</p>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Pill -->
+      <div class="flex items-center gap-3 bg-[#080b11]/80 px-4 py-2 rounded-xl border border-white/5 text-xs">
+        <div class="flex items-center gap-1.5 text-gray-300">
+          <i data-lucide="book-open" class="w-4 h-4 text-emerald-400"></i>
+          <span>Degree Courses: <strong class="text-white font-mono">CS 251, CIT 180, CS 138, CS 218</strong></span>
+        </div>
+        <div class="h-4 w-px bg-white/10"></div>
+        <div class="flex items-center gap-1.5 text-gray-300">
+          <i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i>
+          <span>Cert Targets: <strong class="text-white font-mono">Security+, AWS, PCEP, Linux+</strong></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- Left Sidebar (4 Cols on Desktop) -->
+      <aside class="lg:col-span-4 flex flex-col gap-6">
+        
+        <!-- Module Curriculum Switcher -->
+        <section class="p-5 rounded-2xl bg-glass shadow-xl space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-white/10">
+            <div class="flex items-center gap-2">
+              <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+              <h2 class="text-sm font-semibold tracking-wide text-gray-200 uppercase">Curriculum Modules</h2>
+            </div>
+            <span id="module-counter" class="text-xs font-mono text-gray-400">Lesson 1 of 4</span>
+          </div>
+
+          <!-- Module List Container -->
+          <div id="lesson-selector-container" class="space-y-2.5">
+            <!-- Dynamically Rendered -->
+          </div>
+        </section>
+
+        <!-- Educator / Line Explanation Panel -->
+        <section class="p-5 rounded-2xl bg-glass shadow-xl flex-1 flex flex-col space-y-4 border-l-4 border-l-cyan-500">
+          <div class="flex items-center justify-between pb-2 border-b border-white/10">
+            <div class="flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-cyan-400"></i>
+              <h2 class="text-sm font-semibold tracking-wide text-gray-200 uppercase">Educator Insights</h2>
+            </div>
+            <span id="active-line-badge" class="px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">Line Overview</span>
+          </div>
+
+          <div id="educator-content" class="flex-1 text-sm leading-relaxed text-gray-300 space-y-3">
+            <!-- Dynamic Content -->
+          </div>
+
+          <div class="pt-3 border-t border-white/10 text-xs text-gray-400 flex items-center justify-between">
+            <span class="flex items-center gap-1"><i data-lucide="mouse-pointer-click" class="w-3.5 h-3.5 text-emerald-400"></i> Click code lines for deep dive</span>
+            <span class="font-mono text-[10px] text-gray-500">VR&E Chapter 31</span>
+          </div>
+        </section>
+
+      <!-- START: Compensation Breakdown Section (Inserted) -->
+      <section class="p-5 rounded-2xl bg-glass shadow-xl space-y-4">
+        <!-- Paste the provided compensation block here -->
+        <!-- START: Compensation Breakdown Section -->
+        <div class="mt-8 rounded-xl border border-slate-800 bg-slate-900/80 p-6 shadow-xl backdrop-blur-sm">
+          <!-- Section Header -->
+          <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800 pb-4">
+            <div>
+              <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Estimated Compensation Breakdown by Role
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">Based on Las Vegas local market metrics &amp; national defense/tech averages</p>
+            </div>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 w-fit">
+              CS Degree + Cert Stack
+            </span>
+          </div>
+
+          <!-- Compensation Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-300">
+              <thead class="bg-slate-950/60 text-xs uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th scope="col" class="py-3.5 px-4 font-semibold">Target Career Role</th>
+                  <th scope="col" class="py-3.5 px-4 font-semibold">Key Relevant Certs</th>
+                  <th scope="col" class="py-3.5 px-4 font-semibold">Entry-Level Pay</th>
+                  <th scope="col" class="py-3.5 px-4 font-semibold">Mid-Career (3–5 Yrs)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 font-mono text-xs">
+                <tr class="hover:bg-slate-800/30 transition-colors">
+                  <td class="py-3.5 px-4 font-sans font-medium text-white">Cybersecurity Analyst</td>
+                  <td class="py-3.5 px-4 text-cyan-400">Security+, CEH, Linux+</td>
+                  <td class="py-3.5 px-4 text-emerald-400 font-semibold">$70,000 – $90,000 <span class="text-[10px] text-slate-500 font-sans block">($34–$43/hr)</span></td>
+                  <td class="py-3.5 px-4 text-emerald-300 font-semibold">$110,000 – $140,000+</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30 transition-colors">
+                  <td class="py-3.5 px-4 font-sans font-medium text-white">Cloud Systems Engineer</td>
+                  <td class="py-3.5 px-4 text-cyan-400">AWS Solutions Arch, Azure AZ-104</td>
+                  <td class="py-3.5 px-4 text-emerald-400 font-semibold">$80,000 – $100,000 <span class="text-[10px] text-slate-500 font-sans block">($38–$48/hr)</span></td>
+                  <td class="py-3.5 px-4 text-emerald-300 font-semibold">$125,000 – $160,000+</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30 transition-colors">
+                  <td class="py-3.5 px-4 font-sans font-medium text-white">DevOps / Infrastructure Engineer</td>
+                  <td class="py-3.5 px-4 text-cyan-400">Linux+, AWS, CS 218/370 Core</td>
+                  <td class="py-3.5 px-4 text-emerald-400 font-semibold">$85,000 – $105,000 <span class="text-[10px] text-slate-500 font-sans block">($40–$50/hr)</span></td>
+                  <td class="py-3.5 px-4 text-emerald-300 font-semibold">$130,000 – $170,000+</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30 transition-colors">
+                  <td class="py-3.5 px-4 font-sans font-medium text-white">Network Security Engineer</td>
+                  <td class="py-3.5 px-4 text-cyan-400">CCNA, Security+, Network+</td>
+                  <td class="py-3.5 px-4 text-emerald-400 font-semibold">$68,000 – $88,000 <span class="text-[10px] text-slate-500 font-sans block">($32–$42/hr)</span></td>
+                  <td class="py-3.5 px-4 text-emerald-300 font-semibold">$105,000 – $135,000+</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30 transition-colors">
+                  <td class="py-3.5 px-4 font-sans font-medium text-white">Database Administrator / Data Eng.</td>
+                  <td class="py-3.5 px-4 text-cyan-400">AWS DB, Oracle SQL, Data+</td>
+                  <td class="py-3.5 px-4 text-emerald-400 font-semibold">$72,000 – $92,000 <span class="text-[10px] text-slate-500 font-sans block">($34–$44/hr)</span></td>
+                  <td class="py-3.5 px-4 text-emerald-300 font-semibold">$115,000 – $145,000+</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30 transition-colors">
+                  <td class="py-3.5 px-4 font-sans font-medium text-white">Software Security / Quant Dev</td>
+                  <td class="py-3.5 px-4 text-cyan-400">CS Degree Core, C/Python, Sec+</td>
+                  <td class="py-3.5 px-4 text-emerald-400 font-semibold">$90,000 – $120,000+ <span class="text-[10px] text-slate-500 font-sans block">($43–$57+/hr)</span></td>
+                  <td class="py-3.5 px-4 text-emerald-300 font-semibold">$150,000 – $200,000+</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Key Insights Grid -->
+          <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div class="p-3.5 rounded-lg bg-slate-950/40 border border-slate-800">
+              <div class="font-semibold text-amber-400 mb-1">🛡️ DoD / Cleared Rate Boost</div>
+              <p class="text-slate-400">Holding Security+ satisfies DoD 8140/8570 IAT Level II, commanding a <strong class="text-slate-200">15%–25% pay premium</strong> in defense contracting roles.</p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-slate-950/40 border border-slate-800">
+              <div class="font-semibold text-cyan-400 mb-1">🎓 Degree + Cert Synergy</div>
+              <p class="text-slate-400">Bypasses help-desk tiers entirely ($45k) and positions you directly into mid/high-tier engineering roles starting in the <strong class="text-slate-200">$75k–$95k range</strong>.</p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-slate-950/40 border border-slate-800">
+              <div class="font-semibold text-emerald-400 mb-1">🌐 Remote Market Opportunity</div>
+              <p class="text-slate-400">Remote positions backed by AWS or Security+ credentials from high-cost tech hubs often start candidates at <strong class="text-slate-200">$95,000 – $115,000+</strong>.</p>
+            </div>
+          </div>
+        </div>
+        <!-- END: Compensation Breakdown Section -->
+      </section>
+
+      </aside>
+      
+      
+      <!-- Main Workspace Area (8 Cols on Desktop) -->
+      <section class="lg:col-span-8 flex flex-col gap-6">
+
+        <!-- Active Lesson Header Banner -->
+        <div class="p-6 rounded-2xl bg-glass shadow-xl space-y-4 relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <span id="badge-course" class="px-3 py-1 text-xs font-semibold rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                CS 251 / CIT 217
+              </span>
+              <span id="badge-cert" class="px-3 py-1 text-xs font-semibold rounded-lg bg-orange-500/15 text-orange-300 border border-orange-500/30 flex items-center gap-1.5">
+                <i data-lucide="shield" class="w-3.5 h-3.5"></i> <span id="cert-text">CompTIA Security+</span>
+              </span>
+            </div>
+
+            <!-- Progress Bar Pill -->
+            <div class="flex items-center gap-2 bg-[#080b11] px-3 py-1.5 rounded-full border border-white/5">
+              <div class="w-24 bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                <div id="progress-bar-fill" class="bg-gradient-to-r from-emerald-400 to-cyan-400 h-full w-1/4 transition-all duration-500"></div>
+              </div>
+              <span id="progress-text" class="text-[11px] font-mono text-gray-400">25% Complete</span>
+            </div>
+          </div>
+
+          <div>
+            <h2 id="lesson-title" class="text-2xl font-bold text-white tracking-tight">Network Threat Detection & Socket Scanning</h2>
+            <p id="lesson-description" class="text-sm text-gray-300 mt-1 leading-relaxed">
+              Explore how raw socket handling in Python directly satisfies UNLV CS 251 (Cybersecurity) and CSN CIT 217 while covering domain objectives for CompTIA Security+.
+            </p>
+          </div>
+        </div>
+
+        <!-- Interactive Code Editor Window -->
+        <div class="rounded-2xl bg-[#0d121f] border border-white/10 shadow-2xl overflow-hidden flex flex-col">
+          
+          <!-- Terminal Header Bar -->
+          <div class="bg-[#080b11] px-4 py-3 flex items-center justify-between border-b border-white/10 select-none">
+            <div class="flex items-center gap-2">
+              <div class="flex items-center gap-1.5">
+                <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+              </div>
+              <span id="file-name-badge" class="ml-3 font-mono text-xs text-gray-400 bg-white/5 px-2.5 py-1 rounded border border-white/5 flex items-center gap-1.5">
+                <i data-lucide="file-code" class="w-3.5 h-3.5 text-emerald-400"></i> <span id="file-name-text">threat_scanner.py</span>
+              </span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button id="copy-btn" onclick="copyCodeToClipboard()" class="text-xs font-mono px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 transition-all flex items-center gap-1.5">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Code
+              </button>
+            </div>
+          </div>
+
+          <!-- Code Editor Body (Gutter + Interactive Code Rows) -->
+          <div class="overflow-x-auto max-h-[480px] overflow-y-auto relative font-mono text-sm leading-relaxed" id="editor-container">
+            <table class="w-full border-collapse">
+              <tbody id="editor-table-body">
+                <!-- Dynamically Generated Interactive Line Rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bg-[#080b11]/90 px-4 py-2 border-t border-white/5 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Mode: Interactive Inspection
+            </span>
+            <span id="editor-language-tag">Language: Python 3</span>
+          </div>
+        </div>
+
+        <!-- Key Takeaways Card -->
+        <div class="p-6 rounded-2xl bg-glass shadow-xl space-y-3">
+          <div class="flex items-center gap-2 text-amber-400 font-semibold text-sm uppercase tracking-wider">
+            <i data-lucide="check-circle-2" class="w-4 h-4"></i> Key Academic & Certification Alignment Takeaways
+          </div>
+          <ul id="takeaways-list" class="space-y-2 text-sm text-gray-300">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <script>
+    // Data-Driven Curriculum Array aligning CSN/UNLV Degree Sheet Courses with Industry Certifications
+    const LESSONS = [
+      {
+        id: "sec-sockets",
+        courseCode: "UNLV CS 251 / CSN CIT 217",
+        certTarget: "CompTIA Security+ / CEH",
+        title: "Network Security & Socket Analysis",
+        fileName: "threat_scanner.py",
+        language: "python",
+        description: "Analyze raw socket programming and port scanning mechanics. This bridges lower-level networking principles from CSN CIT 217 with security concepts from UNLV CS 251 and CompTIA Security+ (SY0-701) Domain 2.0.",
+        overviewNote: "Select any line in the code window to view its detailed academic relevance, security vulnerability breakdown, and exam applicability.",
+        takeaways: [
+          "Fulfills <strong>UNLV CS 251</strong> (Cybersecurity Concepts) & <strong>CSN CIT 217</strong> (Security+) core competencies.",
+          "Demonstrates raw IP socket handling, connection timeout management, and exception control.",
+          "Directly prepares for Security+ exam objectives regarding port scanning, reconnaissance, and service discovery."
+        ],
+        lines: [
+          {
+            code: "import socket",
+            note: "Imports Python's built-in socket interface module, giving direct access to the underlying OS networking subsystem (BSD socket API)."
+          },
+          {
+            code: "import sys",
+            note: "Provides access to system-specific parameters and functions, such as command-line arguments and standard error streams."
+          },
+          {
+            code: "",
+            note: "Empty spacer line separating module imports from utility function declarations."
+          },
+          {
+            code: "def scan_port(host: str, port: int) -> bool:",
+            note: "Defines a typed function for scanning a single TCP port. Type hints align with software engineering best practices required in CS 135/202."
+          },
+          {
+            code: "    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)",
+            note: "Creates an IPv4 (AF_INET) TCP (SOCK_STREAM) socket. This distinction between TCP stream sockets and UDP datagrams is a core Security+ exam objective."
+          },
+          {
+            code: "    s.settimeout(1.5)",
+            note: "Configures non-blocking timeout preventing network hangs during banner grabbing or SYN probes."
+          },
+          {
+            code: "    try:",
+            note: "Initiates error handling block to gracefully capture network connection failures without crashing."
+          },
+          {
+            code: "        s.connect((host, port))",
+            note: "Performs full TCP 3-Way Handshake (SYN, SYN-ACK, ACK). CompTIA Security+ tests knowledge of how handshakes differ from stealth SYN-scans."
+          },
+          {
+            code: "        return True",
+            note: "Returns True if connection succeeded, indicating the target port is open and listening."
+          },
+          {
+            code: "    except (socket.timeout, ConnectionRefusedError):",
+            note: "Catches filtered ports (timeout) or closed ports (RST packet returned from target)."
+          },
+          {
+            code: "        return False",
+            note: "Returns False indicating port is closed, filtered, or unassigned."
+          },
+          {
+            code: "    finally:",
+            note: "Guarantees socket resource cleanup, preventing memory/socket descriptor leaks in system software."
+          },
+          {
+            code: "        s.close()",
+            note: "Closes file descriptor. Essential practice emphasized across CS 218 & CS 370."
+          }
+        ]
+      },
+      {
+        id: "db-sql",
+        courseCode: "CSN CIT 180 / UNLV CS 457",
+        certTarget: "AWS DB / Oracle SQL",
+        title: "Relational Schema & Injection Defense",
+        fileName: "database_security.sql",
+        language: "sql",
+        description: "Explore relational schema design, primary/foreign key integrity, and SQL injection mitigations. Connects CSN CIT 180 (Database Concepts & SQL) directly with UNLV CS 457 and cloud DB certifications.",
+        overviewNote: "Click any SQL line to examine relational constraints, indexing performance, or injection mitigation strategies.",
+        takeaways: [
+          "Satisfies <strong>CSN CIT 180</strong> & <strong>UNLV CS 457</strong> (Database Management Systems) core requirements.",
+          "Demonstrates foreign key cascade rules, indexing performance, and secure parameterized queries.",
+          "Maps to AWS Certified Database & Oracle SQL Developer certification standards."
+        ],
+        lines: [
+          {
+            code: "CREATE TABLE user_accounts (",
+            note: "Initializes table creation with DDL (Data Definition Language) syntax."
+          },
+          {
+            code: "    user_id SERIAL PRIMARY KEY,",
+            note: "Defines surrogate auto-incrementing primary key ensuring entity integrity and fast index lookups."
+          },
+          {
+            code: "    username VARCHAR(50) UNIQUE NOT NULL,",
+            note: "Applies column constraints ensuring non-null values and uniqueness across user records."
+          },
+          {
+            code: "    password_hash VARCHAR(255) NOT NULL,",
+            note: "Stores salted cryptographic password hashes (e.g. Argon2 or bcrypt) rather than plaintext passwords, satisfying Security+ OWASP top 10 compliance."
+          },
+          {
+            code: "    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP",
+            note: "Uses UTC timezone-aware timestamping for audit trails and forensic log correlation."
+          },
+          {
+            code: ");",
+            note: "Ends table definition statement."
+          },
+          {
+            code: "",
+            note: "Spacer line before security query demonstration."
+          },
+          {
+            code: "-- Secure Parameterized Query (Prevents SQL Injection)",
+            note: "SQL Comment highlighting defense against OWASP A03:2021-Injection vulnerabilities."
+          },
+          {
+            code: "SELECT user_id, username FROM user_accounts",
+            note: "Selects specific explicit fields instead of 'SELECT *', optimizing I/O and query planner execution."
+          },
+          {
+            code: "WHERE username = $1 AND active = TRUE;",
+            note: "Uses parameterized placeholder ($1) separating SQL code from user-supplied input data, rendering SQL injection impossible."
+          }
+        ]
+      },
+      {
+        id: "python-pcep",
+        courseCode: "CSN CS 138 / UNLV CS 135",
+        certTarget: "PCEP Python / CompTIA",
+        title: "Algorithmic Logic & Data Processing",
+        fileName: "data_processor.py",
+        language: "python",
+        description: "Master list comprehensions, dictionary operations, and algorithmic efficiency. Maps CSN CS 138 (Python for Data Science) and UNLV CS 135/202 to the official PCEP (Python Certified Entry-Level Programmer) exam.",
+        overviewNote: "Click line numbers to inspect Python memory model, data structures, and algorithmic complexity.",
+        takeaways: [
+          "Fulfills <strong>CSN CS 138</strong> & <strong>UNLV CS 135</strong> lower-division programming requirement.",
+          "Covers PCEP certification exam domains: Data Types, Control Flow, Collections, and Exception Handling.",
+          "Prepares for upper-division Data Structures (UNLV CS 302) by building clean algorithmic patterns."
+        ],
+        lines: [
+          {
+            code: "from typing import List, Dict, Any",
+            note: "Imports type hints module for strict type checking, standard in modern Python engineering."
+          },
+          {
+            code: "",
+            note: "Spacer line."
+          },
+          {
+            code: "def filter_high_value_records(data: List[Dict[str, Any]], threshold: float) -> List[str]:",
+            note: "Declares function accepting a list of dictionaries. Tests nested data structure comprehension required in PCEP."
+          },
+          {
+            code: "    \"\"\"Extract usernames exceeding account threshold value efficiently.\"\"\"",
+            note: "Python Docstring for automated documentation generator (Sphinx/Doxygen)."
+          },
+          {
+            code: "    filtered_users = [",
+            note: "Starts Python list comprehension, offering O(n) iteration with reduced bytecode overhead compared to explicit loops."
+          },
+          {
+            code: "        item['username'].strip().lower()",
+            note: "Applies string normalization methods (strip whitespace, lowercase conversion) during collection mapping."
+          },
+          {
+            code: "        for item in data",
+            note: "Iterates through raw input list items."
+          },
+          {
+            code: "        if item.get('balance', 0.0) >= threshold",
+            note: "Uses dict.get() with fallback value to safely avoid KeyError exceptions during key access."
+          },
+          {
+            code: "    ]",
+            note: "Closes list comprehension block."
+          },
+          {
+            code: "    return sorted(list(set(filtered_users)))",
+            note: "Converts list to set to remove duplicates in O(n) time, then sorts output. Standard interview algorithm pattern."
+          }
+        ]
+      },
+      {
+        id: "sys-c",
+        courseCode: "UNLV CS 218 / CS 370",
+        certTarget: "CompTIA Linux+ / LPIC-1",
+        title: "Systems Programming & Process Management",
+        fileName: "sys_process.c",
+        language: "c",
+        description: "Examine POSIX process creation (fork/exec), pipe IPC, and memory allocation in C. Bridges UNLV CS 218 (Systems Programming), CS 370 (Operating Systems), and CompTIA Linux+ certification.",
+        overviewNote: "Click any C code line to review process trees, memory layout, system calls, and thread isolation.",
+        takeaways: [
+          "Fulfills <strong>UNLV CS 218</strong> & <strong>CS 370</strong> core computer science requirements.",
+          "Teaches low-level POSIX process handling, virtual memory management, and system call APIs.",
+          "Prepares for Linux+ & Unix Systems Administration domain requirements."
+        ],
+        lines: [
+          {
+            code: "#include <stdio.h>",
+            note: "Includes Standard I/O library for printf and stream buffer operations."
+          },
+          {
+            code: "#include <unistd.h>",
+            note: "Includes POSIX operating system API header providing fork(), pipe(), and exec() system calls."
+          },
+          {
+            code: "#include <sys/types.h>",
+            note: "Defines system primitive data types like pid_t for process IDs."
+          },
+          {
+            code: "",
+            note: "Spacer line."
+          },
+          {
+            code: "int main() {",
+            note: "Entry point for C runtime execution."
+          },
+          {
+            code: "    pid_t pid = fork();",
+            note: "Spawns child process by duplicating calling process image. Critical concept in UNLV CS 370 (OS)."
+          },
+          {
+            code: "    if (pid < 0) {",
+            note: "Checks if fork failed due to OS process limits (PID exhaustion)."
+          },
+          {
+            code: "        perror(\"Fork failed\");",
+            note: "Prints system error message corresponding to global errno."
+          },
+          {
+            code: "        return 1;",
+            note: "Exits with non-zero status indicating runtime error."
+          },
+          {
+            code: "    } else if (pid == 0) {",
+            note: "Execution branch for Child process (fork returns 0 in child context)."
+          },
+          {
+            code: "        printf(\"Child process running. PID: %d\\n\", getpid());",
+            note: "Prints child's unique Process ID retrieved from kernel process table."
+          },
+          {
+            code: "    } else {",
+            note: "Execution branch for Parent process (fork returns Child's PID in parent context)."
+          },
+          {
+            code: "        printf(\"Parent process. Created Child PID: %d\\n\", pid);",
+            note: "Parent process tracks child PID for process synchronization (waitpid)."
+          },
+          {
+            code: "    }",
+            note: "Ends conditional branch."
+          },
+          {
+            code: "    return 0;",
+            note: "Returns 0 to shell environment indicating successful process termination."
+          },
+          {
+            code: "}",
+            note: "Main function closing brace."
+          }
+        ]
+      },
+      // Add these objects to the LESSONS array in your HTML file:
+{
+  id: "sys-prog-218",
+  courseCode: "UNLV CS 218",
+  certTarget: "CompTIA Linux+ / LPIC-1",
+  title: "x86 Assembly & System Registers",
+  fileName: "registers.asm",
+  language: "c",
+  description: "Examine x86 assembly instructions, register manipulation, and call stacks. Direct bridge for UNLV CS 218 and CompTIA Linux+ system administration requirements.",
+  overviewNote: "Click any assembly line to inspect stack frames, CPU registers, and memory pointers.",
+  takeaways: [
+    "Fulfills <strong>UNLV CS 218</strong> (Systems Programming) core requirement.",
+    "Covers LPIC-1 & Linux+ system architecture and low-level diagnostic competencies.",
+    "Prepares for vulnerability analysis and reverse engineering tasks."
+  ],
+  lines: [
+    { code: "global _start", note: "Declares execution entry point for ELF binary linker." },
+    { code: "section .text", note: "Defines executable code segment in memory layout." },
+    { code: "_start:", note: "Label marking application start vector." },
+    { code: "    mov eax, 1", note: "Loads sys_exit system call number into EAX register." },
+    { code: "    mov ebx, 0", note: "Sets return code 0 in EBX register." },
+    { code: "    int 0x80", note: "Triggers software interrupt to hand control to kernel." }
+  ]
+},
+{
+  id: "stat-411",
+  courseCode: "UNLV STAT 411",
+  certTarget: "CompTIA Data+ / AWS Machine Learning",
+  title: "Statistical Data Analysis & Regression",
+  fileName: "data_analysis.py",
+  language: "python",
+  description: "Explore hypothesis testing and linear regression models. Directly bridges UNLV STAT 411 requirements with CompTIA Data+ and AWS ML Specialty domains.",
+  overviewNote: "Select lines to review statistical metrics, variance calculations, and model confidence intervals.",
+  takeaways: [
+    "Satisfies <strong>UNLV STAT 411</strong> math requirement for CS majors.",
+    "Maps to CompTIA Data+ statistical testing & modeling domains.",
+    "Lays foundational math required for upper-division Data Science electives."
+  ],
+  lines: [
+    { code: "import numpy as np", note: "Imports numerical computing library for array vectorization." },
+    { code: "from scipy import stats", note: "Loads statistical routines for distribution testing." },
+    { code: "", note: "Spacer line." },
+    { code: "slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)", note: "Calculates linear least-squares regression metrics and p-value significance." },
+    { code: "print(f'R-squared: {r_value**2:.4f}')", note: "Evaluates model coefficient of determination (R²)." }
+  ]
+},
+{
+    id: "sys-prog-218",
+    courseCode: "UNLV CS 218",
+    certTarget: "CompTIA Linux+ / LPIC-1",
+    title: "x86 Assembly & System Registers",
+    fileName: "registers.asm",
+    language: "c", // Highlight styling
+    description: "Examine x86 assembly instructions, register manipulation, and call stacks. Direct bridge for UNLV CS 218 and CompTIA Linux+ system administration requirements.",
+    overviewNote: "Click any assembly line to inspect stack frames, CPU registers, and memory pointers.",
+    takeaways: [
+      "Fulfills <strong>UNLV CS 218</strong> (Systems Programming) core requirement.",
+      "Covers LPIC-1 & Linux+ system architecture and low-level diagnostic competencies.",
+      "Prepares for vulnerability analysis and reverse engineering tasks."
+    ],
+    lines: [
+      { code: "global _start", note: "Declares execution entry point for ELF binary linker." },
+      { code: "section .text", note: "Defines executable code segment in memory layout." },
+      { code: "_start:", note: "Label marking application start vector." },
+      { code: "    mov eax, 1", note: "Loads sys_exit system call number into EAX register." },
+      { code: "    mov ebx, 0", note: "Sets return code 0 in EBX register." },
+      { code: "    int 0x80", note: "Triggers software interrupt to hand control to kernel." }
+    ]
+  },
+  {
+    id: "stat-411",
+    courseCode: "UNLV STAT 411",
+    certTarget: "CompTIA Data+ / AWS Machine Learning",
+    title: "Statistical Data Analysis & Regression",
+    fileName: "data_analysis.py",
+    language: "python",
+    description: "Explore hypothesis testing and linear regression models. Directly bridges UNLV STAT 411 requirements with CompTIA Data+ and AWS ML Specialty domains.",
+    overviewNote: "Select lines to review statistical metrics, variance calculations, and model confidence intervals.",
+    takeaways: [
+      "Satisfies <strong>UNLV STAT 411</strong> math requirement for CS majors.",
+      "Maps to CompTIA Data+ statistical testing & modeling domains.",
+      "Lays foundational math required for upper-division Data Science electives."
+    ],
+    lines: [
+      { code: "import numpy as np", note: "Imports numerical computing library for array vectorization." },
+      { code: "from scipy import stats", note: "Loads statistical routines for distribution testing." },
+      { code: "", note: "Spacer line." },
+      { code: "slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)", note: "Calculates linear least-squares regression metrics and p-value significance." },
+      { code: "print(f'R-squared: {r_value**2:.4f}')", note: "Evaluates model coefficient of determination (R²)." }
+    ]
+  }
+    ];
+
+    // Application State
+    let currentLessonIndex = 0;
+    let selectedLineIndex = null;
+
+    // DOM Elements
+    const lessonSelectorContainer = document.getElementById('lesson-selector-container');
+    const moduleCounter = document.getElementById('module-counter');
+    const badgeCourse = document.getElementById('badge-course');
+    const badgeCert = document.getElementById('badge-cert');
+    const certText = document.getElementById('cert-text');
+    const lessonTitle = document.getElementById('lesson-title');
+    const lessonDescription = document.getElementById('lesson-description');
+    const fileNameText = document.getElementById('file-name-text');
+    const editorTableBody = document.getElementById('editor-table-body');
+    const educatorContent = document.getElementById('educator-content');
+    const activeLineBadge = document.getElementById('active-line-badge');
+    const takeawaysList = document.getElementById('takeaways-list');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const progressText = document.getElementById('progress-text');
+    const editorLanguageTag = document.getElementById('editor-language-tag');
+
+    // Initialize App
+    function initApp() {
+      renderCurriculumList();
+      loadLesson(0);
+    }
+
+    // Render Curriculum Switcher List
+    function renderCurriculumList() {
+      lessonSelectorContainer.innerHTML = '';
+      
+      LESSONS.forEach((lesson, index) => {
+        const isActive = index === currentLessonIndex;
+        const card = document.createElement('div');
+        card.className = `p-3.5 rounded-xl cursor-pointer transition-all duration-200 border flex flex-col gap-1.5 ${
+          isActive 
+            ? 'bg-glass-active border-emerald-500/40 shadow-lg ring-1 ring-emerald-500/20' 
+            : 'bg-white/5 hover:bg-white/10 border-white/5'
+        }`;
+        card.onclick = () => loadLesson(index);
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              ${lesson.courseCode}
+            </span>
+            <span class="text-[10px] font-mono text-gray-400 flex items-center gap-1">
+              <i data-lucide="shield" class="w-3 h-3 text-orange-400"></i> ${lesson.certTarget.split('/')[0]}
+            </span>
+          </div>
+          <h3 class="text-xs font-semibold text-gray-200 line-clamp-1">${lesson.title}</h3>
+        `;
+        lessonSelectorContainer.appendChild(card);
+      });
+
+      // Refresh icons
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // Load Chosen Lesson
+    function loadLesson(index) {
+      currentLessonIndex = index;
+      selectedLineIndex = null; // Reset line selection
+      const lesson = LESSONS[index];
+
+      // Update Top Curriculum Meta
+      moduleCounter.textContent = `Lesson ${index + 1} of ${LESSONS.length}`;
+      badgeCourse.textContent = lesson.courseCode;
+      certText.textContent = lesson.certTarget;
+      lessonTitle.textContent = lesson.title;
+      lessonDescription.textContent = lesson.description;
+      fileNameText.textContent = lesson.fileName;
+      editorLanguageTag.textContent = `Language: ${lesson.language.toUpperCase()}`;
+
+      // Update Progress Bar
+      const pct = Math.round(((index + 1) / LESSONS.length) * 100);
+      progressBarFill.style.width = `${pct}%`;
+      progressText.textContent = `${pct}% Complete`;
+
+      // Render Key Takeaways
+      takeawaysList.innerHTML = lesson.takeaways
+        .map(t => `<li class="flex items-start gap-2"><i data-lucide="chevron-right" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i> <span>${t}</span></li>`)
+        .join('');
+
+      // Render Code Table & Educator Default
+      renderCodeEditor();
+      renderEducatorPanel();
+      renderCurriculumList();
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // Render Code Table Rows
+    function renderCodeEditor() {
+      const lesson = LESSONS[currentLessonIndex];
+      editorTableBody.innerHTML = '';
+
+      lesson.lines.forEach((lineObj, idx) => {
+        const isSelected = selectedLineIndex === idx;
+        const row = document.createElement('tr');
+        row.className = `group cursor-pointer transition-colors duration-150 border-b border-white/[0.02] ${
+          isSelected 
+            ? 'bg-emerald-500/15 border-l-4 border-l-emerald-400' 
+            : 'hover:bg-white/[0.04]'
+        }`;
+        row.onclick = () => selectLine(idx);
+
+        // Escape raw HTML characters before passing to Prism
+        const escapedCode = escapeHtml(lineObj.code);
+        const highlightedCode = Prism.highlight(
+          escapedCode, 
+          Prism.languages[lesson.language] || Prism.languages.python, 
+          lesson.language
+        );
+
+        row.innerHTML = `
+          <!-- Gutter Column -->
+          <td class="w-12 select-none text-right pr-3 py-1 font-mono text-xs text-[#4b5563] bg-[#080b11] border-r border-white/5 group-hover:text-gray-300">
+            ${idx + 1}
+          </td>
+          <!-- Code Content Column -->
+          <td class="pl-4 pr-4 py-1 font-mono text-xs whitespace-pre">
+            <code class="language-${lesson.language}">${highlightedCode || '&nbsp;'}</code>
+          </td>
+        `;
+        editorTableBody.appendChild(row);
+      });
+    }
+
+    // Select Specific Code Line
+    function selectLine(idx) {
+      if (selectedLineIndex === idx) {
+        selectedLineIndex = null; // Toggle off if clicked twice
+      } else {
+        selectedLineIndex = idx;
+      }
+      renderCodeEditor();
+      renderEducatorPanel();
+    }
+
+    // Render Educator Explanation Panel
+    function renderEducatorPanel() {
+      const lesson = LESSONS[currentLessonIndex];
+
+      if (selectedLineIndex === null) {
+        activeLineBadge.textContent = "Overview Mode";
+        activeLineBadge.className = "px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20";
+
+        educatorContent.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-2">
+            <div class="flex items-center gap-2 text-emerald-400 font-semibold text-xs">
+              <i data-lucide="info" class="w-4 h-4"></i> Lesson Navigation Tip
+            </div>
+            <p class="text-xs text-gray-300 leading-relaxed">
+              ${lesson.overviewNote}
+            </p>
+          </div>
+          <div class="space-y-2 pt-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400">Target Mapping Summary</h4>
+            <div class="p-3 rounded-lg bg-[#080b11] border border-white/5 space-y-1.5 font-mono text-xs">
+              <div class="text-emerald-400 flex justify-between">
+                <span>Course:</span> <span class="text-white">${lesson.courseCode}</span>
+              </div>
+              <div class="text-orange-400 flex justify-between">
+                <span>Cert Objective:</span> <span class="text-white">${lesson.certTarget}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        const lineObj = lesson.lines[selectedLineIndex];
+        activeLineBadge.textContent = `Line ${selectedLineIndex + 1}`;
+        activeLineBadge.className = "px-2 py-0.5 text-[10px] font-mono rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+
+        educatorContent.innerHTML = `
+          <div class="p-3 rounded-lg bg-[#080b11] border border-emerald-500/30 font-mono text-xs text-emerald-300 overflow-x-auto">
+            <code>${escapeHtml(lineObj.code) || '// Empty line'}</code>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 space-y-2">
+            <div class="flex items-center gap-2 text-cyan-400 font-semibold text-xs">
+              <i data-lucide="microscope" class="w-4 h-4"></i> Line Breakdown & Exam Relevance
+            </div>
+            <p class="text-xs text-gray-200 leading-relaxed">
+              ${lineObj.note}
+            </p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-orange-500/10 border border-orange-500/20 text-xs text-orange-200 flex items-start gap-2">
+            <i data-lucide="check-square" class="w-4 h-4 text-orange-400 shrink-0 mt-0.5"></i>
+            <span>This concept links directly to practical lab questions in <strong>${lesson.certTarget.split('/')[0]}</strong>.</span>
+          </div>
+        `;
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // Helper Utility: Escape HTML
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Copy Current Code to Clipboard
+    function copyCodeToClipboard() {
+      const lesson = LESSONS[currentLessonIndex];
+      const fullCode = lesson.lines.map(l => l.code).join('\n');
+      
+      navigator.clipboard.writeText(fullCode).then(() => {
+        const copyBtn = document.getElementById('copy-btn');
+        copyBtn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Copied!`;
+        if (window.lucide) lucide.createIcons();
+
+        setTimeout(() => {
+          copyBtn.innerHTML = `<i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Code`;
+          if (window.lucide) lucide.createIcons();
+        }, 2000);
+      });
+    }
+
+    // Load App on Window Ready
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
