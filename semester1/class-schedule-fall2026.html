@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSN Fall 2026 Schedule & Time Dashboard</title>
+    <style>
+        :root {
+            --bg: #090d16;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-border: rgba(255, 255, 255, 0.08);
+            --surface-hover: rgba(255, 255, 255, 0.06);
+            --text: #f3f4f6;
+            --text-muted: #9ca3af;
+            
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.35);
+            --secondary: #ec4899;
+            --accent-cyan: #06b6d4;
+            --accent-amber: #f59e0b;
+            --accent-emerald: #10b981;
+            
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Glassmorphism Header */
+        header {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .header-title h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .stats-strip {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1.25rem;
+            min-width: 130px;
+        }
+
+        .stat-badge .label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .stat-badge .value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--text);
+            margin-top: 0.1rem;
+        }
+
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Day Cards */
+        .day-card {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .day-card.off-day {
+            opacity: 0.75;
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .day-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .time-pill {
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+
+        .day-card.off-day .time-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--surface-border);
+            color: var(--text-muted);
+        }
+
+        /* Class Timeline Items */
+        .class-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .class-item {
+            position: relative;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .class-item[data-course="MATH 126E"] { border-left-color: var(--primary); }
+        .class-item[data-course="ENG 102"] { border-left-color: var(--secondary); }
+        .class-item[data-course="PSC 101"] { border-left-color: var(--accent-amber); }
+        .class-item[data-course="CIT 129"] { border-left-color: var(--accent-cyan); }
+        .class-item[data-course="MATH 26"] { border-left-color: var(--accent-emerald); }
+
+        .class-time {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .class-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text);
+        }
+
+        .class-details {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        /* Section Card (Flex / Online) */
+        .full-width-card {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .full-width-card h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Footer / Accent Info */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 1rem 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 640px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .stats-strip {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .stat-badge {
+                flex: 1;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Dashboard Header -->
+        <header>
+            <div class="header-title">
+                <h1>Fall 2026 Class Schedule</h1>
+                <p>College of Southern Nevada • Weekly Overview</p>
+            </div>
+            <div class="stats-strip">
+                <div class="stat-badge">
+                    <span class="label">Total Courses</span>
+                    <span class="value">5</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="label">Total Credits</span>
+                    <span class="value">16.0</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="label">Class Time/Wk</span>
+                    <span class="value">14h 50m</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Day Grid -->
+        <main class="dashboard-grid">
+
+            <!-- Monday -->
+            <div class="day-card">
+                <div class="day-header">
+                    <span class="day-name">Monday</span>
+                    <span class="time-pill">2h 40m</span>
+                </div>
+                <div class="class-list">
+                    <div class="class-item" data-course="MATH 126E">
+                        <div class="class-time">11:00 - 12:20</div>
+                        <div class="class-title">MATH 126E • Precalculus I</div>
+                        <div class="class-details">
+                            <span>📍 West Charleston • Bldg K 161</span>
+                            <span>👤 Eric Hutchinson</span>
+                        </div>
+                    </div>
+                    <div class="class-item" data-course="ENG 102">
+                        <div class="class-time">14:00 - 15:20</div>
+                        <div class="class-title">ENG 102 • Composition II</div>
+                        <div class="class-details">
+                            <span>📍 West Charleston • Bldg C 223</span>
+                            <span>👤 Staff (TBA)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tuesday -->
+            <div class="day-card">
+                <div class="day-header">
+                    <span class="day-name">Tuesday</span>
+                    <span class="time-pill">6h 20m</span>
+                </div>
+                <div class="class-list">
+                    <div class="class-item" data-course="MATH 126E">
+                        <div class="class-time">11:00 - 12:20</div>
+                        <div class="class-title">MATH 126E • Precalculus I</div>
+                        <div class="class-details">
+                            <span>📍 West Charleston • Bldg K 161</span>
+                            <span>👤 Eric Hutchinson</span>
+                        </div>
+                    </div>
+                    <div class="class-item" data-course="PSC 101">
+                        <div class="class-time">14:00 - 15:50</div>
+                        <div class="class-title">PSC 101 • Intro American Politics</div>
+                        <div class="class-details">
+                            <span>📍 West Charleston • Bldg C 210</span>
+                            <span>👤 Lee Roether</span>
+                        </div>
+                    </div>
+                    <div class="class-item" data-course="CIT 129">
+                        <div class="class-time">18:00 - 20:50</div>
+                        <div class="class-title">CIT 129 • Intro to Programming</div>
+                        <div class="class-details">
+                            <span>📍 North Las Vegas • Bldg C 2658</span>
+                            <span>👤 Nikko Vittorio Luna</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wednesday -->
+            <div class="day-card">
+                <div class="day-header">
+                    <span class="day-name">Wednesday</span>
+                    <span class="time-pill">2h 40m</span>
+                </div>
+                <div class="class-list">
+                    <div class="class-item" data-course="MATH 126E">
+                        <div class="class-time">11:00 - 12:20</div>
+                        <div class="class-title">MATH 126E • Precalculus I</div>
+                        <div class="class-details">
+                            <span>📍 West Charleston • Bldg K 161</span>
+                            <span>👤 Eric Hutchinson</span>
+                        </div>
+                    </div>
+                    <div class="class-item" data-course="ENG 102">
+                        <div class="class-time">14:00 - 15:20</div>
+                        <div class="class-title">ENG 102 • Composition II</div>
+                        <div class="class-details">
+                            <span>📍 West Charleston • Bldg C 223</span>
+                            <span>👤 Staff (TBA)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thursday -->
+            <div class="day-card">
+                <div class="day-header">
+                    <span class="day-name">Thursday</span>
+                    <span class="time-pill">3h 10m</span>
+                </div>
+                <div class="class-list">
+                    <div class="class-item" data-course="MATH 126E">
+                        <div class="class-time">11:00 - 12:20</div>
+                        <div class="class-title">MATH 126E • Precalculus I</div>
+                        <div class="class-details">
+                            <span>📍 West Charleston • Bldg K 161</span>
+                            <span>👤 Eric Hutchinson</span>
+                        </div>
+                    </div>
+                    <div class="class-item" data-course="PSC 101">
+                        <div class="class-time">14:00 - 15:50</div>
+                        <div class="class-title">PSC 101 • Intro American Politics</div>
+                        <div class="class-details">
+                            <span>📍 West Charleston • Bldg C 210</span>
+                            <span>👤 Lee Roether</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+
+        <footer>
+            Fall Semester: Aug 24, 2026 – Dec 13, 2026 • College of Southern Nevada
+        </footer>
+    </div>
+
+</body>
+</html>
