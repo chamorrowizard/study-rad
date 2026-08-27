@@ -261,6 +261,27 @@
             padding: 1rem 0;
         }
 
+        /* Active / Today's Card Highlight */
+        .day-card.today {
+            border-color: var(--primary);
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+            box-shadow: 0 0 25px var(--primary-glow), inset 0 0 1px rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .today-badge {
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            margin-left: 0.5rem;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 640px) {
             header {
@@ -424,6 +445,26 @@
             Fall Semester: Aug 24, 2026 – Dec 13, 2026 • College of Southern Nevada
         </footer>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const todayName = days[new Date().getDay()];
+
+            document.querySelectorAll(".day-card").forEach(card => {
+                const dayNameElem = card.querySelector(".day-name");
+
+                if (dayNameElem && dayNameElem.textContent.trim().toLowerCase() === todayName.toLowerCase()) {
+                    card.classList.add("today");
+
+                    const badge = document.createElement("span");
+                    badge.className = "today-badge";
+                    badge.textContent = "Today";
+                    dayNameElem.appendChild(badge);
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
