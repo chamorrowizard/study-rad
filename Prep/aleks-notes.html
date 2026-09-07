@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALEKS Prep Dashboard | Page 1 Study Notes</title>
+
+    <!-- Tailwind CSS CDN for modern utility styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body);"></script>
+
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        // Custom Tailwind Configuration for Premium Dark Theme
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            900: '#14532d',
+                        },
+                        darkBg: '#0b0f17',
+                        cardBg: '#131b2e',
+                        accentBlue: '#38bdf8',
+                        accentPurple: '#c084fc',
+                        accentGold: '#fbbf24'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0b0f17;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(19, 27, 46, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row">
+
+    <!-- ========================================== -->
+    <!-- SIDEBAR / NAVIGATION (DESKTOP & MOBILE)   -->
+    <!-- ========================================== -->
+    <aside class="w-full md:w-72 bg-[#0d1322] border-b md:border-b-0 md:border-r border-slate-800 flex-shrink-0">
+        <div class="p-5 flex flex-col h-full justify-between">
+            <div>
+                <!-- App Logo & Title -->
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
+                        <i data-lucide="book-open-check" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg text-white leading-tight">ALEKS Mastery</h1>
+                        <p class="text-xs text-slate-400">Interactive Prep Notes</p>
+                    </div>
+                </div>
+
+                <!-- Page Switcher Navigation -->
+                <div class="space-y-1">
+                    <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 mb-2">Notebook Pages</div>
+                    
+                    <!-- Dynamic Page Buttons inserted via JS -->
+                    <nav id="pageNavList" class="space-y-1">
+                        <!-- Default Active Item -->
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Sidebar Footer / Scripture Quote -->
+            <div class="mt-8 p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-400">
+                <div class="flex items-center gap-2 text-amber-400 font-medium mb-1">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>Daily Motivation</span>
+                </div>
+                <p class="italic mb-2">"For God is not the author of confusion, but of peace."</p>
+                <span class="text-slate-500 text-[10px]">— 1 Corinthians 14:33</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ========================================== -->
+    <!-- MAIN CONTENT AREA                          -->
+    <!-- ========================================== -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+        <!-- Top Header Bar -->
+        <header class="sticky top-0 z-10 glass-card border-b border-slate-800 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h2 id="currentPageTitle" class="text-xl font-bold text-white flex items-center gap-2">
+                    <span>Page 1: Fundamental Algebraic Operations</span>
+                </h2>
+                <p id="currentPageSubtitle" class="text-xs text-slate-400 mt-0.5">Polynomial division, linear models, geometry, radicals & LCD method</p>
+            </div>
+
+            <!-- Action Controls / Stats -->
+            <div class="flex items-center gap-3 text-xs">
+                <div class="bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/50 flex items-center gap-2 text-slate-300">
+                    <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+                    <span id="moduleCountText">6 Problems</span>
+                </div>
+                <button onclick="toggleAllExpand()" class="bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 transition flex items-center gap-1.5">
+                    <i data-lucide="chevrons-up-down" class="w-4 h-4"></i>
+                    <span>Toggle All</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Grid / List -->
+        <div class="p-6 max-w-5xl w-full mx-auto space-y-6">
+
+            <!-- Dynamic Container where Page Cards render -->
+            <div id="problemCardsContainer" class="space-y-6">
+                <!-- Javascript populates cards here -->
+            </div>
+
+            <!-- Module Insertion Placeholder for Future Expansion -->
+            <div class="p-6 rounded-2xl border-2 border-dashed border-slate-800 hover:border-slate-700 transition text-center text-slate-500 flex flex-col items-center justify-center gap-2 cursor-pointer group" onclick="alert('To add new pages or problems, edit the `pagesData` JS array at the bottom of the code!')">
+                <div class="p-3 bg-slate-900 rounded-full group-hover:scale-110 transition">
+                    <i data-lucide="plus" class="w-6 h-6 text-slate-400"></i>
+                </div>
+                <p class="text-sm font-medium">Add New Page or Problem Module</p>
+                <p class="text-xs text-slate-600">Easily extendable via JSON data structure</p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT DATA & LOGIC                    -->
+    <!-- ========================================== -->
+    <script>
+        // ===============================================
+        // DATA STRUCTURE FOR PAGES & ALEKS NOTES
+        // Easily append new pages or problems to this list
+        // ===============================================
+        const pagesData = [
+            {
+                pageId: 1,
+                title: "Page 1: Polynomials, Discount, Geometry & Equations",
+                subtitle: "Direct transcription & structured analysis from handwritten notebook Page 1.",
+                problems: [
+                    {
+                        id: "p1-1",
+                        topic: "Polynomial Division",
+                        originalText: "12x³ + 16x² + 11x / 2x",
+                        latexMath: "\\frac{12x^3 + 16x^2 + 11x}{2x}",
+                        solutionLatex: "6x^2 + 8x + \\frac{11}{2}",
+                        notebookNotes: "Break into different parts: \\frac{12x^3}{2x} + \\frac{16x^2}{2x} + \\frac{11x}{2x}",
+                        lessons: [
+                            "When dividing a polynomial by a monomial, split the expression across each term in the numerator.",
+                            "Apply exponent rules: \\frac{x^n}{x^m} = x^{n-m}.",
+                            "Leave remaining numerical fractions in simplest form (e.g., \\frac{11}{2})."
+                        ],
+                        scripture: {
+                            text: "For God is not a God of disorder but of peace.",
+                            reference: "1 Corinthians 14:33",
+                            reflection: "Breaking complex, overwhelming expressions into smaller, manageable parts brings clarity and order."
+                        }
+                    },
+                    {
+                        id: "p1-2",
+                        topic: "Percent Discount & Original Price",
+                        originalText: "The sale price 408 after 15% discount. Find original price.",
+                        latexMath: "\\text{Sale Price} = 408 \\quad | \\quad \\text{Discount} = 15\\%",
+                        solutionLatex: "408 = 0.85(x) \\implies x = 480",
+                        notebookNotes: "Original Price = 480. 100\\% - 15\\% = 85\\% = 0.85.",
+                        lessons: [
+                            "If a price is discounted by 15%, you are paying 85% of the original price.",
+                            "Set up the equation: \\text{Sale Price} = (1 - \\text{Discount Rate}) \\cdot \\text{Original Price}.",
+                            "Solve for $x$ by dividing both sides by $0.85$."
+                        ],
+                        scripture: {
+                            text: "Buy the truth and do not sell it; get wisdom, discipline and understanding.",
+                            reference: "Proverbs 23:23",
+                            reflection: "Understanding the true value before discounts ensures honest stewardship and decision making."
+                        }
+                    },
+                    {
+                        id: "p1-3",
+                        topic: "Geometry: Rectangle Area to Perimeter",
+                        originalText: "The length of a rectangle is 4 times its width. If the area is 400 m², find its perimeter.",
+                        latexMath: "L = 4W, \\quad \\text{Area} = 400\\text{ m}^2",
+                        solutionLatex: "W = 10\\text{m}, \\quad L = 40\\text{m} \\implies \\text{Perimeter} = 100\\text{m}",
+                        notebookNotes: "L = 4W \\cdot L \\cdot W = 400 \\rightarrow (4W)(W) = 400 \\rightarrow 4W^2 = 400 \\rightarrow W^2 = 100 \\rightarrow W = 10\\text{m}. \\text{ Perimeter} = 2L + 2W = 2(40) + 2(10) = 100\\text{m}.",
+                        lessons: [
+                            "Translate verbal relationships directly into equations ($L = 4W$).",
+                            "Substitute relationships into the area formula ($A = L \\cdot W$).",
+                            "Solve for width, then evaluate length, and finally apply $P = 2L + 2W$."
+                        ],
+                        scripture: {
+                            text: "Write the vision and make it plain on tablets, that he may run who reads it.",
+                            reference: "Habakkuk 2:2",
+                            reflection: "Drawing diagrams and assigning variables turns abstract word problems into clear, runnable steps."
+                        }
+                    },
+                    {
+                        id: "p1-4",
+                        topic: "Multiplying Rational Expressions",
+                        originalText: "Multiply: (14a⁵y / y³) * (2y / 7a²)",
+                        latexMath: "\\frac{14a^5 y}{y^3} \\cdot \\frac{2y}{7a^2}",
+                        solutionLatex: "\\frac{28a^5 y^2}{7a^2 y^3} = \\frac{4a^3}{y}",
+                        notebookNotes: "Multiply numerators and denominators: \\frac{28a^5 y^2}{7a^2 y^3}. Cancel common factors to simplify to \\frac{4a^3}{y}.",
+                        lessons: [
+                            "Multiply straight across: numerators together, denominators together.",
+                            "Divide coefficients ($28 / 7 = 4$).",
+                            "Cancel matching variable powers by subtracting exponents ($a^{5-2} = a^3$, $y^{2-3} = y^{-1} = \\frac{1}{y}$)."
+                        ],
+                        scripture: {
+                            text: "In all labor there is profit, but idle chatter leads only to poverty.",
+                            reference: "Proverbs 14:23",
+                            reflection: "Canceling out unnecessary clutter leaves behind pure, focused value."
+                        }
+                    },
+                    {
+                        id: "p1-5",
+                        topic: "Linear Equation with Fractions (LCD)",
+                        originalText: "Solve for x: -3/5 x + 5/3 = -3x - 2/3",
+                        latexMath: "-\\frac{3}{5}x + \\frac{5}{3} = -3x - \\frac{2}{3}",
+                        solutionLatex: "x = -\\frac{35}{36}",
+                        notebookNotes: "1. Eliminate fractions by multiplying by LCD (LCD = 15).\n2. Multiply both sides by 15: 15(-3/5 x + 5/3) = 15(-3x - 2/3).\n-9x + 25 = -45x - 10 \\rightarrow 36x = -35 \\rightarrow x = -35/36.",
+                        lessons: [
+                            "Find the Least Common Denominator (LCD) of 5 and 3, which is 15.",
+                            "Distribute the LCD across all terms to clear fractions early.",
+                            "Isolate $x$ on one side with linear inverse operations."
+                        ],
+                        scripture: {
+                            text: "Trust in the Lord with all your heart and lean not on your own understanding.",
+                            reference: "Proverbs 3:5",
+                            reflection: "Clearing out fractional doubts simplifies our equations and path forward."
+                        }
+                    },
+                    {
+                        id: "p1-6",
+                        topic: "Simplifying Radical Expressions",
+                        originalText: "Simplify: √12 + 3√75",
+                        latexMath: "\\sqrt{12} + 3\\sqrt{75}",
+                        solutionLatex: "2\\sqrt{3} + 15\\sqrt{3} = 17\\sqrt{3}",
+                        notebookNotes: "√12 broken down into √4 × 3 = 2√3.\n3√75 broken down into 3 × √25 × 3 = 3 × 5√3 = 15√3.\n2√3 + 15√3 = 17√3.",
+                        lessons: [
+                            "Factor radicands into perfect squares ($12 = 4 \\times 3$, $75 = 25 \\times 3$).",
+                            "Pull root values out of the radical ($\\sqrt{4}=2$, $\\sqrt{25}=5$).",
+                            "Combine like radicals ($2\\sqrt{3} + 15\\sqrt{3} = 17\\sqrt{3}$)."
+                        ],
+                        scripture: {
+                            text: "He reveals deep and hidden things; he knows what lies in darkness.",
+                            reference: "Daniel 2:22",
+                            reflection: "Simplifying radical roots extracts hidden strengths from within complex structures."
+                        }
+                    }
+                ]
+            }
+            // FUTURE PAGES CAN BE ADDED HERE LIKE:
+            // , { pageId: 2, title: "Page 2: Quadratic Equations & Functions", ... }
+        ];
+
+        let activePageId = 1;
+        let allExpanded = true;
+
+        // ===============================================
+        // DOM RENDERERS
+        // ===============================================
+        
+        // Render Sidebar Navigation
+        function renderSidebarNav() {
+            const nav = document.getElementById('pageNavList');
+            nav.innerHTML = pagesData.map(page => `
+                <button onclick="selectPage(${page.pageId})" class="w-full text-left px-3 py-2.5 rounded-xl transition flex items-center justify-between text-sm ${page.pageId === activePageId ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium' : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'}">
+                    <span class="truncate">${page.title.split(':')[0]}</span>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-400">${page.problems.length}</span>
+                </button>
+            `).join('');
+        }
+
+        // Render Cards for Active Page
+        function renderPageContent() {
+            const page = pagesData.find(p => p.pageId === activePageId);
+            if (!page) return;
+
+            document.getElementById('currentPageTitle').innerHTML = `<span>${page.title}</span>`;
+            document.getElementById('currentPageSubtitle').innerText = page.subtitle;
+            document.getElementById('moduleCountText').innerText = `${page.problems.length} Problems`;
+
+            const container = document.getElementById('problemCardsContainer');
+            container.innerHTML = page.problems.map((prob, idx) => `
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 transition duration-200">
+                    <!-- Card Header -->
+                    <div class="p-5 flex items-start justify-between gap-4 cursor-pointer select-none bg-slate-900/40 hover:bg-slate-900/80 transition" onclick="toggleCard('${prob.id}')">
+                        <div class="flex items-center gap-3.5">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-sm flex items-center justify-center font-bold">
+                                ${idx + 1}
+                            </span>
+                            <div>
+                                <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">${prob.topic}</span>
+                                <h3 class="text-base font-semibold text-white mt-0.5">$${prob.latexMath}$</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <span class="hidden sm:inline-block text-xs font-mono px-3 py-1 bg-slate-800 text-amber-300 rounded-lg border border-slate-700">
+                                Solution: $${prob.solutionLatex}$
+                            </span>
+                            <div id="icon-${prob.id}" class="text-slate-400 transform transition-transform duration-200">
+                                <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div id="body-${prob.id}" class="p-6 border-t border-slate-800/80 space-y-6">
+                        
+                        <!-- Handwritten Notes Breakdown -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                                <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-2">
+                                    <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i>
+                                    <span>Notebook Steps</span>
+                                </div>
+                                <div class="text-sm font-mono text-slate-300 whitespace-pre-line leading-relaxed">
+                                    $${prob.notebookNotes}$
+                                </div>
+                            </div>
+
+                            <!-- Key Mathematical Lessons -->
+                            <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                                <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-2">
+                                    <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i>
+                                    <span>Key Concept & Strategy</span>
+                                </div>
+                                <ul class="space-y-2 text-xs text-slate-300">
+                                    ${prob.lessons.map(lesson => `
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-amber-400 mt-0.5">•</span>
+                                            <span>$${lesson}$</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Scripture & Philosophical Lesson -->
+                        <div class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 flex flex-col sm:flex-row items-start gap-3">
+                            <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg shrink-0 mt-0.5">
+                                <i data-lucide="book-open" class="w-4 h-4"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="text-xs font-semibold text-emerald-400 flex items-center gap-2">
+                                    <span>Scripture Connection</span>
+                                    <span class="text-slate-500">•</span>
+                                    <span class="text-slate-400 font-normal">${prob.scripture.reference}</span>
+                                </div>
+                                <p class="text-xs italic text-slate-200">"${prob.scripture.text}"</p>
+                                <p class="text-xs text-slate-400 pt-1">${prob.scripture.reflection}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            `).join('');
+
+            // Re-initialize Lucide Icons & KaTeX rendering on new content
+            lucide.createIcons();
+            if (window.renderMathInElement) {
+                renderMathInElement(container, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ]
+                });
+            }
+        }
+
+        // Toggle Expand/Collapse for single Card
+        function toggleCard(cardId) {
+            const body = document.getElementById(`body-${cardId}`);
+            const icon = document.getElementById(`icon-${cardId}`);
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                body.classList.add('hidden');
+                icon.style.transform = 'rotate(-90deg)';
+            }
+        }
+
+        // Toggle All Cards
+        function toggleAllExpand() {
+            const page = pagesData.find(p => p.pageId === activePageId);
+            if (!page) return;
+            
+            allExpanded = !allExpanded;
+            page.problems.forEach(prob => {
+                const body = document.getElementById(`body-${prob.id}`);
+                const icon = document.getElementById(`icon-${prob.id}`);
+                if (body && icon) {
+                    if (allExpanded) {
+                        body.classList.remove('hidden');
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        body.classList.add('hidden');
+                        icon.style.transform = 'rotate(-90deg)';
+                    }
+                }
+            });
+        }
+
+        // Switch Active Page
+        function selectPage(id) {
+            activePageId = id;
+            renderSidebarNav();
+            renderPageContent();
+        }
+
+        // Initialize on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSidebarNav();
+            renderPageContent();
+        });
+    </script>
+</body>
+</html>
